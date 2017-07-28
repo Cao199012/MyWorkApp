@@ -1,5 +1,9 @@
 package com.caojian.myworkapp.mvp;
 
+import java.util.List;
+
+import io.reactivex.Observable;
+
 /**
  * Created by CJ on 2017/7/20.
  */
@@ -8,9 +12,9 @@ public class MvpContract {
     /**
      * M获取数据模块
      */
-    public interface Model {
+    public interface Model<T> {
         //请求数据
-        public void loadContent();
+        public T loadContent();
     }
 
     public interface View{
@@ -23,7 +27,7 @@ public class MvpContract {
         //显示错误界面
         void showErrorView(String msg);
         //显示数据刷新界面
-        void refreshContentView();
+        void refreshContentView(List<MvpItem> pList);
         //显示加载更多界面
         void loadMoreContentView();
     }

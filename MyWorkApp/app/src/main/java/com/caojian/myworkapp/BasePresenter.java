@@ -3,9 +3,13 @@ package com.caojian.myworkapp;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by CJ on 2017/7/20.
- * 通过弱引用Fragment和Activity来解决MVP可能引起的内存泄漏
+ * 通过弱引用Fragment和Activity(view)来解决MVP可能引起的内存泄漏
+ * 避免RXjava可能引起的内存泄漏
  */
 
 public class BasePresenter<V> {
@@ -51,6 +55,25 @@ public class BasePresenter<V> {
         {
             myView.clear();
             myView = null;
+        }
+    }
+    CompositeDisposable mCompositeDisposable;
+    //把所有正在处理的Disposable，添加到CompositeDisposable，统一注销
+    public void addDisposable(Disposable subscription)
+    {
+        if(mCompositeDisposable == null || mCompositeDisposable.isDisposed())
+        {
+            mCompositeDisposable = new CompositeDisposable();
+        }
+        mCompositeDisposable.add(subscription);
+    }
+
+    //注销所有Disposable
+    public void dispose()
+    {
+        if(mCompositeDisposable != null)
+        {
+            mCompositeDisposable.dispose();
         }
     }
 

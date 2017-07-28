@@ -22,7 +22,10 @@ public abstract class MvpBaseFragment<V,P extends BasePresenter<V>> extends Frag
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView();
+        if(mPresenter != null && mPresenter.isAttach())
+        {
+            mPresenter.detachView();
+        }
     }
 
     protected abstract P createPresenter();
