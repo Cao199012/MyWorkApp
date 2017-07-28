@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
-apply plugin:'me.tatarka.retrolambda'
+apply plugin: 'me.tatarka.retrolambda'
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.caojian.myworkapp"
         minSdkVersion 15
@@ -29,10 +29,11 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-    compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
-    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
+    compile 'com.android.support:design:25.0.0'
     //    butterknife映射
     compile 'com.jakewharton:butterknife:8.7.0'
     apt 'com.jakewharton:butterknife-compiler:8.7.0'
@@ -42,4 +43,8 @@ dependencies {
     // Dependencies for local unit tests
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
     testCompile 'junit:junit:4.12'
+    //retrofit使用依赖
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
 }
