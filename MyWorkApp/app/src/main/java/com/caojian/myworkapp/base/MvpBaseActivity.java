@@ -1,21 +1,22 @@
-package com.caojian.myworkapp;
+package com.caojian.myworkapp.base;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+
+import com.caojian.myworkapp.base.BaseActivity;
+import com.caojian.myworkapp.base.BasePresenter;
 
 /**
  * Created by CJ on 2017/7/20.
  */
 
-public abstract class MvpBaseActivity<V,P extends BasePresenter<V>> extends AppCompatActivity{
+public abstract class MvpBaseActivity<V,P extends BasePresenter<V>> extends BaseActivity {
 
     protected P myPresenter;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         myPresenter = createPresenter();
         myPresenter.attachView((V) this);
     }
@@ -25,6 +26,7 @@ public abstract class MvpBaseActivity<V,P extends BasePresenter<V>> extends AppC
         super.onDestroy();
         if(myPresenter != null && myPresenter.isAttach())
         {
+            myPresenter.dispose();
             myPresenter.detachView();
         }
     }

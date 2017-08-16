@@ -6,7 +6,7 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.caojian.myworkapp"
-        minSdkVersion 15
+        minSdkVersion 18
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -36,15 +36,25 @@ dependencies {
     compile 'com.android.support:design:25.0.0'
     //    butterknife映射
     compile 'com.jakewharton:butterknife:8.7.0'
-    apt 'com.jakewharton:butterknife-compiler:8.7.0'
     //    rxjava引用
     compile 'io.reactivex.rxjava2:rxjava:2.1.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    // Dependencies for local unit tests
-    testCompile 'org.mockito:mockito-all:2.0.2-beta'
-    testCompile 'junit:junit:4.12'
     //retrofit使用依赖
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.android.support:support-v4:25.3.1'
+    //图片加载第三方
+    compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
+    //底部tab依赖库
+    compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
+//     Dependencies for local unit tests
+    testCompile 'org.mockito:mockito-all:2.0.2-beta'
+    testCompile 'junit:junit:4.12'
+    androidTestCompile'com.android.support.test:runner:0.5'
+    androidTestCompile'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support:support-annotations:25.3.1'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2')
+    apt 'com.jakewharton:butterknife-compiler:8.7.0'
+
 }

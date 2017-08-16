@@ -1,8 +1,10 @@
-package com.caojian.myworkapp;
+package com.caojian.myworkapp.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+
+import com.caojian.myworkapp.base.BasePresenter;
 
 /**
  * Created by CJ on 2017/7/20.
@@ -24,6 +26,7 @@ public abstract class MvpBaseFragment<V,P extends BasePresenter<V>> extends Frag
         super.onDestroy();
         if(mPresenter != null && mPresenter.isAttach())
         {
+            mPresenter.dispose();
             mPresenter.detachView();
         }
     }

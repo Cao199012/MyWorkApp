@@ -7,15 +7,13 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.caojian.myworkapp.MvpBaseFragment;
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.base.MvpBaseFragment;
 import com.caojian.myworkapp.recy.OneRecyAdapter;
 
 import java.util.LinkedList;
@@ -134,6 +132,5 @@ public class MvpFragment extends MvpBaseFragment<MvpContract.View,MvpPresenter> 
     public void onDestroy() {
         super.onDestroy();
         mUnbinder.unbind();
-        mvpPresenter.dispose();
     }
 }

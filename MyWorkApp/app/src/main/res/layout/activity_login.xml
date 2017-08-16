@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.caojian.myworkapp.login.LoginActivity">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:text="忘记密码"
+        app:layout_constraintRight_toRightOf="@+id/editPassword"
+        tools:text="忘记密码"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="19dp"
+        android:text="注册"
+        app:layout_constraintLeft_toLeftOf="@+id/editPassword"
+        tools:text="注册"
+        android:layout_marginTop="31dp"
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
+
+    <EditText
+        android:id="@+id/editPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:layout_marginLeft="85dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="130dp" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/editPhone"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="@+id/editPhone"
+        android:layout_marginTop="55dp"
+        app:layout_constraintTop_toBottomOf="@+id/editPhone" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="手机号"
+        tools:text="手机号"
+        android:layout_marginLeft="5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/editPhone"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/editPhone" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="密码"
+        tools:text="密码"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/editPassword"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/editPassword" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="login"
+        android:text="Button"
+        app:layout_constraintLeft_toLeftOf="@+id/editPassword"
+        app:layout_constraintRight_toRightOf="@+id/editPassword"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginTop="79dp"
+        app:layout_constraintTop_toBottomOf="@+id/editPassword" />
+</android.support.constraint.ConstraintLayout>

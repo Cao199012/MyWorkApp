@@ -1,4 +1,4 @@
-package com.caojian.myworkapp;
+package com.caojian.myworkapp.base;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;

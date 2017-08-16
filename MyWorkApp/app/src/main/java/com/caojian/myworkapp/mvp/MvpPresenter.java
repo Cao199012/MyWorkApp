@@ -1,23 +1,14 @@
 package com.caojian.myworkapp.mvp;
 
-import android.os.Build;
-import android.util.Log;
+import com.caojian.myworkapp.base.BasePresenter;
 
-import com.caojian.myworkapp.BasePresenter;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -61,8 +52,8 @@ public class MvpPresenter extends BasePresenter<MvpContract.View> implements Mvp
                 }
             };
             Disposable disposable = ((Observable) o).toList()
-                            .observeOn(Schedulers.newThread())
-                            .subscribeOn(AndroidSchedulers.mainThread())
+                            .observeOn(AndroidSchedulers.mainThread())  //主线程观察
+                            .subscribeOn(Schedulers.newThread())  //子线程订阅
 //                            .subscribe(observer);
                             .subscribe(new Consumer<List<MvpItem>>() {
                                 @Override
