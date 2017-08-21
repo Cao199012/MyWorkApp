@@ -2,9 +2,13 @@ package com.caojian.myworkapp.password;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
@@ -14,6 +18,9 @@ import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.until.RetrofitManger;
 import com.caojian.myworkapp.until.Until;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,11 +34,25 @@ public class PasswordActivity extends BaseActivity {
         intent.putExtra("phoneNum",phoneNum);
         from.startActivity(intent);
     }
+    @BindView(R.id.toolbar_password)
+    Toolbar mToolbar;
+    private Unbinder unbinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
+        unbinder = ButterKnife.bind(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setHomeButtonEnabled(true);
+
+
     }
 
     Call<VerityCodeMsg> call = null;
@@ -91,6 +112,17 @@ public class PasswordActivity extends BaseActivity {
         //提交成功返回登录页面
         LoginActivity.go2LoginActivity(PasswordActivity.this);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+        {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -103,6 +135,10 @@ public class PasswordActivity extends BaseActivity {
         if(call != null && call.isExecuted())
         {
             call.cancel();
+        }
+        if (unbinder != null)
+        {
+            unbinder.unbind();
         }
     }
 }

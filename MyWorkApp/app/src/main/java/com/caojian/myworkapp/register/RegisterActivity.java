@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -20,10 +21,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -36,6 +39,10 @@ import java.util.List;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.until.ActivityUntil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -69,7 +76,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    @BindView(R.id.recommend_num)
+    EditText recommend_num;
+    @BindView(R.id.toolbar_register)
+    Toolbar mToolbar;
+
+    private Unbinder unbinder;
+    //private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -78,6 +91,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        unbinder = ButterKnife.bind(this);
+        //设置全屏显示
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        mToolbar.setTitle("");
+        //设置title
+        setSupportActionBar(mToolbar);
+
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setHomeButtonEnabled(true);
         // Set up the login form.
         populateAutoComplete();
 
@@ -121,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             return true;
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
-            Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(recommend_num, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
@@ -160,11 +185,11 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        recommend_num.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String email = recommend_num.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -179,12 +204,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            recommend_num.setError(getString(R.string.error_field_required));
+            focusView = recommend_num;
             cancel = true;
         } else if (!ActivityUntil.CheckPhone(email).equals("")) {
-            mEmailView.setError("");
-            focusView = mEmailView;
+            recommend_num.setError("");
+            focusView = recommend_num;
             cancel = true;
         }
 
@@ -283,7 +308,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 new ArrayAdapter<>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
-        mEmailView.setAdapter(adapter);
+       // mEmailView.setAdapter(adapter);
     }
 
 
