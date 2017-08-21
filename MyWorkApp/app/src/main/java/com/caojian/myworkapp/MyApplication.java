@@ -1,6 +1,7 @@
 package com.caojian.myworkapp;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
@@ -9,8 +10,7 @@ import android.content.res.Resources;
  */
 
 public class MyApplication extends Application{
-
-
+    private Context context;
     private String token;
     @Override
     public void onCreate() {
@@ -19,7 +19,9 @@ public class MyApplication extends Application{
         Resources res = super.getResources();
         Configuration config = new Configuration();
         config.setToDefaults();
-        res.updateConfiguration(config, res.getDisplayMetrics());
+        res.updateConfiguration(config,res.getDisplayMetrics());
+
+        context = getApplicationContext();
     }
 
     public String getToken() {

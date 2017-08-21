@@ -5,17 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.caojian.myworkapp.MainActivity;
 import com.caojian.myworkapp.base.MvpBaseActivity;
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.check.PhoneCheckActivity;
 import com.caojian.myworkapp.mvp.MyMvpActivity;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPresenter>implements LoginContract.View{
 
@@ -23,7 +29,11 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
     EditText mEditName;
     @BindView(R.id.editPassword)
     EditText mEditPassword;
+    @BindView(R.id.toolbar_login)
+    Toolbar mToolbar;
     private LoginPresenter mLoginPresenter;
+
+    private Unbinder unbinder;
 
     public static void go2LoginActivity(Context from){
         Intent intent = new Intent(from,LoginActivity.class);
@@ -33,7 +43,14 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        unbinder = ButterKnife.bind(this);
+
+        mToolbar.setTitle("");
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -45,7 +62,9 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
         String name = mEditName.getText().toString();
         String password = mEditPassword.getText().toString();
 
-        MyMvpActivity.go2MyMvpActivity(LoginActivity.this);
+        //MyMvpActivity.go2MyMvpActivity(LoginActivity.this);
+        MainActivity.go2MainActivity(LoginActivity.this);
+        finish();
 
         if(name.isEmpty())
         {
@@ -58,7 +77,20 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
             ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
             return;
         }
+        // TODO: 2017/8/21 后台校验手机号和密码
 
+    }
+
+    public void register(View v)
+    {
+        PhoneCheckActivity.go2PhoneCheckActivity(LoginActivity.this,1);
+        //finish();
+    }
+
+    public void forgetPassword(View v)
+    {
+        PhoneCheckActivity.go2PhoneCheckActivity(LoginActivity.this,2);
+        //finish();
     }
 
     @Override

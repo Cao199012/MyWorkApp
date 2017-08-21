@@ -1,9 +1,15 @@
 package com.caojian.myworkapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,7 +17,10 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.base.BaseActivity;
+import com.caojian.myworkapp.check.PhoneCheckActivity;
 import com.caojian.myworkapp.login.LoginActivity;
+import com.caojian.myworkapp.register.RegisterActivity;
+import com.caojian.myworkapp.until.Until;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,10 +28,17 @@ import butterknife.Unbinder;
 
 public class IntroduceActivity extends BaseActivity {
 
+
+
+    public static void go2IntroduceActivity(Context from){
+        Intent intent = new Intent(from,IntroduceActivity.class);
+        from.startActivity(intent);
+    }
     @BindView(R.id.intro_pager)
     ViewPager mIntro_pager;
     @BindView(R.id.tip_body)
     LinearLayout mTipBody;   //填放显示滑动当前页面的点
+
 
     private ImageView[] tips ;
     private Unbinder unbinder;
@@ -57,8 +73,6 @@ public class IntroduceActivity extends BaseActivity {
         });
         //初始化生成点视图
         initTip();
-
-
     }
 
     private void setCurrentTip(int currentTip) {
@@ -66,8 +80,8 @@ public class IntroduceActivity extends BaseActivity {
         {
             return;
         }
-        tips[currentTip].setBackgroundResource(R.drawable.tip_selected);
-        tips[pre_position].setBackgroundResource(R.drawable.tip_unselect);
+        tips[currentTip].setImageResource(R.drawable.tip_selected);
+        tips[pre_position].setImageResource(R.drawable.tip_unselect);
         pre_position = currentTip;
     }
 
@@ -87,15 +101,16 @@ public class IntroduceActivity extends BaseActivity {
             //动态生成
             ImageView tip = new ImageView(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0,0,20,0);
+            //layoutParams.setMargins(0,0, Until.dip2px(getBaseContext(),50),0);
+           layoutParams.weight = 1;
             tip.setLayoutParams(layoutParams);
             //初始化点 （当前为白色，其他为红色）
             if(i == 0)
             {
-                tip.setBackgroundResource(R.drawable.tip_selected);
+                tip.setImageResource(R.drawable.tip_selected);
             }else
             {
-                tip.setBackgroundResource(R.drawable.tip_unselect);
+                tip.setImageResource(R.drawable.tip_unselect);
             }
             //向body添加 view
             mTipBody.addView(tip);
@@ -103,7 +118,7 @@ public class IntroduceActivity extends BaseActivity {
         }
     }
 
-    //
+    //自定义Adapter，加入ImageView
     private class IntroViewPagerAdapter extends PagerAdapter{
 
         @Override
@@ -138,7 +153,12 @@ public class IntroduceActivity extends BaseActivity {
     public void go2Login(View v)
     {
         LoginActivity.go2LoginActivity(IntroduceActivity.this);
-        finish();
+        //finish();
+    }
+    public void go2Register(View v)
+    {
+        PhoneCheckActivity.go2PhoneCheckActivity(IntroduceActivity.this,1);
+        //finish();
     }
 
     @Override

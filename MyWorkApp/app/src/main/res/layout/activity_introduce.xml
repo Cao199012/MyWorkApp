@@ -11,7 +11,7 @@
         android:layout_height="40dp"
         android:layout_gravity="right"
         android:onClick="go2Login"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:background="@color/transparent"
         android:textColor="@color/white"
         android:text="登录"/>
@@ -19,9 +19,9 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:layout_gravity="bottom|center_horizontal"
-        android:onClick="go2Login"
-        android:layout_marginBottom="15dp"
-        android:text="现在就加入"/>
+        android:onClick="go2Register"
+        android:layout_marginBottom="30dp"
+        android:text="注册加入"/>
 
 
     <android.support.v4.view.ViewPager
@@ -34,12 +34,12 @@
     </android.support.v4.view.ViewPager>
     <LinearLayout
         android:id="@+id/tip_body"
-        android:layout_width="match_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="80dp"
-        android:gravity="center"
+        android:layout_marginBottom="100dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
     </LinearLayout>
