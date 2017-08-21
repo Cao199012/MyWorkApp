@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.until.ActivityUntil;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -78,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -182,8 +182,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+        } else if (!ActivityUntil.CheckPhone(email).equals("")) {
+            mEmailView.setError("");
             focusView = mEmailView;
             cancel = true;
         }
@@ -201,10 +201,6 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
