@@ -7,7 +7,7 @@ package com.caojian.myworkapp.check;
 public class CheckMsg {
 
     /**
-     * retcode : 000000
+     * retcode : 0
      * retinfo :  成功
      * data : {}
      */

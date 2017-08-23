@@ -98,11 +98,9 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         mToolbar.setTitle("");
         //设置title
         setSupportActionBar(mToolbar);
-
-
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         // Set up the login form.
         populateAutoComplete();
 

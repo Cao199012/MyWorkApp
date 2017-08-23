@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.base.BaseActivity;
@@ -42,6 +43,8 @@ public class PhoneCheckActivity extends BaseActivity implements CheckContract.Vi
     EditText mEdit_check;
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
+    @BindView(R.id.deal_body)
+    LinearLayout mDeal_body; //显示注册协议（找回密码隐藏，注册显示）
     private Unbinder unbinder;
 
     private CheckContract.Presenter mPresenter;
@@ -60,7 +63,10 @@ public class PhoneCheckActivity extends BaseActivity implements CheckContract.Vi
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
         from_flag = getIntent().getIntExtra("fromFlag",-1);
-
+        if(from_flag == 2)
+        {
+            mDeal_body.setVisibility(View.VISIBLE);
+        }
         mPresenter = new CheckPersenter(this);
     }
 

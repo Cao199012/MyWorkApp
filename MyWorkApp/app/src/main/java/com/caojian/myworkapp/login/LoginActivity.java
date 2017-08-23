@@ -1,5 +1,6 @@
 package com.caojian.myworkapp.login;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,12 +47,12 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
         setContentView(R.layout.activity_login);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         unbinder = ButterKnife.bind(this);
-
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -64,21 +65,27 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
         String password = mEditPassword.getText().toString();
 
         //MyMvpActivity.go2MyMvpActivity(LoginActivity.this);
-        MainActivity.go2MainActivity(LoginActivity.this);
-        finish();
+        //MainActivity.go2MainActivity(LoginActivity.this);
+        //finish();
 
-        if(name.isEmpty())
+        //ProgressDialog只能和activity绑定 一个activity对应一个ProgressDialog
+        ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        if(!ActivityUntil.CheckPhone(name).equals(""))
         {
-            ActivityUntil.showToast(LoginActivity.this,"号码不能为空", Toast.LENGTH_SHORT);
+            ActivityUntil.showToast(LoginActivity.this,ActivityUntil.CheckPhone(name), Toast.LENGTH_SHORT);
             return;
         }
-
         if(password.isEmpty())
         {
             ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
             return;
         }
         // TODO: 2017/8/21 后台校验手机号和密码
+       // mLoginPresenter.checkLogin(name,password);
+
 
     }
 

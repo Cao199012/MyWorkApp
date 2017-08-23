@@ -9,6 +9,6 @@ import retrofit2.http.Query;
  */
 
 public interface LoginService {
-    @GET("")
-    Observable<String> checkLogin(@Query("username")String name,@Query("password")String password);
+    @GET("login.do")
+    Observable<String> checkLogin(@Query("phoneNo")String name,@Query("password")String password);
 }

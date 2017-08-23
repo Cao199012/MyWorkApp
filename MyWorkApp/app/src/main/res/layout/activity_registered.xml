@@ -62,8 +62,39 @@
         android:background="@color/background_color"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="-6dp "/>
+        tools:layout_editor_absoluteY="-2dp"/>
+
+    <LinearLayout
+        android:id="@+id/deal_body"
+        android:layout_width="242dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:layout_marginLeft="38dp"
+        android:visibility="gone"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册即代表同意"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textColor="@color/white"
+            android:text="服务条款"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="和"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textStyle="italic"
+            android:text="隐私条款"/>
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
