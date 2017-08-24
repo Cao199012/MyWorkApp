@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -19,6 +20,7 @@ import com.caojian.myworkapp.base.MvpBaseActivity;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.check.PhoneCheckActivity;
 import com.caojian.myworkapp.mvp.MyMvpActivity;
+import com.caojian.myworkapp.until.ActivityControler;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;
@@ -68,10 +70,9 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
         //MainActivity.go2MainActivity(LoginActivity.this);
         //finish();
 
-        //ProgressDialog只能和activity绑定 一个activity对应一个ProgressDialog
-        ProgressDialog dialog = new ProgressDialog(LoginActivity.this);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+
+
+
 
         if(!ActivityUntil.CheckPhone(name).equals(""))
         {
@@ -83,6 +84,19 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
             ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
             return;
         }
+        //ProgressDialog只能和activity绑定 一个activity对应一个ProgressDialog
+        showProgerss(LoginActivity.this);
+
+        // 模拟请求 1秒之后取消dilog 跳转
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideProgress();
+                MainActivity.go2MainActivity(LoginActivity.this);
+                ActivityControler.finishActivity();
+            }
+        },1000);
+
         // TODO: 2017/8/21 后台校验手机号和密码
        // mLoginPresenter.checkLogin(name,password);
 

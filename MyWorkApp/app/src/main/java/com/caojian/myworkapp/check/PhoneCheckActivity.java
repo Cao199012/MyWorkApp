@@ -63,9 +63,12 @@ public class PhoneCheckActivity extends BaseActivity implements CheckContract.Vi
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
         from_flag = getIntent().getIntExtra("fromFlag",-1);
-        if(from_flag == 2)
+        if(from_flag == 1)
         {
             mDeal_body.setVisibility(View.VISIBLE);
+        }else
+        {
+            mDeal_body.setVisibility(View.GONE);
         }
         mPresenter = new CheckPersenter(this);
     }
@@ -122,5 +125,10 @@ public class PhoneCheckActivity extends BaseActivity implements CheckContract.Vi
             return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

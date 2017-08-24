@@ -2,6 +2,8 @@ package com.caojian.myworkapp.password;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,14 +11,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.base.BaseActivity;
 import com.caojian.myworkapp.login.LoginActivity;
+import com.caojian.myworkapp.until.ActivityControler;
 import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.until.RetrofitManger;
 import com.caojian.myworkapp.until.Until;
+
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +44,28 @@ public class PasswordActivity extends BaseActivity {
     }
     @BindView(R.id.toolbar_password)
     Toolbar mToolbar;
+    @BindView(R.id.btn_code)
+    Button mBtn_code;
+    @BindView(R.id.code_time)
+    TextView mTv_time;
+    @BindView(R.id.tv_newpassword)
+    EditText mTv_password;
+    @BindView(R.id.edit_verity)
+    EditText mEdit_verity;
     private Unbinder unbinder;
+    private CountDownTimer downTimer = new CountDownTimer(60*1000,1000) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            mTv_time.setText(millisUntilFinished/1000+"秒");
+        }
+
+        @Override
+        public void onFinish() {
+            mTv_time.setText("");
+            mTv_time.setVisibility(View.GONE);
+            mBtn_code.setVisibility(View.VISIBLE);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +77,7 @@ public class PasswordActivity extends BaseActivity {
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
 
+        //获取title设置左边的图标
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -63,12 +93,21 @@ public class PasswordActivity extends BaseActivity {
      */
     public void verityCode(View view)
     {
+        showProgerss(PasswordActivity.this);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                hideProgress();
+                mBtn_code.setVisibility(View.GONE);
+                mTv_time.setVisibility(View.VISIBLE);
+                downTimer.start();
+            }
+        },1000);
+
+        //后台获取验证码
         Retrofit retrofit = RetrofitManger.getRetrofit(Until.HTTP_BASE_URL);
-
         VerityService service = retrofit.create(VerityService.class);
-
         call = service.verityCode("","");
-
         call.enqueue(new Callback<VerityCodeMsg>() {
             @Override
             public void onResponse(Call<VerityCodeMsg> call, Response<VerityCodeMsg> response) {
@@ -109,8 +148,28 @@ public class PasswordActivity extends BaseActivity {
     public void sumbitPassword(View v)
     {
         // TODO: 2017/8/21 提交新密码
+        String password = mTv_password.getText().toString();
+        String code = mEdit_verity.getText().toString();
+        if(password.isEmpty())
+        {
+            ActivityUntil.showToast(PasswordActivity.this,"新密码不能为空",Toast.LENGTH_SHORT);
+            return;
+        }
+        if(code.isEmpty())
+        {
+            ActivityUntil.showToast(PasswordActivity.this,"请输入验证码",Toast.LENGTH_SHORT);
+            return;
+        }
         //提交成功返回登录页面
-        LoginActivity.go2LoginActivity(PasswordActivity.this);
+        showProgerss(PasswordActivity.this);
+        try {
+            Thread.sleep(1000);
+            hideProgress();
+            LoginActivity.go2LoginActivity(PasswordActivity.this);
+            ActivityControler.finishActivity();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -140,5 +199,7 @@ public class PasswordActivity extends BaseActivity {
         {
             unbinder.unbind();
         }
+
+        downTimer.cancel();
     }
 }
