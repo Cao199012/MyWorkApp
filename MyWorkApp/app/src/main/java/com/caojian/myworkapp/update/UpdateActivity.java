@@ -96,4 +96,6 @@ public class UpdateActivity extends BaseActivity {
         super.onDestroy();
         unbinder.unbind();
     }
+
+
 }

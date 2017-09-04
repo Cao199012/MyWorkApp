@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.baidu.mapapi.SDKInitializer;
+
 /**
  * Created by caojian on 2017/7/19.
  */
@@ -20,7 +22,7 @@ public class MyApplication extends Application{
         Configuration config = new Configuration();
         config.setToDefaults();
         res.updateConfiguration(config,res.getDisplayMetrics());
-
+        SDKInitializer.initialize(getApplicationContext());
         context = getApplicationContext();
     }
 

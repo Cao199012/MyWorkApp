@@ -4,10 +4,21 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.widget.Toast;
+
+import com.caojian.myworkapp.R;
 
 import java.io.File;
 import java.util.regex.Pattern;
+
+import static android.content.Context.TELEPHONY_SERVICE;
 
 /**
  * Created by CJ on 2017/7/28.
@@ -34,7 +45,7 @@ public class ActivityUntil {
         toast.show();
     }
 
-    public static void disToast()
+    public static void hideToast()
     {
         if(toast != null)
         {
@@ -135,5 +146,38 @@ public class ActivityUntil {
             return "请输入正确的手机号码";
         }
         return "";
+    }
+
+    public static void initActionBar(Toolbar pToolbar,AppCompatActivity context)
+    {
+        context.setSupportActionBar(pToolbar);
+        ActionBar actionBar = context.getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    public static boolean isActiveNetWork(Context context)
+    {
+        ConnectivityManager mConnectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        TelephonyManager mTelephony = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
+//检查网络连接
+        NetworkInfo info = mConnectivity.getActiveNetworkInfo();
+
+
+        if (info == null || !info.isAvailable()) {
+            return false;
+        }
+        Log.d("HelloWorldActivity", "isActiveNetWork: ");
+        if(info.getType() == 0)
+        {
+            Log.d("caojian","GPS");
+        }
+        if(info.getType() == 1)
+        {
+            Log.d("caojian","wifi");
+        }
+
+
+        return true;
     }
 }

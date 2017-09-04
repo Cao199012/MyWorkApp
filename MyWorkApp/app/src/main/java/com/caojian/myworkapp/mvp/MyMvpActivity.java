@@ -33,7 +33,7 @@ public class MyMvpActivity extends AppCompatActivity implements ItemFragment.OnL
         if(fragment == null)
         {
             //添加fragment
-            getSupportFragmentManager().beginTransaction().add(R.id.recy_container,MvpFragment.getInstance()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.recy_container,ItemFragment.newInstance(1)).commit();
         }
 
     }

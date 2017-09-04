@@ -15,13 +15,8 @@ public class ActivityControler {
 
     public static void addActivty(Activity activity)
     {
-        if(activityList.contains(activity))
-        {
-            return;
-        }else
-        {
-            activityList.add(activity);
-        }
+
+        activityList.add(activity);
 
     }
 
@@ -37,10 +32,12 @@ public class ActivityControler {
      * 退出应用时调用，不用一个一个后退键返回
      */
     public static void finishActivity(){
+
         for (Activity activity :
                 activityList) {
-            activityList.remove(activity);
-            activity.finish();
+            if(!activity.isFinishing()) {
+                activity.finish();
+            }
         }
     }
 

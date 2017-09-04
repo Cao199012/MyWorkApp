@@ -84,16 +84,18 @@
                     android:layout_width="100dp"
                     android:layout_height="50dp"
                     android:layout_alignParentRight="true"
-                    android:text="获取验证码" />
+                    android:text="获取验证码"
+                    android:onClick="verityCode"/>
+
                 <TextView
                     android:id="@+id/code_time"
                     android:layout_width="100dp"
                     android:layout_height="50dp"
-                    android:gravity="center"
-                    android:background="@drawable/radius_back"
                     android:layout_alignParentRight="true"
-                    android:visibility="gone"
-                    android:text="" />
+                    android:background="@drawable/radius_back"
+                    android:gravity="center"
+                    android:text=""
+                    android:visibility="gone" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="150dp"

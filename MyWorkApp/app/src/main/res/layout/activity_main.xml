@@ -21,8 +21,10 @@
         </android.support.v7.widget.Toolbar>
         <FrameLayout
             android:id="@+id/fragment_container"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp">
         </FrameLayout>
 
         <com.ashokvarma.bottomnavigation.BottomNavigationBar

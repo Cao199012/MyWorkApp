@@ -17,7 +17,7 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static  List<DummyItem> ITEMS = new ArrayList<DummyItem>();
 
     /**
      * A map of sample (dummy) items, by ID.
@@ -58,6 +58,7 @@ public class DummyContent {
         public final String id;
         public final String content;
         public final String details;
+        public boolean isChecked = false;
 
         public DummyItem(String id, String content, String details) {
             this.id = id;

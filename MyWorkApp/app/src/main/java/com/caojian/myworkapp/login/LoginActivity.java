@@ -1,6 +1,5 @@
 package com.caojian.myworkapp.login;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.caojian.myworkapp.MainActivity;
 import com.caojian.myworkapp.base.MvpBaseActivity;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.check.PhoneCheckActivity;
-import com.caojian.myworkapp.mvp.MyMvpActivity;
 import com.caojian.myworkapp.until.ActivityControler;
 import com.caojian.myworkapp.until.ActivityUntil;
 
@@ -74,16 +72,16 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
 
 
 
-        if(!ActivityUntil.CheckPhone(name).equals(""))
-        {
-            ActivityUntil.showToast(LoginActivity.this,ActivityUntil.CheckPhone(name), Toast.LENGTH_SHORT);
-            return;
-        }
-        if(password.isEmpty())
-        {
-            ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
-            return;
-        }
+//        if(!ActivityUntil.CheckPhone(name).equals(""))
+//        {
+//            ActivityUntil.showToast(LoginActivity.this,ActivityUntil.CheckPhone(name), Toast.LENGTH_SHORT);
+//            return;
+//        }
+//        if(password.isEmpty())
+//        {
+//            ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
+//            return;
+//        }
         //ProgressDialog只能和activity绑定 一个activity对应一个ProgressDialog
         showProgerss(LoginActivity.this);
 
@@ -119,7 +117,7 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
     protected void onPause() {
         super.onPause();
         //视图消失 取消toast显示
-        ActivityUntil.disToast();
+        ActivityUntil.hideToast();
     }
 
 

@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.caojian.myworkapp.friend.dummy.FriendItem;
+
 import java.util.List;
 
 /**

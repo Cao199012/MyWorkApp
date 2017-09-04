@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.friend.adapter.MyItemRecyclerViewAdapter;
 import com.caojian.myworkapp.friend.dummy.DummyContent;
 import com.caojian.myworkapp.friend.dummy.DummyContent.DummyItem;
 
@@ -113,5 +114,11 @@ public class ItemFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
+    }
+
+    @Override
+    public void onDestroy() {
+        List<DummyItem> list = DummyContent.ITEMS;
+        super.onDestroy();
     }
 }

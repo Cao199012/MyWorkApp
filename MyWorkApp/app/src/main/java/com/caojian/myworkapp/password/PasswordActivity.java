@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -23,8 +22,6 @@ import com.caojian.myworkapp.until.ActivityControler;
 import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.until.RetrofitManger;
 import com.caojian.myworkapp.until.Until;
-
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -185,7 +182,7 @@ public class PasswordActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        ActivityUntil.disToast();
+        ActivityUntil.hideToast();
     }
 
     @Override
