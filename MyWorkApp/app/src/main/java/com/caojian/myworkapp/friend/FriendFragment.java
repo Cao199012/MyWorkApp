@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.caojian.myworkapp.friend.activitys.FriendGroupActivity.go2FriendGroupActivity;
 import static com.caojian.myworkapp.friend.activitys.FriendMessageActivity.go2FriendMessageActivity;
 import static com.caojian.myworkapp.friend.activitys.SearchByContactActivity.go2SearchByContactActivity;
 import static com.caojian.myworkapp.friend.activitys.SearchByPhoneActivity.go2SearchByPhoneActivity;
@@ -116,7 +117,7 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
     @OnClick(R.id.friend_group)
     public void go2Group()
     {
-
+        go2FriendGroupActivity(getActivity());
     }
 
     // TODO: Rename method, update argument and hook method into UI event

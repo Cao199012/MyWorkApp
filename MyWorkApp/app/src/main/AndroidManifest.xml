@@ -80,7 +80,8 @@
         <activity android:name=".friend.activitys.SearchByPhoneActivity" />
         <activity android:name=".friend.activitys.SearchByContactActivity" />
         <activity android:name=".friend.activitys.FriendDetailActivity" />
-        <activity android:name=".location.LocationDetailActivity"></activity>
+        <activity android:name=".location.LocationDetailActivity" />
+        <activity android:name=".friend.activitys.FriendGroupActivity"></activity>
     </application>
 
 </manifest>
