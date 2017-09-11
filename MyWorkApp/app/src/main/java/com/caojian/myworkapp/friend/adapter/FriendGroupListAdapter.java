@@ -9,9 +9,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.friend.dummy.FriendItem;
+import com.caojian.myworkapp.friend.dummy.FriendGroupItem;
 
 import java.util.List;
 
@@ -22,12 +21,12 @@ import butterknife.ButterKnife;
  * Created by caojian on 2017/9/2.
  */
 
-public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.ViewHolder>{
+public class FriendGroupListAdapter extends RecyclerView.Adapter<FriendGroupListAdapter.ViewHolder>{
 
-    List<FriendItem.DataBean> mFriendData;
+    List<FriendGroupItem.DataBean> mFriendData;
     ItemClick itemClick;
     Context mContext;
-    public FriendListAdapter(List<FriendItem.DataBean> pList,ItemClick pItemClick,Context pContext)
+    public FriendGroupListAdapter(List<FriendGroupItem.DataBean> pList, ItemClick pItemClick, Context pContext)
     {
         mFriendData = pList;
         itemClick = pItemClick;
@@ -43,14 +42,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        FriendItem.DataBean item = mFriendData.get(position);
-        if(item.getHeadPic().equals(""))
-        {
-            Glide.with(mContext).load(R.mipmap.ic_jianshu).into(holder.img_head);
-        }else
-        {
-            Glide.with(mContext).load(item.getHeadPic()).into(holder.img_head);
-        }
+        FriendGroupItem.DataBean item = mFriendData.get(position);
+
         // TODO: 2017/9/9 设置其他信息
         holder.mItem_body.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +76,6 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
     }
 
     public interface ItemClick{
-        void itemSlect(FriendItem.DataBean item);
+        void itemSlect(FriendGroupItem.DataBean item);
     }
 }

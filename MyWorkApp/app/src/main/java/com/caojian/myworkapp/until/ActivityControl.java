@@ -10,14 +10,12 @@ import java.util.List;
  * Created by CJ on 2017/8/18.
  */
 
-public class ActivityControler {
+public class ActivityControl {
     private static List<Activity> activityList = new ArrayList<Activity>();
 
-    public static void addActivty(Activity activity)
+    public static void addActivity(Activity activity)
     {
-
         activityList.add(activity);
-
     }
 
     public static void removeActivity(Activity activity)
@@ -32,7 +30,6 @@ public class ActivityControler {
      * 退出应用时调用，不用一个一个后退键返回
      */
     public static void finishActivity(){
-
         for (Activity activity :
                 activityList) {
             if(!activity.isFinishing()) {

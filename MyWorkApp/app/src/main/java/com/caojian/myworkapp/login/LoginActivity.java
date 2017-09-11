@@ -12,13 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.caojian.myworkapp.MainActivity;
 import com.caojian.myworkapp.base.MvpBaseActivity;
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.check.PhoneCheckActivity;
-import com.caojian.myworkapp.until.ActivityControler;
+import com.caojian.myworkapp.login.check.PhoneCheckActivity;
+import com.caojian.myworkapp.until.ActivityControl;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;
@@ -91,7 +90,7 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
             public void run() {
                 hideProgress();
                 MainActivity.go2MainActivity(LoginActivity.this);
-                ActivityControler.finishActivity();
+                ActivityControl.finishActivity();
             }
         },1000);
 

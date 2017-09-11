@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.check;
+package com.caojian.myworkapp.login.check;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,8 +17,8 @@ import android.widget.Toast;
 
 import com.caojian.myworkapp.base.BaseActivity;
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.password.PasswordActivity;
-import com.caojian.myworkapp.register.RegisterActivity;
+import com.caojian.myworkapp.login.password.PasswordActivity;
+import com.caojian.myworkapp.login.register.RegisterActivity;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;

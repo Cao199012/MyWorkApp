@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.check;
+package com.caojian.myworkapp.login.check;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

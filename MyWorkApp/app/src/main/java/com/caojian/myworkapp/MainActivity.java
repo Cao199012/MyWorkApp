@@ -12,29 +12,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.Marker;
-import com.baidu.mapapi.map.MarkerOptions;
-import com.baidu.mapapi.map.OverlayOptions;
-import com.baidu.mapapi.model.LatLng;
 import com.caojian.myworkapp.base.BaseActivity;
 import com.caojian.myworkapp.friend.FriendFragment;
 import com.caojian.myworkapp.friend.ItemFragment;
 import com.caojian.myworkapp.friend.dummy.DummyContent;
 import com.caojian.myworkapp.location.FragmentLocation;
-import com.caojian.myworkapp.location.LocationContract;
+import com.caojian.myworkapp.myview.MyDailogFragment;
 import com.caojian.myworkapp.rail.RailFragment;
 import com.caojian.myworkapp.track.TrackFragment;
-import com.caojian.myworkapp.until.ActivityControler;
+import com.caojian.myworkapp.until.ActivityControl;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;
@@ -43,7 +34,8 @@ import butterknife.Unbinder;
 
 import static com.caojian.myworkapp.until.ActivityUntil.isActiveNetWork;
 
-public class MainActivity extends BaseActivity implements ItemFragment.OnListFragmentInteractionListener ,FriendFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements FriendFragment.OnFragmentInteractionListener
+,MyDailogFragment.FragmentDialogListener{
 
     public static void go2MainActivity(Context fromClass)
     {
@@ -65,27 +57,25 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
     private Fragment[] fragments = {new FragmentLocation().newIntance(),new FriendFragment().newInstance("",""),
                                     new RailFragment().newInstance("",""),new TrackFragment().newInstance("","")};
     private Fragment mCurrent_fragment;
+    private MyDailogFragment mDailogFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder = ButterKnife.bind(this);
-        initToolBar();
+
+        mToolBar.setTitle(titles[0]);
+        ActivityUntil.initActionBar(mToolBar,MainActivity.this,R.drawable.ic_menu);
+      //  initToolBar();
         initBottom();
         initFragment();
         Log.i("HelloWorldActivity","______________onCreate execute______________");
+        //判断是否联网
         isActiveNetWork(MainActivity.this);
+        //调用显示弹出框
+//        mDailogFragment = MyDailogFragment.newInstance("测试","asldfalaa;am;sla;;vldv");
+//        mDailogFragment.show(getSupportFragmentManager(),"dialog");
     }
-
-    private void initToolBar() {
-        mToolBar.setTitle(titles[0]);
-        setSupportActionBar(mToolBar);
-        ActionBar actionBar = getSupportActionBar();
-
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-    }
-
 
     /**
      * 设置指第三方的bottom bar
@@ -105,13 +95,23 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
         mCurrent_fragment = fragments[0];
     }
 
+    //fragment 调用   Activity
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onFragmentInteraction(Uri uri) {
 
+    }
+    //弹出框（mydialogFragment）的接口调用。
+    @Override
+    public void cancel() {
+
+        if(mDailogFragment != null)
+        {
+            mDailogFragment.dismiss();
+        }
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri) {
+    public void sure() {
 
     }
 
@@ -120,7 +120,6 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
 
         @Override
         public void onTabSelected(int position) {
-
             mToolBar.setTitle(titles[position]);
             switchFragment(fragments[position]);
 
@@ -155,7 +154,6 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(item.getItemId() == android.R.id.home)
         {
             drawerLayout.openDrawer(GravityCompat.START,true);
@@ -169,10 +167,7 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
             int num = data.getIntExtra("num", 0);
             ((FragmentLocation)fragments[0]).handleResult(num);
         }
-
-
     }
-
 
     @Override
     protected void onDestroy() {
@@ -184,7 +179,6 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
     private CountDownTimer downTimer = new CountDownTimer(1000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
-
         }
 
         @Override
@@ -203,7 +197,7 @@ public class MainActivity extends BaseActivity implements ItemFragment.OnListFra
         }
         if(back_time == 1){
             finish();
-            ActivityControler.finishActivity();
+            ActivityControl.finishActivity();
         }
     }
 

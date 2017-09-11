@@ -14,6 +14,7 @@ import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.friend.adapter.MyItemRecyclerViewAdapter;
 import com.caojian.myworkapp.friend.dummy.DummyContent;
 import com.caojian.myworkapp.friend.dummy.DummyContent.DummyItem;
+import com.caojian.myworkapp.recy.SectionDecoration;
 
 import java.util.List;
 

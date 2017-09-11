@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.friend;
+package com.caojian.myworkapp.friend.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

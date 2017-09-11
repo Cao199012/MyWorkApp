@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.password;
+package com.caojian.myworkapp.login.password;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

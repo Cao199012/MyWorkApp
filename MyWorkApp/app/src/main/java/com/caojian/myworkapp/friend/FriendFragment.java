@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +18,9 @@ import android.view.ViewGroup;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.friend.adapter.FriendListAdapter;
 import com.caojian.myworkapp.friend.dummy.FriendItem;
+import com.caojian.myworkapp.recy.LineDecoration;
+import com.caojian.myworkapp.recy.SectionDecoration;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static com.caojian.myworkapp.friend.activitys.FriendDetailActivity.go2FriendDetailActivity;
 import static com.caojian.myworkapp.friend.activitys.FriendGroupActivity.go2FriendGroupActivity;
 import static com.caojian.myworkapp.friend.activitys.FriendMessageActivity.go2FriendMessageActivity;
 import static com.caojian.myworkapp.friend.activitys.SearchByContactActivity.go2SearchByContactActivity;
@@ -45,7 +50,7 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
     RecyclerView mRecy_friend;
 
     private FriendListAdapter listAdapter;
-    private List<FriendItem> mListData = new ArrayList<>();
+    private List<FriendItem.DataBean> mListData = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -94,15 +99,30 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_froend, container, false);
+        View root = inflater.inflate(R.layout.fragment_friend, container, false);
         unbinder = ButterKnife.bind(this,root);
         initRecy();
         return root;
     }
 
+
+    String[] letter = {"A","B","C","D","E"};
     private void initRecy() {
-        listAdapter = new FriendListAdapter(mListData,this);
+        for (int i = 0; i < 15;i++)
+        {
+            FriendItem.DataBean dataBean = new FriendItem.DataBean();
+            dataBean.setRemarkFirstLetter(letter[i/3]);
+            mListData.add(dataBean);
+        }
+        listAdapter = new FriendListAdapter(mListData,this,getActivity());
         mRecy_friend.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecy_friend.addItemDecoration(new SectionDecoration(getActivity()) {
+            @Override
+            public String getGroupId(int position) {
+
+                return mListData.get(position).getRemarkFirstLetter();
+            }
+        });
         mRecy_friend.setAdapter(listAdapter);
     }
 
@@ -190,9 +210,14 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
     }
 
     @Override
-    public void itemSlect(FriendItem item) {
+    public void itemSlect(FriendItem.DataBean item) {
         // TODO: 2017/9/2 跳转到好友详情页面
+        Gson gson = new Gson();
+        String databena =  gson.toJson(item);
+        go2FriendDetailActivity(getActivity(),databena);
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this

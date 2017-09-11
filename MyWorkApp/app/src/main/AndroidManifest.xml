@@ -47,9 +47,9 @@
         </activity>
         <activity android:name=".login.LoginActivity" />
         <activity
-            android:name=".check.PhoneCheckActivity"
+            android:name=".login.check.PhoneCheckActivity"
             android:theme="@style/FullAppTheme" />
-        <activity android:name=".password.PasswordActivity" />
+        <activity android:name=".login.password.PasswordActivity" />
         <activity
             android:name=".IntroduceActivity"
             android:theme="@style/FullAppTheme" />
@@ -57,7 +57,7 @@
             android:name=".update.UpdateActivity"
             android:theme="@style/WindowActivity" />
         <activity
-            android:name=".register.RegisterActivity"
+            android:name=".login.register.RegisterActivity"
             android:label="@string/title_activity_register" />
 
         <meta-data
@@ -81,7 +81,13 @@
         <activity android:name=".friend.activitys.SearchByContactActivity" />
         <activity android:name=".friend.activitys.FriendDetailActivity" />
         <activity android:name=".location.LocationDetailActivity" />
-        <activity android:name=".friend.activitys.FriendGroupActivity"></activity>
+        <activity android:name=".friend.activitys.FriendGroupActivity" />
+        <activity android:name=".friend.activitys.GroupCreateActivity" />
+        <activity android:name=".friend.activitys.GroupDetailActivity" />
+
+        <service
+            android:name=".services.UpdateLocationService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

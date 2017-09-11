@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.password;
+package com.caojian.myworkapp.login.password;
 
 /**
  * Created by CJ on 2017/8/21.

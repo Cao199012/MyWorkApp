@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/body_item"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/img_item"
+        android:layout_width="@dimen/item_show_img_height"
+        android:layout_height="@dimen/item_show_img_height"
+        android:src="@mipmap/ic_jianshu" />
+</LinearLayout>

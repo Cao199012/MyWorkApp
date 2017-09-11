@@ -13,6 +13,7 @@ import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.base.BaseActivity;
 import com.caojian.myworkapp.friend.adapter.MessageAdapter;
 import com.caojian.myworkapp.friend.dummy.MessageItem;
+import com.caojian.myworkapp.recy.LineDecoration;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class SearchByContactActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recy_contracts)
-    RecyclerView mRecy_messgae;
+    RecyclerView mRecy_contracts;
 
     private Unbinder unbinder;
     private List<MessageItem> mListData = new ArrayList<>();
@@ -45,7 +46,7 @@ public class SearchByContactActivity extends BaseActivity {
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("请求信息");
-        ActivityUntil.initActionBar(toolbar,SearchByContactActivity.this);
+        ActivityUntil.initActionBar(toolbar,SearchByContactActivity.this,R.drawable.ic_arrow_back);
         intRecy();
     }
 
@@ -55,8 +56,9 @@ public class SearchByContactActivity extends BaseActivity {
             mListData.add(new MessageItem());
         }
         mListAdapter = new MessageAdapter(mListData);
-        mRecy_messgae.setLayoutManager(new LinearLayoutManager(SearchByContactActivity.this));
-        mRecy_messgae.setAdapter(mListAdapter);
+        mRecy_contracts.setLayoutManager(new LinearLayoutManager(SearchByContactActivity.this));
+        mRecy_contracts.addItemDecoration(new LineDecoration(SearchByContactActivity.this));
+        mRecy_contracts.setAdapter(mListAdapter);
     }
 
     @Override

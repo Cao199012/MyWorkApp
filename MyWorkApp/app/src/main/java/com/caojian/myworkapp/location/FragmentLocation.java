@@ -49,6 +49,8 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.BDNotifyListener;//假如用到位置提醒功能，需要import该类
 import com.baidu.location.Poi;
+import com.caojian.myworkapp.myview.MyView;
+import com.caojian.myworkapp.services.UpdateLocationService;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import java.util.ArrayList;
@@ -126,9 +128,9 @@ public class FragmentLocation extends Fragment{
         {
             requestLocation();
         }
-
-
         setHasOptionsMenu(true);
+        //启动后台服务
+        UpdateLocationService.startActionBaz(getContext(),"AAA","BBB");
         return root;
     }
 
@@ -147,9 +149,6 @@ public class FragmentLocation extends Fragment{
             LatLng ll = new LatLng(bdLocation.getLatitude(),bdLocation.getLongitude());
             update = MapStatusUpdateFactory.newLatLng(ll);
             baiduMap.animateMapStatus(update);
-
-
-
             isFirstLocate = false;
             this.bdLocation = bdLocation;
         }
@@ -157,8 +156,6 @@ public class FragmentLocation extends Fragment{
         locationBuilde.latitude(bdLocation.getLatitude());
         locationBuilde.longitude(bdLocation.getLongitude());
         MyLocationData locationData = locationBuilde.build();
-
-
 
         baiduMap.setMyLocationData(locationData);
         // 构建marker图标
@@ -170,7 +167,6 @@ public class FragmentLocation extends Fragment{
 //        MyLocationConfiguration configuration = new MyLocationConfiguration(
 //                MyLocationConfiguration.LocationMode.FOLLOWING, true, geo);
 //        baiduMap.setMyLocationConfigeration(configuration);// 设置定位模式
-
         baiduMap.setMyLocationEnabled(true);// 打开定位图层
         //baidumap.
     }
@@ -189,7 +185,6 @@ public class FragmentLocation extends Fragment{
                             ActivityUntil.showToast(getActivity(),"必须同意所有权限才能使用", Toast.LENGTH_LONG);
                             return;
                         }
-
                     }
                     requestLocation();
                 }
@@ -244,14 +239,14 @@ public class FragmentLocation extends Fragment{
                 LatLng point = new LatLng(bdLocation.getLatitude()+0.03*i,bdLocation.getLongitude()+0.05*i);
                 BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.location);
                 OverlayOptions options = new MarkerOptions().position(point).icon(icon);
-//创建InfoWindow展示的view
-                TextView textView = new TextView(getActivity().getApplicationContext());
-                textView.setText("xxxxxx");
-//定义用于显示该InfoWindow的坐标点
+                //创建InfoWindow展示的view
+//                TextView textView = new TextView(getActivity().getApplicationContext());
+//                textView.setText("xxxxxx");
+                View textView = View.inflate(getActivity(),R.layout.sample_my_view,null);
+                //定义用于显示该InfoWindow的坐标点
                 //LatLng pt = new LatLng(39.86923, 116.397428);
-//创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-
-//显示InfoWindow
+                //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+                //显示InfoWindow
                Marker marker = (Marker) baiduMap.addOverlay(options);
                 markers.add(marker);
                 baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
@@ -263,9 +258,7 @@ public class FragmentLocation extends Fragment{
                         return false;
                     }
                 });
-
             }
-
     }
 
     @Override

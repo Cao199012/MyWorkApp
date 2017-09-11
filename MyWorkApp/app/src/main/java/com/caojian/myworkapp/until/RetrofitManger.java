@@ -14,15 +14,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManger {
     private static OkHttpClient client;
 
-
+    //初始化client
     private static void initClient()
     {
         client = new OkHttpClient.Builder()
                      .connectTimeout(15, TimeUnit.SECONDS)
                      .readTimeout(15,TimeUnit.SECONDS).build();
-
     }
 
+    //
     public static Retrofit getRetrofitRxjava(String url)
     {
         if(client == null)

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
+    android:background="@color/white"
     tools:context="com.caojian.myworkapp.friend.FriendFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,10 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
         android:background="@color/white">
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/item_show_img_height"
+            android:layout_height="@dimen/item_show_img_height"
             android:background="#fea5ff"
             android:src="@drawable/ic_person_outline_black_24dp"
             android:scaleType="centerInside"/>
@@ -28,47 +30,62 @@
             android:text="新朋友"
             android:textSize="18sp"/>
 
-        <ImageView
-            android:id="@+id/img_new_friend"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_chevron_right_30dp"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/img_new_friend"-->
+            <!--android:layout_width="50dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/ic_chevron_right_30dp"/>-->
+
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="15dp"
+        android:background="@color/background_color_gray"/>
     <LinearLayout
         android:id="@+id/friend_group"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
         android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
         android:layout_marginTop="51dp">
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/item_show_img_height"
+            android:layout_height="@dimen/item_show_img_height"
             android:background="#fea5ff"
             android:src="@drawable/ic_people_outline_black_24dp"
             android:scaleType="centerInside"/>
+
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:text="好友群"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
-        <ImageView
-            android:id="@+id/img_haoyouqun"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_chevron_right_30dp"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/img_haoyouqun"-->
+            <!--android:layout_width="@dimen/item_show_img_height"-->
+            <!--android:layout_height="@dimen/item_show_img_height"-->
+            <!--android:src="@drawable/ic_chevron_right_30dp"/>-->
     </LinearLayout>
-
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="10dp"-->
+        <!--android:layout_marginTop="100dp"-->
+        <!--android:background="@color/background_color_gray"/>-->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recy_friend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
-
+        android:layout_marginTop="100dp"
+        android:background="@color/background_color_gray"
         tools:listitem="@layout/friend_list_item">
 
     </android.support.v7.widget.RecyclerView>

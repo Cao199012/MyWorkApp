@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.check;
+package com.caojian.myworkapp.login.check;
 
 /**
  * Created by CJ on 2017/8/20.

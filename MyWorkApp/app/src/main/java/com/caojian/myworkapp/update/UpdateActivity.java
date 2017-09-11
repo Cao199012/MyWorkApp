@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.base.BaseActivity;
-import com.caojian.myworkapp.until.ActivityControler;
-
-import java.io.Serializable;
+import com.caojian.myworkapp.until.ActivityControl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +66,7 @@ public class UpdateActivity extends BaseActivity {
         }else {
             if(dataBean.getMandatory().equals("1"))
             {
-                ActivityControler.finishActivity();
+                ActivityControl.finishActivity();
                 return;
             }
 

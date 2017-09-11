@@ -1,17 +1,18 @@
-package com.caojian.myworkapp.location;
+package com.caojian.myworkapp.friend.activitys;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.friend.activitys.FriendMessageActivity;
+import com.caojian.myworkapp.friend.adapter.GroupMembersAdapter;
 import com.caojian.myworkapp.friend.adapter.MessageAdapter;
 import com.caojian.myworkapp.friend.dummy.FriendItem;
 import com.caojian.myworkapp.friend.dummy.MessageItem;
@@ -24,43 +25,42 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class LocationDetailActivity extends AppCompatActivity implements LocationDetailAdapter.ItemClick {
-
-    public static void go2LocationDetailActivity(Context from){
-        Intent intent = new Intent(from,LocationDetailActivity.class);
-        ((Activity)from).startActivityForResult(intent,102);
+public class GroupDetailActivity extends AppCompatActivity implements GroupMembersAdapter.ItemClick {
+    public static void go2GroupDetailActivity(Context from, String detail) {
+        Intent intent = new Intent(from, GroupDetailActivity.class);
+        intent.putExtra("detail", detail);
+        ((Activity) from).startActivityForResult(intent, 102);
     }
-    @BindView(R.id.toolbar5)
-    Toolbar toolbar;
-    @BindView(R.id.recy_location_detail)
-    RecyclerView mRecy_location_detail;
 
+    @BindView(R.id.toolbar6)
+    Toolbar toolbar;
+    @BindView(R.id.recy_group_member)
+    RecyclerView mRecy_member;
     private Unbinder unbinder;
-    private List<LocationItem> mListData = new ArrayList<>();
-    private LocationDetailAdapter mListAdapter;
+    private List<FriendItem> mListData = new ArrayList<>();
+    private GroupMembersAdapter mListAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location_detail);
+        setContentView(R.layout.activity_group_detail);
         unbinder = ButterKnife.bind(this);
 
-        toolbar.setTitle("定位好友");
-        ActivityUntil.initActionBar(toolbar,LocationDetailActivity.this,R.drawable.ic_arrow_back);
+        toolbar.setTitle("好友群详情");
+        ActivityUntil.initActionBar(toolbar, GroupDetailActivity.this,R.drawable.ic_arrow_back);
         intRecy();
     }
     private void intRecy() {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++)
         {
-            mListData.add(new LocationItem());
+            mListData.add(new FriendItem());
         }
-        mListAdapter = new LocationDetailAdapter(mListData,this);
-        mRecy_location_detail.setLayoutManager(new LinearLayoutManager(LocationDetailActivity.this));
-        mRecy_location_detail.setAdapter(mListAdapter);
+        mListAdapter = new GroupMembersAdapter(mListData,this,GroupDetailActivity.this);
+        mRecy_member.setLayoutManager(new GridLayoutManager(GroupDetailActivity.this,5));
+        mRecy_member.setAdapter(mListAdapter);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
@@ -78,9 +78,8 @@ public class LocationDetailActivity extends AppCompatActivity implements Locatio
         unbinder.unbind();
     }
 
-
     @Override
-    public void itemSlect(LocationItem item) {
-        // TODO: 2017/9/5 提升是否要取消监测好友
+    public void itemSlect(FriendItem item) {
+
     }
 }

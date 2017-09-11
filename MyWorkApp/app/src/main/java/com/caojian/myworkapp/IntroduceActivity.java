@@ -5,11 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,10 +13,8 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.base.BaseActivity;
-import com.caojian.myworkapp.check.PhoneCheckActivity;
+import com.caojian.myworkapp.login.check.PhoneCheckActivity;
 import com.caojian.myworkapp.login.LoginActivity;
-import com.caojian.myworkapp.register.RegisterActivity;
-import com.caojian.myworkapp.until.Until;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

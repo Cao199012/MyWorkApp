@@ -45,7 +45,7 @@ public class FriendMessageActivity extends BaseActivity {
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("请求信息");
-        ActivityUntil.initActionBar(toolbar,FriendMessageActivity.this);
+        ActivityUntil.initActionBar(toolbar,FriendMessageActivity.this,R.drawable.ic_arrow_back);
         intRecy();
     }
 

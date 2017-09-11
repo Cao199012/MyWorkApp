@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.friend;
+package com.caojian.myworkapp.recy;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -12,6 +12,8 @@ import android.view.View;
 
 import com.caojian.myworkapp.R;
 
+import static com.caojian.myworkapp.until.Until.dip2px;
+
 /**
  * Created by CJ on 2017/7/31.
  */
@@ -21,16 +23,17 @@ public abstract class SectionDecoration extends RecyclerView.ItemDecoration {
     private Paint paint,textPaint;
     private int topHeight;
     public SectionDecoration(Context pContext){
-        topHeight = 70;
+        topHeight = dip2px(pContext,20);
         paint = new Paint();
-        paint.setColor(pContext.getResources().getColor(R.color.colorPrimary));
+        paint.setColor(pContext.getResources().getColor(R.color.background_color_gray));
         textPaint = new TextPaint();
         textPaint.setColor(pContext.getResources().getColor(R.color.colorAccent));
         textPaint.setTypeface(Typeface.DEFAULT_BOLD);
         textPaint.setAntiAlias(true);
-        textPaint.setTextSize(80);
-        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(40);
+        textPaint.setColor(Color.GRAY);
         textPaint.setTextAlign(Paint.Align.LEFT);
+        //textPaint.setTextAlign(Paint.Align.CENTER);
 
     }
 
@@ -45,11 +48,12 @@ public abstract class SectionDecoration extends RecyclerView.ItemDecoration {
         {
             outRect.top = 0;
         }
+        outRect.bottom = dip2px(parent.getContext(),1);
     }
 
     @Override
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-        float left = parent.getPaddingLeft();
+        float left = parent.getPaddingLeft()+dip2px(parent.getContext(),10);
         float right = parent.getWidth() - parent.getPaddingRight();
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++)
@@ -61,7 +65,7 @@ public abstract class SectionDecoration extends RecyclerView.ItemDecoration {
             if(isGroupHead(position))
             {
                 c.drawRect(left,top,right,bottom,paint);
-                c.drawText(getGroupId(position),left,top,textPaint);
+                c.drawText(getGroupId(position),left,top-10,textPaint);
             }
         }
 

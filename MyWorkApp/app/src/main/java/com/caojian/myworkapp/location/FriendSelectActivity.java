@@ -40,7 +40,7 @@ public class FriendSelectActivity extends AppCompatActivity implements ItemFragm
         setContentView(R.layout.activity_friend_select);
         unbinder = ButterKnife.bind(this);
         toolbar.setTitle("选择好友");
-        ActivityUntil.initActionBar(toolbar,FriendSelectActivity.this);
+        ActivityUntil.initActionBar(toolbar,FriendSelectActivity.this,R.drawable.ic_arrow_back);
 
         ItemFragment itemFragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
         if(itemFragment == null)

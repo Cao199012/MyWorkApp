@@ -40,9 +40,8 @@ public class SearchByPhoneActivity extends BaseActivity {
         unbinder = ButterKnife.bind(this);
 
         mToolbar.setTitle("添加好友");
-        ActivityUntil.initActionBar(mToolbar,SearchByPhoneActivity.this);
+        ActivityUntil.initActionBar(mToolbar,SearchByPhoneActivity.this,R.drawable.ic_arrow_back);
 
-       // mPhoneSearch.setO
     }
 
     @OnClick(R.id.btnSearch)
