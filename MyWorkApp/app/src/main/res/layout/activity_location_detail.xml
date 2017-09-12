@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.caojian.myworkapp.location.LocationDetailActivity">
+    tools:context="com.caojian.myworkapp.modules.location.LocationDetailActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar5"
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -25,7 +25,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar5"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/location_detail_item"/>
 </android.support.constraint.ConstraintLayout>

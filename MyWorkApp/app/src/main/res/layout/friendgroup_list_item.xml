@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/friend_item_body"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/img_head"
+        android:layout_width="@dimen/item_show_img_height"
+        android:layout_height="@dimen/item_show_img_height"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/ic_jianshu" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/img_head">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="得于凡"
+            android:textSize="16sp"/>
+        <TextView
+            android:id="@+id/tv_dec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="就撒啊睡啦啊啦"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@color/background_color_gray"/>-->
+</RelativeLayout>

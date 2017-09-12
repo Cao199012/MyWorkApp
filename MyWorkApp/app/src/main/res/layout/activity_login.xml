@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
 
-    tools:context="com.caojian.myworkapp.login.LoginActivity">
+    tools:context="com.caojian.myworkapp.modules.login.LoginActivity">
 
     <TextView
         android:id="@+id/textView4"

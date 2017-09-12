@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context="com.caojian.myworkapp.friend.FriendFragment">
+    tools:context="com.caojian.myworkapp.modules.friend.FriendFragment">
 
     <!-- TODO: Update blank fragment layout -->
    <android.support.design.widget.AppBarLayout
@@ -89,14 +89,13 @@
         android:id="@+id/recy_friend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginRight="30dp"
-        android:background="@color/background_color_gray"
+        android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/friend_list_item">
 
     </android.support.v7.widget.RecyclerView>
 
-    <com.caojian.myworkapp.myview.SideBar
+    <com.caojian.myworkapp.view.SideBar
         android:id="@+id/sidebar_friend"
         android:layout_width="30dp"
         android:layout_height="match_parent"

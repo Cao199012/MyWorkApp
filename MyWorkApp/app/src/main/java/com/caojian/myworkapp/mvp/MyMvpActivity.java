@@ -2,16 +2,13 @@ package com.caojian.myworkapp.mvp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.friend.ItemFragment;
-import com.caojian.myworkapp.friend.dummy.DummyContent;
-
-import static android.R.attr.fragment;
+import com.caojian.myworkapp.modules.friend.ItemFragment;
+import com.caojian.myworkapp.modules.friend.dummy.DummyContent;
 
 public class MyMvpActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener{
 

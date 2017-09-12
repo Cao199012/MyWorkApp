@@ -45,19 +45,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".modules.login.LoginActivity" />
         <activity
-            android:name=".login.check.PhoneCheckActivity"
+            android:name=".modules.login.check.PhoneCheckActivity"
             android:theme="@style/FullAppTheme" />
-        <activity android:name=".login.password.PasswordActivity" />
+        <activity android:name=".modules.login.password.PasswordActivity" />
         <activity
             android:name=".IntroduceActivity"
             android:theme="@style/FullAppTheme" />
         <activity
-            android:name=".update.UpdateActivity"
+            android:name=".modules.update.UpdateActivity"
             android:theme="@style/WindowActivity" />
         <activity
-            android:name=".login.register.RegisterActivity"
+            android:name=".modules.login.register.RegisterActivity"
             android:label="@string/title_activity_register" />
 
         <meta-data
@@ -69,21 +69,21 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".location.FriendSelectActivity" />
+        <activity android:name=".modules.location.FriendSelectActivity" />
 
         <service
             android:name=".services.UpdateXYService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".friend.activitys.FriendMessageActivity" />
-        <activity android:name=".friend.activitys.SearchByPhoneActivity" />
-        <activity android:name=".friend.activitys.SearchByContactActivity" />
-        <activity android:name=".friend.activitys.FriendDetailActivity" />
-        <activity android:name=".location.LocationDetailActivity" />
-        <activity android:name=".friend.activitys.FriendGroupActivity" />
-        <activity android:name=".friend.activitys.GroupCreateActivity" />
-        <activity android:name=".friend.activitys.GroupDetailActivity" />
+        <activity android:name=".modules.friend.activitys.FriendMessageActivity" />
+        <activity android:name=".modules.friend.activitys.SearchByPhoneActivity" />
+        <activity android:name=".modules.friend.activitys.SearchByContactActivity" />
+        <activity android:name=".modules.friend.activitys.FriendDetailActivity" />
+        <activity android:name=".modules.location.LocationDetailActivity" />
+        <activity android:name=".modules.friend.group.FriendGroupActivity" />
+        <activity android:name=".modules.friend.activitys.GroupCreateActivity" />
+        <activity android:name=".modules.friend.activitys.GroupDetailActivity" />
 
         <service
             android:name=".services.UpdateLocationService"

@@ -8,7 +8,6 @@ import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,13 +17,11 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.caojian.myworkapp.base.BaseActivity;
-import com.caojian.myworkapp.friend.FriendFragment;
-import com.caojian.myworkapp.friend.ItemFragment;
-import com.caojian.myworkapp.friend.dummy.DummyContent;
-import com.caojian.myworkapp.location.FragmentLocation;
-import com.caojian.myworkapp.myview.MyDailogFragment;
-import com.caojian.myworkapp.rail.RailFragment;
-import com.caojian.myworkapp.track.TrackFragment;
+import com.caojian.myworkapp.modules.friend.FriendFragment;
+import com.caojian.myworkapp.modules.location.FragmentLocation;
+import com.caojian.myworkapp.view.MyDailogFragment;
+import com.caojian.myworkapp.modules.rail.RailFragment;
+import com.caojian.myworkapp.modules.track.TrackFragment;
 import com.caojian.myworkapp.until.ActivityControl;
 import com.caojian.myworkapp.until.ActivityUntil;
 
@@ -106,13 +103,28 @@ public class MainActivity extends BaseActivity implements FriendFragment.OnFragm
 
         if(mDailogFragment != null)
         {
+            mDailogFragment.setCancelable(true);
             mDailogFragment.dismiss();
         }
     }
 
+    //
     @Override
     public void sure() {
 
+        if(mDailogFragment != null)
+        {
+            mDailogFragment.setCancelable(true);
+            mDailogFragment.dismiss();
+        }
+    }
+    //供fragment调用
+    public void showDialogFragment(String title,String comments,String cancel,String sure)
+    {
+        //mDailogFragment = MyDailogFragment.newInstance("暂无权限","此功能需要付费购买","去购买","暂不使用");
+        mDailogFragment = MyDailogFragment.newInstance(title,comments,cancel,sure);
+        mDailogFragment.setCancelable(false);
+        mDailogFragment.show(getSupportFragmentManager(),"dialog");
     }
 
     //监听底部tab键，选择操作

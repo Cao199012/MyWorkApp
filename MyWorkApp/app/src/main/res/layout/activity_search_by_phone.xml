@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.caojian.myworkapp.friend.activitys.SearchByContactActivity"
+    tools:context="com.caojian.myworkapp.modules.friend.activitys.SearchByContactActivity"
     android:background="@color/background_color_gray">
 
     <android.support.v7.widget.SearchView
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar3"
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -59,5 +59,5 @@
         android:text="输入好友手机号："
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar3" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </android.support.constraint.ConstraintLayout>

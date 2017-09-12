@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -13,8 +12,8 @@ import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.base.BaseActivity;
 import com.caojian.myworkapp.until.RetrofitManger;
 import com.caojian.myworkapp.until.Until;
-import com.caojian.myworkapp.update.UpdateMsg;
-import com.caojian.myworkapp.update.UpdateService;
+import com.caojian.myworkapp.modules.update.UpdateMsg;
+import com.caojian.myworkapp.modules.update.UpdateService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +29,7 @@ import static com.caojian.myworkapp.IntroduceActivity.go2IntroduceActivity;
 import static com.caojian.myworkapp.until.ActivityUntil.getToken;
 import static com.caojian.myworkapp.until.ActivityUntil.getVersionCode;
 import static com.caojian.myworkapp.until.ActivityUntil.showToast;
-import static com.caojian.myworkapp.update.UpdateActivity.go2UpdateActivity;
+import static com.caojian.myworkapp.modules.update.UpdateActivity.go2UpdateActivity;
 
 public class SplashActivity extends BaseActivity {
 

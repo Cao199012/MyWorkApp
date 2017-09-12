@@ -13,12 +13,17 @@ import com.caojian.myworkapp.until.ActivityControl;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //向control list 添加打开的Activity
         ActivityControl.addActivity(this);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        ActivityUntil.initActionBar(toolbar,this,R.drawable.ic_arrow_back);
     }
+
+
 
 
     @Override

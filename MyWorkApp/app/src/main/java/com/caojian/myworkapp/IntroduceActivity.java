@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.base.BaseActivity;
-import com.caojian.myworkapp.login.check.PhoneCheckActivity;
-import com.caojian.myworkapp.login.LoginActivity;
+import com.caojian.myworkapp.modules.login.check.PhoneCheckActivity;
+import com.caojian.myworkapp.modules.login.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
