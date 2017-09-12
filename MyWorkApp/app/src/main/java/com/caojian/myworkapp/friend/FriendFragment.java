@@ -14,10 +14,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.friend.adapter.FriendListAdapter;
 import com.caojian.myworkapp.friend.dummy.FriendItem;
+import com.caojian.myworkapp.myview.SideBar;
 import com.caojian.myworkapp.recy.LineDecoration;
 import com.caojian.myworkapp.recy.SectionDecoration;
 import com.google.gson.Gson;
@@ -48,7 +50,10 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
 
     @BindView(R.id.recy_friend)
     RecyclerView mRecy_friend;
-
+    @BindView(R.id.sidebar_friend)
+    SideBar sideBar;
+    @BindView(R.id.side_dialog)
+    TextView mSide_dialog;
     private FriendListAdapter listAdapter;
     private List<FriendItem.DataBean> mListData = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
@@ -82,6 +87,7 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -102,20 +108,43 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
         View root = inflater.inflate(R.layout.fragment_friend, container, false);
         unbinder = ButterKnife.bind(this,root);
         initRecy();
+        sideBar.setDialogView(mSide_dialog);
+        sideBar.setListen(new SideBar.SelectPosition() {
+            @Override
+            public void set2num(String num) {
+
+                int i = 0;
+                for (;i < mListData.size();i++)
+                {
+                    if (mListData.get(i).getRemarkFirstLetter().equals(num)){
+                        break;
+                    }
+
+                }
+                manager.scrollToPositionWithOffset(i,0);
+
+
+            }
+        });
         return root;
     }
 
 
+    private LinearLayoutManager manager;
     String[] letter = {"A","B","C","D","E"};
     private void initRecy() {
-        for (int i = 0; i < 15;i++)
+        for (int i = 0; i < 30;i++)
         {
             FriendItem.DataBean dataBean = new FriendItem.DataBean();
-            dataBean.setRemarkFirstLetter(letter[i/3]);
+            dataBean.setRemarkFirstLetter(letter[i/6]);
             mListData.add(dataBean);
         }
         listAdapter = new FriendListAdapter(mListData,this,getActivity());
-        mRecy_friend.setLayoutManager(new LinearLayoutManager(getActivity()));
+//RecyclerView设置manager
+        manager = new LinearLayoutManager(getActivity());
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecy_friend.setLayoutManager(manager);
+        //mRecy_friend.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecy_friend.addItemDecoration(new SectionDecoration(getActivity()) {
             @Override
             public String getGroupId(int position) {

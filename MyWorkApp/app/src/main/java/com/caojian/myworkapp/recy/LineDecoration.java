@@ -15,8 +15,10 @@ import com.caojian.myworkapp.R;
 public class LineDecoration extends RecyclerView.ItemDecoration{
 
     private int lineHeight = 0;
+    private int marignLeft = 0;
     public LineDecoration(Context context){
         lineHeight = context.getResources().getDimensionPixelSize(R.dimen.recyclerView_line_height);
+        marignLeft = context.getResources().getDimensionPixelSize(R.dimen.text_margin);
     }
     @Override
     public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
