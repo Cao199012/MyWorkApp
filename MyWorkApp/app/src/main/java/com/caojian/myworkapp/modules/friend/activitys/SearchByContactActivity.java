@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.modules.friend.adapter.MessageAdapter;
 import com.caojian.myworkapp.modules.friend.dummy.MessageItem;
 import com.caojian.myworkapp.until.recyutil.LineDecoration;
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class SearchByContactActivity extends BasetitleActivity {
+public class SearchByContactActivity extends BaseTitleActivity {
 
     public static void go2SearchByContactActivity(Context fromClass)
     {
@@ -43,7 +43,6 @@ public class SearchByContactActivity extends BasetitleActivity {
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("联系人");
-       // ActivityUntil.initActionBar(toolbar,SearchByContactActivity.this,R.drawable.ic_arrow_back);
         intRecy();
     }
 
@@ -58,20 +57,6 @@ public class SearchByContactActivity extends BasetitleActivity {
         mRecy_contracts.setAdapter(mListAdapter);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == android.R.id.home)
-//        {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
 
     @Override
     protected void onDestroy() {

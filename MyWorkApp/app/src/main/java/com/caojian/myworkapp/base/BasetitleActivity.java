@@ -16,14 +16,13 @@ import com.caojian.myworkapp.until.ActivityUntil;
  * Created by caojian on 2017/7/19.
  */
 
-public class BasetitleActivity extends AppCompatActivity {
+public class BaseTitleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //向control list 添加打开的Activity
         ActivityControl.addActivity(this);
-
     }
 
     @Override

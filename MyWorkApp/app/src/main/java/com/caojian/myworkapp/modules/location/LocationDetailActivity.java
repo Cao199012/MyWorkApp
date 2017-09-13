@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class LocationDetailActivity extends BasetitleActivity implements LocationDetailAdapter.ItemClick {
+public class LocationDetailActivity extends BaseTitleActivity implements LocationDetailAdapter.ItemClick {
 
     public static void go2LocationDetailActivity(Context from){
         Intent intent = new Intent(from,LocationDetailActivity.class);
@@ -39,7 +39,7 @@ public class LocationDetailActivity extends BasetitleActivity implements Locatio
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("定位好友");
-       // ActivityUntil.initActionBar(toolbar,LocationDetailActivity.this,R.drawable.ic_arrow_back);
+
         intRecy();
     }
     private void intRecy() {
@@ -51,27 +51,12 @@ public class LocationDetailActivity extends BasetitleActivity implements Locatio
         mRecy_location_detail.setLayoutManager(new LinearLayoutManager(LocationDetailActivity.this));
         mRecy_location_detail.setAdapter(mListAdapter);
     }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == android.R.id.home)
-//        {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
-
 
     @Override
     public void itemSlect(LocationItem item) {

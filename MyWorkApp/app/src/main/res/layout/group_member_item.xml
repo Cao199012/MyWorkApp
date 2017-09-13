@@ -10,5 +10,6 @@
         android:id="@+id/img_item"
         android:layout_width="@dimen/item_show_img_height"
         android:layout_height="@dimen/item_show_img_height"
+
         android:src="@mipmap/ic_jianshu" />
 </LinearLayout>

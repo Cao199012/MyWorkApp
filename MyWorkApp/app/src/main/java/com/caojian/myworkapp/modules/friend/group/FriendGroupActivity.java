@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.modules.friend.activitys.GroupDetailActivity;
 import com.caojian.myworkapp.modules.friend.adapter.FriendGroupListAdapter;
 import com.caojian.myworkapp.modules.friend.dummy.FriendGroupItem;
@@ -25,7 +25,7 @@ import butterknife.Unbinder;
 
 import static com.caojian.myworkapp.modules.friend.activitys.GroupCreateActivity.go2GroupCreateActivity;
 
-public class FriendGroupActivity extends BasetitleActivity implements FriendGroupListAdapter.ItemClick {
+public class FriendGroupActivity extends BaseTitleActivity implements FriendGroupListAdapter.ItemClick {
     public static void go2FriendGroupActivity(Context fromClass)
     {
         Intent intent = new Intent(fromClass,FriendGroupActivity.class);
@@ -47,7 +47,7 @@ public class FriendGroupActivity extends BasetitleActivity implements FriendGrou
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("好友群");
-       // ActivityUntil.initActionBar(toolbar,FriendGroupActivity.this,R.drawable.ic_arrow_back);
+
         initRecy();
     }
     private void initRecy() {
@@ -65,20 +65,8 @@ public class FriendGroupActivity extends BasetitleActivity implements FriendGrou
     {
         go2GroupCreateActivity(FriendGroupActivity.this);
     }
-   // @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == android.R.id.home)
-//        {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
+
+
 
     @Override
     protected void onDestroy() {

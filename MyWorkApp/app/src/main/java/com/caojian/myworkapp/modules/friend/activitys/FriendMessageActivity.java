@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.modules.friend.adapter.MessageAdapter;
 import com.caojian.myworkapp.modules.friend.dummy.MessageItem;
 import com.caojian.myworkapp.until.recyutil.LineDecoration;
@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class FriendMessageActivity extends BasetitleActivity {
+public class FriendMessageActivity extends BaseTitleActivity {
 
     public static void go2FriendMessageActivity(Context from){
         Intent intent = new Intent(from,FriendMessageActivity.class);
@@ -44,7 +44,6 @@ public class FriendMessageActivity extends BasetitleActivity {
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("请求信息");
-       // ActivityUntil.initActionBar(toolbar,FriendMessageActivity.this,R.drawable.ic_arrow_back);
         intRecy();
     }
 
@@ -59,20 +58,7 @@ public class FriendMessageActivity extends BasetitleActivity {
         mRecy_messgae.setAdapter(mListAdapter);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == android.R.id.home)
-//        {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
+
 
     @Override
     protected void onDestroy() {

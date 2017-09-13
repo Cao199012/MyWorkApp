@@ -82,8 +82,6 @@ public class UpdateActivity extends BaseActivity {
         // TODO: 2017/8/18启动服务 下载应用
     }
 
-
-
     @Override
     public void onBackPressed() {
     }
@@ -93,6 +91,5 @@ public class UpdateActivity extends BaseActivity {
         super.onDestroy();
         unbinder.unbind();
     }
-
 
 }
