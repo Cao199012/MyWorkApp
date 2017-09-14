@@ -3,13 +3,15 @@ package com.caojian.myworkapp.modules.friend.group;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.modules.friend.activitys.GroupDetailActivity;
 import com.caojian.myworkapp.modules.friend.adapter.FriendGroupListAdapter;
 import com.caojian.myworkapp.modules.friend.dummy.FriendGroupItem;
@@ -19,13 +21,14 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static com.caojian.myworkapp.modules.friend.activitys.GroupCreateActivity.go2GroupCreateActivity;
 
-public class FriendGroupActivity extends BasetitleActivity implements FriendGroupListAdapter.ItemClick {
+public class FriendGroupActivity extends BaseTitleActivity implements FriendGroupListAdapter.ItemClick {
     public static void go2FriendGroupActivity(Context fromClass)
     {
         Intent intent = new Intent(fromClass,FriendGroupActivity.class);
@@ -36,6 +39,8 @@ public class FriendGroupActivity extends BasetitleActivity implements FriendGrou
     Toolbar toolbar;
     @BindView(R.id.recy_group)
     RecyclerView mRecy_group;
+    @BindView(R.id.swip_group)
+    SwipeRefreshLayout mSwipResfrsh;
 
     private FriendGroupListAdapter listAdapter;
     private List<FriendGroupItem.DataBean> mListData = new ArrayList<>();
@@ -47,8 +52,20 @@ public class FriendGroupActivity extends BasetitleActivity implements FriendGrou
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("好友群");
-       // ActivityUntil.initActionBar(toolbar,FriendGroupActivity.this,R.drawable.ic_arrow_back);
+
         initRecy();
+        mSwipResfrsh.setColorSchemeColors(getResources().getColor(R.color.red));
+        mSwipResfrsh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipResfrsh.stopNestedScroll();
+                    }
+                },1000);
+            }
+        });
     }
     private void initRecy() {
         for (int i = 0; i < 15;i++)
@@ -65,20 +82,8 @@ public class FriendGroupActivity extends BasetitleActivity implements FriendGrou
     {
         go2GroupCreateActivity(FriendGroupActivity.this);
     }
-   // @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == android.R.id.home)
-//        {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
+
+
 
     @Override
     protected void onDestroy() {

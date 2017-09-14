@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.modules.friend.adapter.GroupMembersAdapter;
 import com.caojian.myworkapp.modules.friend.dummy.FriendItem;
 
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class GroupDetailActivity extends BasetitleActivity implements GroupMembersAdapter.ItemClick {
+public class GroupDetailActivity extends BaseTitleActivity implements GroupMembersAdapter.ItemClick {
     public static void go2GroupDetailActivity(Context from, String detail) {
         Intent intent = new Intent(from, GroupDetailActivity.class);
         intent.putExtra("detail", detail);
@@ -41,7 +41,6 @@ public class GroupDetailActivity extends BasetitleActivity implements GroupMembe
         unbinder = ButterKnife.bind(this);
 
         toolbar.setTitle("好友群详情");
-       // ActivityUntil.initActionBar(toolbar, GroupDetailActivity.this,R.drawable.ic_arrow_back);
         intRecy();
     }
     private void intRecy() {
@@ -53,19 +52,7 @@ public class GroupDetailActivity extends BasetitleActivity implements GroupMembe
         mRecy_member.setLayoutManager(new GridLayoutManager(GroupDetailActivity.this,5));
         mRecy_member.setAdapter(mListAdapter);
     }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (item.getItemId() == android.R.id.home) {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
+
 
     @Override
     protected void onDestroy() {

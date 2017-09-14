@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
-import com.caojian.myworkapp.modules.friend.ItemFragment;
+import com.caojian.myworkapp.base.BaseTitleActivity;
+import com.caojian.myworkapp.modules.friend.FriendSelectFragment;
 import com.caojian.myworkapp.modules.friend.dummy.DummyContent;
 
 import java.util.ArrayList;
@@ -20,11 +20,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class FriendSelectActivity extends BasetitleActivity implements ItemFragment.OnListFragmentInteractionListener{
+public class FriendSelectActivity extends BaseTitleActivity implements FriendSelectFragment.OnListFragmentInteractionListener{
 
-    public static void go2FriendSelectActivity(Context from){
+    public static void go2FriendSelectActivity(Context from,int requestCode,String title){
         Intent intent = new Intent(from,FriendSelectActivity.class);
-        ((Activity)from).startActivityForResult(intent,102);
+        intent.putExtra("requestCode",requestCode+"");
+        intent.putExtra("title",title);
+        ((Activity)from).startActivityForResult(intent,requestCode);
     }
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -39,10 +41,10 @@ public class FriendSelectActivity extends BasetitleActivity implements ItemFragm
         toolbar.setTitle("选择好友");
        // ActivityUntil.initActionBar(toolbar,FriendSelectActivity.this,R.drawable.ic_arrow_back);
 
-        ItemFragment itemFragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if(itemFragment == null)
+        FriendSelectFragment friendSelectFragment = (FriendSelectFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(friendSelectFragment == null)
         {
-            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,ItemFragment.newInstance(1)).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, FriendSelectFragment.newInstance(1)).commit();
         }
     }
 

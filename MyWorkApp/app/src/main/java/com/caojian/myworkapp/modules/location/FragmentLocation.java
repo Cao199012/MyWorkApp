@@ -28,6 +28,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
 import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.R;
@@ -58,7 +59,7 @@ public class FragmentLocation extends Fragment{
     }
 
 //    @BindView(R.id.mapView)
-    MapView mapView;
+    TextureMapView mapView;
 
     private Unbinder unbinder;
 
@@ -86,7 +87,7 @@ public class FragmentLocation extends Fragment{
         option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
 
         locationClient.setLocOption(option);
-        mapView = (MapView) root.findViewById(R.id.mapView);
+        mapView = (TextureMapView) root.findViewById(R.id.mapView);
         baiduMap = mapView.getMap();
 
         //开启定位
@@ -213,7 +214,7 @@ public class FragmentLocation extends Fragment{
     @OnClick(R.id.btn_select)
     public void selectFreind(View v)
     {
-        FriendSelectActivity.go2FriendSelectActivity(getActivity());
+        FriendSelectActivity.go2FriendSelectActivity(getActivity(),102,"选择好友");
     }
 
     public void handleResult(int num) {
@@ -225,7 +226,7 @@ public class FragmentLocation extends Fragment{
         }
             for (int i = 0; i < num ;i++)
             {
-                LatLng point = new LatLng(bdLocation.getLatitude()+0.03*i,bdLocation.getLongitude()+0.05*i);
+                LatLng point = new LatLng(bdLocation.getLatitude()+0.03*(i+1),bdLocation.getLongitude()+0.05*i);
                 BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.location);
                 OverlayOptions options = new MarkerOptions().position(point).icon(icon);
                 //创建InfoWindow展示的view
@@ -252,13 +253,13 @@ public class FragmentLocation extends Fragment{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.title_add,menu);
+        inflater.inflate(R.menu.title_locations,menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.title_add)
+        if (item.getItemId() == R.id.title_drop)
         {
             LocationDetailActivity.go2LocationDetailActivity(getActivity());
             return true;

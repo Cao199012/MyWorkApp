@@ -45,11 +45,11 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
 
         if (position == mFriendData.size())
         {
-            Glide.with(mContext).load(R.mipmap.ic_juejin).into(holder.img_head);
+            Glide.with(mContext).load(R.mipmap.ic_add_team_member).into(holder.img_head);
 
         } else if (position == mFriendData.size() + 1)
         {
-            Glide.with(mContext).load(R.mipmap.ic_action_camera).into(holder.img_head);
+            Glide.with(mContext).load(R.mipmap.ic_remove_team_member).into(holder.img_head);
         }else {
             FriendItem item = mFriendData.get(position);
             // TODO: 2017/9/9 设置其他信息

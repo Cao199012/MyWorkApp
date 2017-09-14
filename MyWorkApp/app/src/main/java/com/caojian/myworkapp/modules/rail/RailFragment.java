@@ -120,10 +120,10 @@ public class RailFragment extends Fragment {
             lot= bdLocation.getLongitude();
 
             //定义多边形的五个顶点
-            pt1 = new LatLng(lat+0.01, lot+0.01);
-            pt2 = new LatLng(lat+0.01, lot-0.01);
-            pt3 = new LatLng(lat-0.01, lot-0.01);
-            pt4 = new LatLng(lat-0.01, lot+0.01);
+            pt1 = new LatLng(lat+0.02, lot+0.02);
+            pt2 = new LatLng(lat+0.02, lot-0.02);
+            pt3 = new LatLng(lat-0.02, lot-0.02);
+            pt4 = new LatLng(lat-0.02, lot+0.02);
         }
 
         //覆盖物
@@ -175,7 +175,25 @@ public class RailFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mapView.onDestroy();
+        mBaiduMap.setMyLocationEnabled(false);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

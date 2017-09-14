@@ -12,12 +12,12 @@
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:text="TextView" />-->
-    <com.baidu.mapapi.map.MapView
+    <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.baidu.mapapi.map.MapView>
+    </com.baidu.mapapi.map.TextureMapView>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_select"
         android:layout_width="30dp"

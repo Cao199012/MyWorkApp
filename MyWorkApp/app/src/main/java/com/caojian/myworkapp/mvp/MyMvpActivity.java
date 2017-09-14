@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.modules.friend.ItemFragment;
+import com.caojian.myworkapp.modules.friend.FriendSelectFragment;
 import com.caojian.myworkapp.modules.friend.dummy.DummyContent;
 
-public class MyMvpActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener{
+public class MyMvpActivity extends AppCompatActivity implements FriendSelectFragment.OnListFragmentInteractionListener{
 
     public static void go2MyMvpActivity(Context fromClass)
     {
@@ -26,11 +26,11 @@ public class MyMvpActivity extends AppCompatActivity implements ItemFragment.OnL
         setSupportActionBar(toolbar);
 
         //获取fragment中得fragment
-        ItemFragment fragment = (ItemFragment) getSupportFragmentManager().findFragmentById(R.id.recy_container);
+        FriendSelectFragment fragment = (FriendSelectFragment) getSupportFragmentManager().findFragmentById(R.id.recy_container);
         if(fragment == null)
         {
             //添加fragment
-            getSupportFragmentManager().beginTransaction().add(R.id.recy_container,ItemFragment.newInstance(1)).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.recy_container, FriendSelectFragment.newInstance(1)).commit();
         }
 
     }

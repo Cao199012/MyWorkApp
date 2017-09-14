@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.modules.login.password.PasswordActivity;
 import com.caojian.myworkapp.modules.login.register.RegisterActivity;
 import com.caojian.myworkapp.until.ActivityUntil;
@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 /**
  * 注册和重设密码都需要验证密码是否已经注册
  */
-public class PhoneCheckActivity extends BasetitleActivity implements CheckContract.View{
+public class PhoneCheckActivity extends BaseTitleActivity implements CheckContract.View{
 
     /**
      * @param from

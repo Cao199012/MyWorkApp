@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.BasetitleActivity;
+import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class SearchByPhoneActivity extends BasetitleActivity {
+public class SearchByPhoneActivity extends BaseTitleActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -37,8 +37,6 @@ public class SearchByPhoneActivity extends BasetitleActivity {
         unbinder = ButterKnife.bind(this);
 
         mToolbar.setTitle("添加好友");
-       // ActivityUntil.initActionBar(mToolbar,SearchByPhoneActivity.this,R.drawable.ic_arrow_back);
-
     }
 
     @OnClick(R.id.btnSearch)
@@ -47,20 +45,7 @@ public class SearchByPhoneActivity extends BasetitleActivity {
         mPhoneSearch.getQuery();
         ActivityUntil.showToast(SearchByPhoneActivity.this,mPhoneSearch.getQuery().toString(), Toast.LENGTH_SHORT);
     }
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if(item.getItemId() == android.R.id.home)
-//        {
-//            onBackPressed();
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @Override
-//    public void onBackPressed() {
-//        finish();
-//    }
+
 
     @Override
     protected void onDestroy() {

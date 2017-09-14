@@ -9,22 +9,22 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.modules.friend.ItemFragment;
+import com.caojian.myworkapp.modules.friend.FriendSelectFragment;
 import com.caojian.myworkapp.modules.friend.dummy.DummyContent;
 
 import java.util.List;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link DummyContent.DummyItem} and makes a call to the
- * specified {@link ItemFragment.OnListFragmentInteractionListener}.
+ * specified {@link FriendSelectFragment.OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<DummyContent.DummyItem> mValues;
-    private final ItemFragment.OnListFragmentInteractionListener mListener;
+    private final FriendSelectFragment.OnListFragmentInteractionListener mListener;
 
-    public MyItemRecyclerViewAdapter(List<DummyContent.DummyItem> items, ItemFragment.OnListFragmentInteractionListener listener) {
+    public MyItemRecyclerViewAdapter(List<DummyContent.DummyItem> items, FriendSelectFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }

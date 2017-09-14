@@ -85,7 +85,6 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -110,7 +109,7 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
         sideBar.setListen(new SideBar.SelectPosition() {
             @Override
             public void set2num(String num) {
-
+                //点击字母，指定字母第一个item滑到头部
                 int i = 0;
                 for (;i < mListData.size();i++)
                 {
@@ -120,8 +119,6 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
 
                 }
                 manager.scrollToPositionWithOffset(i,0);
-
-
             }
         });
         return root;
@@ -157,14 +154,13 @@ public class FriendFragment extends Fragment implements FriendListAdapter.ItemCl
     @OnClick(R.id.new_friend)
     public void goToMessage()
     {
-
         go2FriendMessageActivity(getActivity());
     }
 
+    //跳转到好友群界面
     @OnClick(R.id.friend_group)
     public void go2Group()
     {
-
         FriendGroupActivity.go2FriendGroupActivity(getActivity());
     }
 
