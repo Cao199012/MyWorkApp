@@ -29,6 +29,7 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.R;
 
 import butterknife.ButterKnife;
@@ -80,7 +81,7 @@ public class FragmentLocation extends Fragment{
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
 //        option.setCoorType("bd0911");// 返回的定位结果是百度经纬度，默认值gcj02
-        option.setScanSpan(5000);// 设置发起定位请求的间隔时间为5000ms
+        option.setScanSpan(10000);// 设置发起定位请求的间隔时间为5000ms
         option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
         option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
 
@@ -137,6 +138,9 @@ public class FragmentLocation extends Fragment{
             baiduMap.animateMapStatus(update);
             isFirstLocate = false;
             this.bdLocation = bdLocation;
+            //向application写入location
+            ((MyApplication)getActivity().getApplication()).setBdLocation(bdLocation);
+
         }
         MyLocationData.Builder locationBuilde = new MyLocationData.Builder();
         locationBuilde.latitude(bdLocation.getLatitude());
@@ -153,7 +157,6 @@ public class FragmentLocation extends Fragment{
 //        MyLocationConfiguration configuration = new MyLocationConfiguration(
 //                MyLocationConfiguration.LocationMode.FOLLOWING, true, geo);
 //        baiduMap.setMyLocationConfigeration(configuration);// 设置定位模式
-        baiduMap.setMyLocationEnabled(true);// 打开定位图层
         //baidumap.
     }
     @Override

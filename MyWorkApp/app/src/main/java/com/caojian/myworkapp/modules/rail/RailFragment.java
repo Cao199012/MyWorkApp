@@ -8,13 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.map.TextureMapView;
 import com.baidu.mapapi.model.LatLng;
+import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.R;
 
 import java.util.ArrayList;
@@ -89,25 +98,47 @@ public class RailFragment extends Fragment {
 
     private void initMap()
     {
-        //mBaiduMap.setMyLocationEnabled(true);
+        mBaiduMap.setMyLocationEnabled(true);
         // map_rail
-        MyLocationData.Builder locationBuilde = new MyLocationData.Builder();
-        locationBuilde.latitude(39.91173);
-        locationBuilde.longitude(116.357428);
-        MyLocationData locationData = locationBuilde.build();
-        mBaiduMap.setMyLocationData(locationData);
+
+
+        MapStatusUpdate update = MapStatusUpdateFactory.zoomTo(14f);
+        mBaiduMap.animateMapStatus(update);
+        //获取定位的坐标
+        BDLocation bdLocation = ((MyApplication)getActivity().getApplication()).getBdLocation();
+
+        double lat = 39.91173;
+        double lot= 116.357428;
         //定义多边形的五个顶点
         LatLng pt1 = new LatLng(39.93923, 116.357428);
         LatLng pt2 = new LatLng(39.91923, 116.327428);
         LatLng pt3 = new LatLng(39.89923, 116.347428);
         LatLng pt4 = new LatLng(39.89923, 116.367428);
-        LatLng pt5 = new LatLng(39.91923, 116.387428);
+        if(bdLocation != null)
+        {
+            lat = bdLocation.getLatitude();
+            lot= bdLocation.getLongitude();
+
+            //定义多边形的五个顶点
+            pt1 = new LatLng(lat+0.01, lot+0.01);
+            pt2 = new LatLng(lat+0.01, lot-0.01);
+            pt3 = new LatLng(lat-0.01, lot-0.01);
+            pt4 = new LatLng(lat-0.01, lot+0.01);
+        }
+
+        //覆盖物
+        LatLng point = new LatLng(lat,lot);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.location);
+        OverlayOptions options = new MarkerOptions().position(point).icon(icon);
+        Marker marker = (Marker) mBaiduMap.addOverlay(options);
+
+
+
         List<LatLng> pts = new ArrayList<LatLng>();
         pts.add(pt1);
         pts.add(pt2);
         pts.add(pt3);
         pts.add(pt4);
-        pts.add(pt5);
 //构建用户绘制多边形的Option对象
         OverlayOptions polygonOption = new PolygonOptions()
                 .points(pts)
@@ -115,6 +146,10 @@ public class RailFragment extends Fragment {
                 .fillColor(0xAAFFFF00);
 //在地图上添加多边形Option，用于显示
         mBaiduMap.addOverlay(polygonOption);
+        //定位到指定位置
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.target(new LatLng(lat,lot));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
     }
     // TODO: Rename method, update argument and hook method into UI event

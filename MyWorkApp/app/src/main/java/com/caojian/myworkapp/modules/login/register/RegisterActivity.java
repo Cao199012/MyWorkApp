@@ -158,7 +158,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void showVerityResult(String msg)
     {
-        ActivityUntil.showToast(getBaseContext(),msg, Toast.LENGTH_LONG);
+        ActivityUntil.showToast(getBaseContext(),msg, Toast.LENGTH_SHORT);
     }
 
     /**
@@ -170,19 +170,19 @@ public class RegisterActivity extends BaseActivity {
         String recommendNum = recommend_num.getText().toString();
         if(!ActivityUntil.CheckPhone(recommendNum).equals(""))
         {
-            ActivityUntil.showToast(getBaseContext(),ActivityUntil.CheckPhone(recommendNum), Toast.LENGTH_LONG);
+            ActivityUntil.showToast(getBaseContext(),ActivityUntil.CheckPhone(recommendNum), Toast.LENGTH_SHORT);
             return;
         }
         String password = mPasswordView.getText().toString();
         if(password.isEmpty())
         {
-            ActivityUntil.showToast(getBaseContext(),"请填写登录密码", Toast.LENGTH_LONG);
+            ActivityUntil.showToast(getBaseContext(),"请填写登录密码", Toast.LENGTH_SHORT);
             return;
         }
         String code = mEdit_code.getText().toString();
         if(code.isEmpty())
         {
-            ActivityUntil.showToast(getBaseContext(),"请输入验证码", Toast.LENGTH_LONG);
+            ActivityUntil.showToast(getBaseContext(),"请输入验证码", Toast.LENGTH_SHORT);
             return;
         }
         showProgerss(RegisterActivity.this);

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
+import com.baidu.location.BDLocation;
 import com.baidu.mapapi.SDKInitializer;
 
 /**
@@ -14,6 +15,7 @@ import com.baidu.mapapi.SDKInitializer;
 public class MyApplication extends Application{
     private Context context;
     private String token;
+    private BDLocation bdLocation;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -34,4 +36,11 @@ public class MyApplication extends Application{
         this.token = token;
     }
 
+    public BDLocation getBdLocation() {
+        return bdLocation;
+    }
+
+    public void setBdLocation(BDLocation bdLocation) {
+        this.bdLocation = bdLocation;
+    }
 }

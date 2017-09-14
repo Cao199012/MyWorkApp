@@ -48,6 +48,9 @@ public class PhoneCheckActivity extends BasetitleActivity implements CheckContra
 
     @BindView(R.id.tv_forget)
     TextView mTv_forget;
+    @BindView(R.id.tv_check_num)
+    TextView check_num;
+
     private Unbinder unbinder;
 
     private CheckContract.Presenter mPresenter;
@@ -56,7 +59,7 @@ public class PhoneCheckActivity extends BasetitleActivity implements CheckContra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);//设置窗口没有标题
-        setContentView(R.layout.activity_registered);
+        setContentView(R.layout.activity_check);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         unbinder = ButterKnife.bind(this);
 
@@ -66,10 +69,12 @@ public class PhoneCheckActivity extends BasetitleActivity implements CheckContra
         {
             mDeal_body.setVisibility(View.VISIBLE);
             mTv_forget.setVisibility(View.GONE);
+            check_num.setText("推荐人号码");
         }else
         {
             mTv_forget.setVisibility(View.VISIBLE);
             mDeal_body.setVisibility(View.GONE);
+            check_num.setText("手机号码");
         }
         mPresenter = new CheckPersenter(this);
     }
