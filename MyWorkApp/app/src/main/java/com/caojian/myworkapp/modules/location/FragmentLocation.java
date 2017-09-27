@@ -74,25 +74,10 @@ public class FragmentLocation extends Fragment{
         View root = inflater.inflate(R.layout.fragment_location,container,false);
 
         unbinder = ButterKnife.bind(this,root);
-
-
-        locationClient = new LocationClient(getActivity().getApplication());
-        locationClient.registerLocationListener(new MyLocationListener());
-
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
-//        option.setCoorType("bd0911");// 返回的定位结果是百度经纬度，默认值gcj02
-        option.setScanSpan(10000);// 设置发起定位请求的间隔时间为5000ms
-        option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
-        option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
-
-        locationClient.setLocOption(option);
         mapView = (TextureMapView) root.findViewById(R.id.mapView);
-        baiduMap = mapView.getMap();
 
-        //开启定位
-        baiduMap.setMyLocationEnabled(true);
-
+        initMap();
+        //验证地图和定位权限
         List<String> permission = new ArrayList<>();
 
         if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -122,6 +107,26 @@ public class FragmentLocation extends Fragment{
         return root;
     }
 
+    //初始化设置百度地图
+    private void initMap()
+    {
+        locationClient = new LocationClient(getActivity().getApplication());
+        locationClient.registerLocationListener(new MyLocationListener());
+
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);// 设置定位模式
+//        option.setCoorType("bd0911");// 返回的定位结果是百度经纬度，默认值gcj02
+        option.setScanSpan(10000);// 设置发起定位请求的间隔时间为5000ms
+        option.setIsNeedAddress(true);// 返回的定位结果包含地址信息
+        option.setNeedDeviceDirect(true);// 返回的定位结果包含手机机头的方向
+
+        locationClient.setLocOption(option);
+
+        baiduMap = mapView.getMap();
+
+        //开启定位
+        baiduMap.setMyLocationEnabled(true);
+    }
     private void requestLocation() {
         locationClient.start();
     }
@@ -224,6 +229,9 @@ public class FragmentLocation extends Fragment{
             ActivityUntil.showToast(getActivity(),"请开始定位设置",Toast.LENGTH_LONG);
             return;
         }
+        for(Marker marker : markers){
+            marker.remove();
+        }
             for (int i = 0; i < num ;i++)
             {
                 LatLng point = new LatLng(bdLocation.getLatitude()+0.03*(i+1),bdLocation.getLongitude()+0.05*i);
@@ -233,15 +241,16 @@ public class FragmentLocation extends Fragment{
 //                TextView textView = new TextView(getActivity().getApplicationContext());
 //                textView.setText("xxxxxx");
                 View textView = View.inflate(getActivity(),R.layout.sample_my_view,null);
-                //定义用于显示该InfoWindow的坐标点
-                //LatLng pt = new LatLng(39.86923, 116.397428);
-                //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
-                //显示InfoWindow
+
                Marker marker = (Marker) baiduMap.addOverlay(options);
                 markers.add(marker);
+
                 baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
+                        if(marker.isDraggable()){
+                            return false;
+                        }
                         baiduMap.hideInfoWindow();
                         InfoWindow mInfoWindow = new InfoWindow(textView, marker.getPosition(), -60);
                         baiduMap.showInfoWindow(mInfoWindow);

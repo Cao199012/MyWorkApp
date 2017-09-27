@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,8 +19,11 @@ import android.widget.Toast;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.caojian.myworkapp.base.BaseActivity;
+import com.caojian.myworkapp.modules.buy.BuyVipActivity;
 import com.caojian.myworkapp.modules.friend.FriendFragment;
+import com.caojian.myworkapp.modules.integral.IntegralActivity;
 import com.caojian.myworkapp.modules.location.FragmentLocation;
+import com.caojian.myworkapp.modules.personal.PersonalActivity;
 import com.caojian.myworkapp.view.MyDailogFragment;
 import com.caojian.myworkapp.modules.rail.RailFragment;
 import com.caojian.myworkapp.modules.track.TrackFragment;
@@ -48,11 +53,13 @@ public class MainActivity extends BaseActivity implements FriendFragment.OnFragm
     FrameLayout mContainer;
     @BindView(R.id.main_drawer)
     DrawerLayout drawerLayout;
+    @BindView(R.id.main_nav)
+    NavigationView navigationView;
     private Unbinder unbinder;
 
     private String[] titles = {"定位","好友","围栏报警","轨迹"};
     private Fragment[] fragments = {new FragmentLocation().newIntance(),new FriendFragment().newInstance("",""),
-                                    new RailFragment().newInstance("",""),new TrackFragment().newInstance("","")};
+                                    new RailFragment().newInstance("",""),new TrackFragment().newInstance()};
     private Fragment mCurrent_fragment;
     private MyDailogFragment mDailogFragment;
     @Override
@@ -63,6 +70,22 @@ public class MainActivity extends BaseActivity implements FriendFragment.OnFragm
 
         mToolBar.setTitle(titles[0]);
         ActivityUntil.initActionBar(mToolBar,MainActivity.this,R.drawable.ic_menu);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+
+                        case R.id.personal:
+                            PersonalActivity.go2PersonalActivity(MainActivity.this);
+                            return true;
+                        case R.id.jifen:
+                            IntegralActivity.go2IntegralActivity(MainActivity.this);
+                    }
+                            return true;
+
+            }
+        });
       //  initToolBar();
         initBottom();
         initFragment();
@@ -116,6 +139,7 @@ public class MainActivity extends BaseActivity implements FriendFragment.OnFragm
         {
             mDailogFragment.setCancelable(true);
             mDailogFragment.dismiss();
+            BuyVipActivity.go2BuyVipActivity(MainActivity.this);
         }
     }
     //供fragment调用
@@ -164,13 +188,18 @@ public class MainActivity extends BaseActivity implements FriendFragment.OnFragm
         }
 
     }
+
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
+        switch (item.getItemId())
         {
-            drawerLayout.openDrawer(GravityCompat.START,true);
-            return true;
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START,true);
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
     @Override

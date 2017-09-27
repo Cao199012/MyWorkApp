@@ -5,9 +5,11 @@
     tools:context=".modules.track.TrackFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="轨迹回放" />
 
+    <com.baidu.mapapi.map.TextureMapView
+        android:id="@+id/track_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.baidu.mapapi.map.TextureMapView>
 </FrameLayout>

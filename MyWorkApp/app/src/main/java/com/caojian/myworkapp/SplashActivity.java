@@ -116,32 +116,32 @@ public class SplashActivity extends BaseActivity {
         dataBean.setComment("更新内容说明");
         dataBean.setMandatory("0");
         go2UpdateActivity(SplashActivity.this,dataBean,101);
-        Retrofit retrofit = RetrofitManger.getRetrofitRxjava(Until.HTTP_BASE_URL);
-        UpdateService updateService = retrofit.create(UpdateService.class);
-        Observable<UpdateMsg> observable = updateService.getUpdateMsg(getVersionCode(context),Until.TREMINALtYPE);
-        disposable = observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Consumer<UpdateMsg>() {
-            @Override
-            public void accept(UpdateMsg updateMsg) throws Exception {
-                if(Integer.parseInt(updateMsg.getCode(),1) == 0)
-                {
-                    UpdateMsg.DataBean dataBean = updateMsg.getData();
-                    if(dataBean != null && dataBean.equals("1"))
-                    {
-                        //显示更新提示窗口
-                        go2UpdateActivity(context,dataBean,101);
-                    }else
-                    {
-                        go2NextActivity();
-                    }
-
-                }else
-                {
-                    showToast(context,updateMsg.getMessage(), Toast.LENGTH_SHORT);
-                }
-            }
-        });
+//        Retrofit retrofit = RetrofitManger.getRetrofitRxjava(Until.HTTP_BASE_URL);
+//        UpdateService updateService = retrofit.create(UpdateService.class);
+//        Observable<UpdateMsg> observable = updateService.getUpdateMsg(getVersionCode(context),Until.TREMINALtYPE);
+//        disposable = observable.observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.newThread())
+//                .subscribe(new Consumer<UpdateMsg>() {
+//            @Override
+//            public void accept(UpdateMsg updateMsg) throws Exception {
+//                if(Integer.parseInt(updateMsg.getCode(),1) == 0)
+//                {
+//                    UpdateMsg.DataBean dataBean = updateMsg.getData();
+//                    if(dataBean != null && dataBean.equals("1"))
+//                    {
+//                        //显示更新提示窗口
+//                        go2UpdateActivity(context,dataBean,101);
+//                    }else
+//                    {
+//                        go2NextActivity();
+//                    }
+//
+//                }else
+//                {
+//                    showToast(context,updateMsg.getMessage(), Toast.LENGTH_SHORT);
+//                }
+//            }
+//        });
     }
     @Override
     protected void onDestroy() {

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.caojian.myworkapp.MainActivity;
 import com.caojian.myworkapp.base.MvpBaseActivity;
@@ -48,6 +49,7 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
         unbinder = ButterKnife.bind(this);
         mToolbar.setTitle("");
         setSupportActionBar(mToolbar);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -71,23 +73,26 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
 
 
 
-//        if(!ActivityUntil.CheckPhone(name).equals(""))
-//        {
-//            ActivityUntil.showToast(LoginActivity.this,ActivityUntil.CheckPhone(name), Toast.LENGTH_SHORT);
-//            return;
-//        }
-//        if(password.isEmpty())
-//        {
-//            ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
-//            return;
-//        }
+        if(!ActivityUntil.CheckPhone(name).equals(""))
+        {
+            ActivityUntil.showToast(LoginActivity.this,ActivityUntil.CheckPhone(name), Toast.LENGTH_SHORT);
+            return;
+        }
+        if(password.isEmpty())
+        {
+            ActivityUntil.showToast(LoginActivity.this,"密码不能为空", Toast.LENGTH_SHORT);
+            return;
+        }
+
         //ProgressDialog只能和activity绑定 一个activity对应一个ProgressDialog
         showProgerss(LoginActivity.this);
 
+        //
         // 模拟请求 1秒之后取消dilog 跳转
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+                ActivityUntil.saveToken(LoginActivity.this,"aaaaa");
                 hideProgress();
                 MainActivity.go2MainActivity(LoginActivity.this);
                 ActivityControl.finishActivity();

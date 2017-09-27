@@ -87,7 +87,17 @@
 
         <service
             android:name=".services.UpdateLocationService"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".modules.integral.IntegralActivity" />
+        <activity android:name=".modules.integral.IntegralDetailActivity" />
+        <activity android:name=".modules.integral.TiXianActivity" />
+        <activity android:name=".modules.buy.BuyVipActivity" />
+        <activity android:name=".modules.personal.PersonalActivity" />
+        <activity android:name=".modules.rail.RailSelectActivity" />
+        <activity android:name=".modules.rail.SelectPointActivity">
+
+        </activity>
     </application>
 
 </manifest>

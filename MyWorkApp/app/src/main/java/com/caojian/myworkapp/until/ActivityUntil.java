@@ -72,6 +72,7 @@ public class ActivityUntil {
 
     }
 
+    //获取APP信息
     private static PackageInfo getPackageInfo(Context context) {
         PackageInfo pi = null;
 
@@ -102,6 +103,7 @@ public class ActivityUntil {
             editor.putString("token",token);
             editor.commit();
         }
+
     }
 
     public static String getToken(Context context)

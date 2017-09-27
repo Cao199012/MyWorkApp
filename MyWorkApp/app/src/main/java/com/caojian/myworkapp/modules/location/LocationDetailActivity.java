@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.base.BaseTitleActivity;
 import com.caojian.myworkapp.until.recyutil.LineDecoration;
+import com.caojian.myworkapp.view.MyDailogFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class LocationDetailActivity extends BaseTitleActivity implements LocationDetailAdapter.ItemClick {
+public class LocationDetailActivity extends BaseTitleActivity implements LocationDetailAdapter.ItemClick,MyDailogFragment.FragmentDialogListener {
 
     public static void go2LocationDetailActivity(Context from){
         Intent intent = new Intent(from,LocationDetailActivity.class);
@@ -59,9 +60,25 @@ public class LocationDetailActivity extends BaseTitleActivity implements Locatio
         super.onDestroy();
         unbinder.unbind();
     }
+    MyDailogFragment myDailogFragment;
 
     @Override
     public void itemSlect(LocationItem item) {
         // TODO: 2017/9/5 提升是否要取消监测好友
+        if(myDailogFragment == null){
+            myDailogFragment = MyDailogFragment.newInstance("aaaa","不再查看好友位置","取消","确定");
+        }
+
+        myDailogFragment.show(getSupportFragmentManager(),"aa");
+    }
+
+    @Override
+    public void cancel() {
+        myDailogFragment.dismiss();
+    }
+
+    @Override
+    public void sure() {
+
     }
 }

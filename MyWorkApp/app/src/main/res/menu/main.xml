@@ -4,6 +4,15 @@
 
     <item android:title="Item"
         android:id="@+id/share"
-        android:icon="@mipmap/ic_menu_share"/>
+        android:icon="@mipmap/ic_menu_share"
+        />
+    <item android:title="我的积分"
+        android:id="@+id/jifen"
+        android:icon="@mipmap/ic_menu_share"
+        />
+    <item android:title="个人信息"
+        android:id="@+id/personal"
+        android:icon="@mipmap/ic_menu_share"
+        />
 
 </menu>

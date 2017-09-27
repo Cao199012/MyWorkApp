@@ -45,6 +45,7 @@ public class MyDailogFragment extends AppCompatDialogFragment  {
     private FragmentDialogListener mListrner;
     private String title,comments,cancel,sure;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
