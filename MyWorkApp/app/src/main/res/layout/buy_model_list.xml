@@ -15,14 +15,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/weixin"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
             android:textSize="16sp"
-            android:text="支付宝"/>
+            android:text="微信"/>
         <android.support.v7.widget.AppCompatCheckBox
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            />
-    </RelativeLayout>  <RelativeLayout
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/model2"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -32,13 +35,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/zhifubao"
+            android:gravity="center_vertical"
+            android:drawablePadding="5dp"
             android:textSize="16sp"
             android:text="支付宝"/>
         <android.support.v7.widget.AppCompatCheckBox
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true" />
-    </RelativeLayout>  <RelativeLayout
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/model3"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -61,5 +68,6 @@
         android:layout_height="50dp"
         android:layout_below="@+id/model3"
         android:layout_centerHorizontal="true"
-        android:text="取消"/>
+        android:textColor="@color/white"
+        android:text="确定"/>
 </RelativeLayout>

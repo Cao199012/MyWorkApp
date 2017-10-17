@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color_gray"
-    tools:context="com.caojian.myworkapp.modules.friend.activitys.GroupDetailActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.GroupDetailActivity">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
@@ -35,7 +35,7 @@
                 android:layout_height="@dimen/item_show_height"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
-                android:paddingLeft="5dp"
+                android:paddingLeft="15dp"
                 android:paddingRight="5dp">
 
                 <TextView
@@ -52,6 +52,89 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right_30dp" />
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="授权时间" />
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/toggleButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/select_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="监测周期"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/time_select_body"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="开始时间"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_select"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:textSize="14sp"
+                    android:onClick="showTimeSelect"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:text="结束时间"/>
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_select"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:onClick="showTimeSelect"/>
+            </LinearLayout>
+
 
             <Button
                 android:layout_width="match_parent"

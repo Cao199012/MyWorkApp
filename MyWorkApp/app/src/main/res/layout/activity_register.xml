@@ -5,12 +5,12 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/background_color"
-    tools:context="com.caojian.myworkapp.modules.login.register.RegisterActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.RegisterActivity">
 
     <!-- Login progress -->
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_register"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_color"

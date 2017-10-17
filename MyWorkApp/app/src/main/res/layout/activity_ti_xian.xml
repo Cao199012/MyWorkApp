@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color_gray"
     android:orientation="vertical"
-    tools:context="com.caojian.myworkapp.modules.integral.TiXianActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.TiXianActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

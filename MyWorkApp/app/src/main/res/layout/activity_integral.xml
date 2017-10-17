@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.caojian.myworkapp.modules.integral.IntegralActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.IntegralActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -91,4 +91,9 @@
             android:textColor="@color/white"
             android:text="提现" />
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="赚取规则"/>
 </LinearLayout>

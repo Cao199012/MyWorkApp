@@ -25,6 +25,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- SD卡读取权限，用户写入离线定位数据 -->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 读取联系人 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -34,10 +39,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".ui.activity.MainActivity" />
         <activity android:name=".mvp.MyMvpActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:theme="@style/LunchAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,19 +50,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.login.LoginActivity" />
+        <activity android:name=".ui.activity.LoginActivity" />
         <activity
-            android:name=".modules.login.check.PhoneCheckActivity"
+            android:name=".ui.activity.PhoneCheckActivity"
             android:theme="@style/FullAppTheme" />
-        <activity android:name=".modules.login.password.PasswordActivity" />
+        <activity android:name=".ui.activity.PasswordActivity" />
         <activity
-            android:name=".IntroduceActivity"
+            android:name=".ui.activity.IntroduceActivity"
             android:theme="@style/FullAppTheme" />
         <activity
-            android:name=".modules.update.UpdateActivity"
+            android:name=".ui.activity.UpdateActivity"
             android:theme="@style/WindowActivity" />
         <activity
-            android:name=".modules.login.register.RegisterActivity"
+            android:name=".ui.activity.RegisterActivity"
             android:label="@string/title_activity_register" />
 
         <meta-data
@@ -69,35 +74,50 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <activity android:name=".modules.location.FriendSelectActivity" />
+        <activity android:name=".ui.activity.FriendSelectActivity" />
 
         <service
             android:name=".services.UpdateXYService"
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".modules.friend.activitys.FriendMessageActivity" />
-        <activity android:name=".modules.friend.activitys.SearchByPhoneActivity" />
-        <activity android:name=".modules.friend.activitys.SearchByContactActivity" />
-        <activity android:name=".modules.friend.activitys.FriendDetailActivity" />
-        <activity android:name=".modules.location.LocationDetailActivity" />
-        <activity android:name=".modules.friend.group.FriendGroupActivity" />
-        <activity android:name=".modules.friend.activitys.GroupCreateActivity" />
-        <activity android:name=".modules.friend.activitys.GroupDetailActivity" />
+        <activity android:name=".ui.activity.FriendMessageActivity" />
+        <activity android:name=".ui.activity.SearchByPhoneActivity" />
+        <activity android:name=".ui.activity.SearchByContactActivity" />
+        <activity android:name=".ui.activity.FriendDetailActivity" />
+        <activity android:name=".ui.activity.LocationDetailActivity" />
+        <activity android:name=".ui.activity.FriendGroupActivity" />
+        <activity android:name=".ui.activity.GroupCreateActivity" />
+        <activity android:name=".ui.activity.GroupDetailActivity" />
 
         <service
             android:name=".services.UpdateLocationService"
             android:exported="false" />
 
-        <activity android:name=".modules.integral.IntegralActivity" />
-        <activity android:name=".modules.integral.IntegralDetailActivity" />
-        <activity android:name=".modules.integral.TiXianActivity" />
-        <activity android:name=".modules.buy.BuyVipActivity" />
-        <activity android:name=".modules.personal.PersonalActivity" />
-        <activity android:name=".modules.rail.RailSelectActivity" />
-        <activity android:name=".modules.rail.SelectPointActivity">
+        <activity android:name=".ui.activity.IntegralActivity" />
+        <activity android:name=".ui.activity.IntegralDetailActivity" />
+        <activity android:name=".ui.activity.TiXianActivity" />
+        <activity android:name=".ui.activity.BuyVipActivity" />
+        <activity android:name=".ui.activity.PersonalActivity" />
+        <activity android:name=".ui.activity.RailSelectActivity" />
+        <activity android:name=".ui.activity.SelectPointActivity" />
 
-        </activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.caojian.myworkapp.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <service
+            android:name=".services.DownLoadService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ui.activity.AboutAPPActivity"></activity>
     </application>
 
 </manifest>

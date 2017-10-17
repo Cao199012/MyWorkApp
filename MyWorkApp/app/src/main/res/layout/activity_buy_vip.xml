@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.caojian.myworkapp.modules.buy.BuyVipActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.BuyVipActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:id="@+id/img_head"
                 android:layout_width="@dimen/item_show_img_height"
                 android:layout_height="@dimen/item_show_img_height"
-                android:src="@mipmap/ic_jianshu"
+                android:src="@mipmap/app_icn"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
                 android:scaleType="fitXY"/>
@@ -82,7 +82,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_jianshu"
+                    android:src="@mipmap/app_icn"
                     android:layout_marginTop="15dp"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -103,7 +103,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_jianshu"
+                    android:src="@mipmap/app_icn"
                     android:layout_marginTop="15dp"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -132,7 +132,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_jianshu"
+                    android:src="@mipmap/app_icn"
                     android:layout_marginTop="15dp"
                     android:scaleType="fitXY"/>
                 <TextView
@@ -153,7 +153,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@mipmap/ic_jianshu"
+                    android:src="@mipmap/app_icn"
                     android:layout_marginTop="15dp"
                     android:scaleType="fitXY"/>
                 <TextView

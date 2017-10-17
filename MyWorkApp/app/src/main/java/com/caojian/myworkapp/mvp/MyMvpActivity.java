@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.modules.friend.FriendSelectFragment;
-import com.caojian.myworkapp.modules.friend.dummy.DummyContent;
+import com.caojian.myworkapp.ui.fragment.FriendSelectFragment;
+import com.caojian.myworkapp.model.data.DummyContent;
 
 public class MyMvpActivity extends AppCompatActivity implements FriendSelectFragment.OnListFragmentInteractionListener{
 

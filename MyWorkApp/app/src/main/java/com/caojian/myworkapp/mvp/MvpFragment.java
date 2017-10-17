@@ -13,8 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.base.MvpBaseFragment;
-import com.caojian.myworkapp.until.recyutil.OneRecyAdapter;
+import com.caojian.myworkapp.ui.base.MvpBaseFragment;
 
 import java.util.LinkedList;
 import java.util.List;

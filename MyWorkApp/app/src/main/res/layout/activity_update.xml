@@ -7,7 +7,11 @@
     android:minWidth="300dp"
     app:contentPadding="20dp"
     app:cardCornerRadius="10dp">
-
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="invisible"></android.support.v7.widget.Toolbar>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
