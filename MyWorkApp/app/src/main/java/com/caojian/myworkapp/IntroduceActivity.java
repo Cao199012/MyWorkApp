@@ -22,8 +22,6 @@ import butterknife.Unbinder;
 
 public class IntroduceActivity extends BaseActivity {
 
-
-
     public static void go2IntroduceActivity(Context from){
         Intent intent = new Intent(from,IntroduceActivity.class);
         from.startActivity(intent);
@@ -32,7 +30,6 @@ public class IntroduceActivity extends BaseActivity {
     ViewPager mIntro_pager;
     @BindView(R.id.tip_body)
     LinearLayout mTipBody;   //填放显示滑动当前页面的点
-
 
     private ImageView[] tips ;
     private Unbinder unbinder;
