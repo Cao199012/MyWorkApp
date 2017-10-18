@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.caojian.myworkapp.modules.friend.activitys.FriendMessageActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.FriendMessageActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
+            android:background="@color/background_color_gray"
             app:layout_constraintTop_toBottomOf="@+id/toolbar4"
             tools:listitem="@layout/friend_message_item"
             app:layout_constraintBottom_toBottomOf="parent"

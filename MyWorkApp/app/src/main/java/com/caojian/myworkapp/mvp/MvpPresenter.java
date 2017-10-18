@@ -1,6 +1,6 @@
 package com.caojian.myworkapp.mvp;
 
-import com.caojian.myworkapp.base.BasePresenter;
+import com.caojian.myworkapp.ui.base.BasePresenter;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color_gray"
     android:orientation="vertical"
-    tools:context="com.caojian.myworkapp.modules.friend.activitys.FriendDetailActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.FriendDetailActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -49,30 +49,61 @@
                 android:text="15651010836"/>
         </LinearLayout>
     </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        android:paddingLeft="15dp"
+        android:onClick="changeName">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="设置好友昵称"/>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="30dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:layout_marginTop="15dp"
         android:background="@color/white"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="授权时间"/>
+            android:text="授权时间" />
+
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/toggleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-             />
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/select_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:text="监测周期"/>
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/time_select_body"
         android:layout_width="match_parent"
@@ -83,7 +114,7 @@
         android:gravity="center"
         android:background="@color/white"
         android:layout_marginTop="10dp"
-        android:visibility="visible">
+        android:visibility="gone">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

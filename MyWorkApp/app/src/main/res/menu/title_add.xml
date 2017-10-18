@@ -5,6 +5,7 @@
         android:title=""
         android:id="@+id/title_add"
         android:icon="@drawable/ic_add_white_30dp"
+
         app:showAsAction="always">
     </item>
 </menu>

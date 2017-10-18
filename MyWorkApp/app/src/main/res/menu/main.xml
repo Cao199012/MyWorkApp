@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-    <item android:title="Item"
-        android:id="@+id/share"
-        android:icon="@mipmap/ic_menu_share"/>
+
+    <item android:title="我的积分"
+        android:id="@+id/jifen"
+        android:icon="@drawable/ic_attach_money_black_24dp"
+        />
+    <item android:title="个人信息"
+        android:id="@+id/personal"
+        android:icon="@drawable/ic_account_box_black_24dp"
+        />
+    <item android:title="关于我们"
+        android:id="@+id/app"
+        android:icon="@mipmap/ic_menu_share"
+        />
 
 </menu>

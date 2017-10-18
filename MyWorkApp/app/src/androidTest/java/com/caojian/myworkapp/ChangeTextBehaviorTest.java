@@ -4,7 +4,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.caojian.myworkapp.modules.login.LoginActivity;
+import com.caojian.myworkapp.ui.activity.LoginActivity;
 
 import org.junit.Before;
 import org.junit.Rule;

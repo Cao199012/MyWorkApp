@@ -2,14 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/friend_item_body"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
+    android:paddingLeft="15dp"
     android:background="@color/white">
 
     <ImageView
         android:id="@+id/img_head"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@mipmap/ic_jianshu" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_jianshu"
+        android:layout_centerVertical="true"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"

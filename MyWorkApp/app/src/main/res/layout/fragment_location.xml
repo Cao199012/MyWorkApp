@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="60dp"
-    >
+    android:layout_marginBottom="60dp">
 
     <!--<TextView-->
         <!--android:id="@+id/tv_position"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:text="TextView" />-->
-    <com.baidu.mapapi.map.MapView
+    <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.baidu.mapapi.map.MapView>
+    </com.baidu.mapapi.map.TextureMapView>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_select"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:paddingStart="0dp"
+        app:paddingEnd="0dp"
         android:layout_gravity="bottom|right"
         android:layout_margin="50dp"
-        />
+        android:src="@drawable/ic_add_white_30dp"
+        android:scaleType="fitXY"
+        app:elevation="6dp"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="12dp"
+        app:useCompatPadding="false"/>
 
 </FrameLayout>

@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.caojian.myworkapp.IntroduceActivity">
-
+    tools:context="com.caojian.myworkapp.ui.activity.IntroduceActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="invisible"></android.support.v7.widget.Toolbar>
     <Button
         android:layout_width="80dp"
         android:layout_height="40dp"

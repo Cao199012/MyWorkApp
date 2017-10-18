@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,9 @@ import android.widget.Toast;
 import com.caojian.myworkapp.R;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import static android.content.Context.TELEPHONY_SERVICE;
@@ -25,34 +29,10 @@ import static android.content.Context.TELEPHONY_SERVICE;
  */
 
 public class ActivityUntil {
+
     private static Toast toast;
     private final static String PHONE_PATTERN = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([0,1,6,7,]))|(18[0-2,5-9]))\\d{8}$";
 
-    /**
-     * @param context
-     * @param msg
-     * @param duration short or long
-     */
-    public static void showToast(Context context,String msg,int duration)
-    {
-        if (toast == null)
-        {
-            toast = Toast.makeText(context,msg,duration);
-        }else {
-            toast.setText(msg);
-            toast.setDuration(duration);
-        }
-        toast.show();
-    }
-
-    public static void hideToast()
-    {
-        if(toast != null)
-        {
-            toast.cancel();
-            toast = null;
-        }
-    }
 
 
     //版本名
@@ -72,6 +52,7 @@ public class ActivityUntil {
 
     }
 
+    //获取APP信息
     private static PackageInfo getPackageInfo(Context context) {
         PackageInfo pi = null;
 
@@ -102,6 +83,7 @@ public class ActivityUntil {
             editor.putString("token",token);
             editor.commit();
         }
+
     }
 
     public static String getToken(Context context)
@@ -160,7 +142,7 @@ public class ActivityUntil {
     {
         ConnectivityManager mConnectivity = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         TelephonyManager mTelephony = (TelephonyManager)context.getSystemService(TELEPHONY_SERVICE);
-//检查网络连接
+        //检查网络连接
         NetworkInfo info = mConnectivity.getActiveNetworkInfo();
 
 
@@ -179,5 +161,53 @@ public class ActivityUntil {
 
 
         return true;
+    }
+
+    public final static String HTTP_BASE_URL = "http://测试环境/mobile-server/";
+    public final static int TREMINALtYPE = 2; //ios 1 android 2
+
+//    根据手机的分辨率从 dp 的单位 转成为 px(像素)
+
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    public static String[] myCheckPermission(Context context,String[] permission)
+    {
+        List<String> permissions = new ArrayList<>();
+        for (String per :
+                permission) {
+           if(ContextCompat.checkSelfPermission(context, per) != PackageManager.PERMISSION_GRANTED)
+           {
+               permissions.add(per);
+           }
+        }
+
+        return (String[]) permissions.toArray(new String[permissions.size()]);
+    }
+
+    /**
+     * 提升读写权限
+     * @param filePath 文件路径
+     * @return
+     * @throws IOException
+     */
+    public static void setPermission(String filePath)  {
+        String command = "chmod " + "777" + " " + filePath;
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            runtime.exec(command);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -5,12 +5,12 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/background_color"
-    tools:context="com.caojian.myworkapp.modules.login.register.RegisterActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.RegisterActivity">
 
     <!-- Login progress -->
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_register"
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_color"
@@ -49,7 +49,7 @@
                     android:id="@+id/recommend_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="推荐人号码"
+                    android:hint="手机号码"
                     android:inputType="number"
                     android:maxLines="1" />
 
@@ -84,8 +84,8 @@
                     android:layout_width="100dp"
                     android:layout_height="50dp"
                     android:layout_alignParentRight="true"
-                    android:text="获取验证码"
-                    android:onClick="verityCode"/>
+                    android:onClick="verityCode"
+                    android:text="获取验证码" />
 
                 <TextView
                     android:id="@+id/code_time"

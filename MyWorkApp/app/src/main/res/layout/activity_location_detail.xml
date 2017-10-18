@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.caojian.myworkapp.modules.location.LocationDetailActivity">
+    android:background="@color/background_color_gray"
+    tools:context="com.caojian.myworkapp.ui.activity.LocationDetailActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -21,11 +22,11 @@
         android:id="@+id/recy_location_detail"
         android:layout_width="368dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="0.0"
+        android:background="@color/background_color_gray"
         tools:listitem="@layout/location_detail_item"/>
 </android.support.constraint.ConstraintLayout>
