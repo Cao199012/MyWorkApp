@@ -1,6 +1,9 @@
 package com.caojian.myworkapp.api;
 
 import com.caojian.myworkapp.model.response.CheckMsg;
+import com.caojian.myworkapp.model.response.CoustomResult;
+import com.caojian.myworkapp.model.response.LoginMsg;
+import com.caojian.myworkapp.model.response.RegisterMsg;
 import com.caojian.myworkapp.model.response.UpdateResponse;
 import com.caojian.myworkapp.model.response.VerityCodeMsg;
 
@@ -30,4 +33,24 @@ public interface MyApi {
     //验证手机是否注册
     @GET("checkPhone.do")
     Observable<CheckMsg> checkPhone(@Query("phoneNo")String phone);
+
+    //会员注册
+    @GET("regist.do")
+    Observable<RegisterMsg> register(@Query("phoneNo")String phone,@Query("verificationCode")String verificationCode,@Query("password")String password,@Query("invitationCode")String invitationCode);
+
+    //会员登录
+    @GET("login.do")
+    Observable<LoginMsg> login(@Query("phoneNo")String phone, @Query("password")String password);
+
+    //重置密码
+    @GET("resetPassword.do")
+    Observable<CoustomResult> resetPassword(@Query("phoneNo")String phone, @Query("verificationCode")String verificationCode, @Query("password")String password);
+
+    //退出登录
+    @GET("logout.do")
+    Observable<CoustomResult> outLogin(@Query("token")String token);
+
+    //更改头像（二进制流）
+    @GET("uploadHeadPic.do")
+    Observable<CoustomResult> uploadHeadPic(@Query("token")String token,@Query("file")String pic);
 }

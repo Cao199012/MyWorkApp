@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.caojian.myworkapp.R;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by CJ on 2017/9/8.
@@ -25,9 +26,7 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
        // fragment.setArguments(bundle);
         return fragment;
     }
-
-
-
+    private PayAction payAction = null;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +46,17 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
     private void initView() {
 
     }
-
-
+    public void setListen(PayAction payAction)
+    {
+        this.payAction = payAction;
+    }
+    @OnClick(R.id.btn_pay)
+    public void toPay(){
+        if(payAction != null)
+        {
+            payAction.pay(1);
+        }
+    }
     @Override
     public void onAttach(Context context) {
 //        if(context instanceof FragmentDialogListener)
@@ -60,5 +68,8 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
          super.onAttach(context);
     }
 
+    public interface PayAction{
+        void pay(int model);
+    }
 
 }
