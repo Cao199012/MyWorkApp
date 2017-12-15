@@ -13,6 +13,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true;
     }
+    sourceSets {
+        main {
+            jniLibs.srcDir 'libs'
+        }
+    }
     signingConfigs {
         config {
             keyAlias 'android'
@@ -23,7 +28,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
@@ -38,9 +43,11 @@ android {
         sourceCompatibility 1.8
     }
 
-    dexOptions {
-        incremental true
-    }
+//    sourceSets {
+//        main {
+//            jniLibs.srcDirs = ['libs']
+//        }
+//    }
 }
 
 
@@ -51,12 +58,12 @@ dependencies {
     })
     //    testCompile 'junit:junit:4.12'
     compile project(':sdk')
+    //compile 'io.reactivex.rxjava2:rxjava:2.1.2'
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
     compile 'com.jakewharton:butterknife:8.7.0'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
