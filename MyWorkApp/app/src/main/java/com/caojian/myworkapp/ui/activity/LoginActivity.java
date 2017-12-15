@@ -57,10 +57,8 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
     }
 
     public void login(View v){
-        String name = mEditName.getText().toString();
-        String password = mEditPassword.getText().toString();
-
-
+        String name = mEditName.getText().toString().trim();
+        String password = mEditPassword.getText().toString().trim();
         if(!ActivityUntil.CheckPhone(name).equals(""))
         {
             showToast(ActivityUntil.CheckPhone(name), Toast.LENGTH_SHORT);
@@ -71,59 +69,37 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
             showToast("密码不能为空", Toast.LENGTH_SHORT);
             return;
         }
-
-        //ProgressDialog只能和activity绑定 一个activity对应一个ProgressDialog
-        showProgerss(LoginActivity.this);
-
-        //
-        // 模拟请求 1秒之后取消dilog 跳转
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ActivityUntil.saveToken(LoginActivity.this,"aaaaa");
-                hideProgress();
-                MainActivity.go2MainActivity(LoginActivity.this);
-                ActivityControl.finishActivity();
-            }
-        },1000);
-
-        // TODO: 2017/8/21 后台校验手机号和密码
-       // mLoginPresenter.checkLogin(name,password);
-
-
+        //后台校验手机号和密码
+        mLoginPresenter.checkLogin(name,ActivityUntil.getStringMD5(password));
     }
-
+    //点击跳转到注册
     public void register(View v)
     {
         PhoneCheckActivity.go2PhoneCheckActivity(LoginActivity.this,1);
-        //finish();
     }
-
+    //点击去设置密码
     public void forgetPassword(View v)
     {
         PhoneCheckActivity.go2PhoneCheckActivity(LoginActivity.this,2);
-        //finish();
     }
 
-
-
+    //登录验证成功，跳转到首页
     @Override
     public void LoginSuccess() {
-
+        MainActivity.go2MainActivity(LoginActivity.this);
+        finish();
     }
-
+    //验证失败，弹出框提示失败信息
     @Override
     public void LoginError(String errorMsg) {
-
+        showToast(errorMsg,Toast.LENGTH_SHORT);
     }
 
     @Override
     public LoginPresenter createPresenter() {
-        mLoginPresenter = new LoginPresenter(this);
+        mLoginPresenter = new LoginPresenter(LoginActivity.this,this);
         return mLoginPresenter;
     }
-
-
 
     @Override
     protected void onDestroy() {

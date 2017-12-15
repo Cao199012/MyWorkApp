@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.model.data.FriendItem;
+import com.caojian.myworkapp.model.response.FriendDetailInfo;
 
 import java.util.List;
 
@@ -24,10 +24,10 @@ import butterknife.ButterKnife;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.ViewHolder>{
 
-    List<FriendItem.DataBean> mFriendData;
+    List<FriendDetailInfo.DataBean> mFriendData;
     ItemClick itemClick;
     Context mContext;
-    public FriendListAdapter(List<FriendItem.DataBean> pList,ItemClick pItemClick,Context pContext)
+    public FriendListAdapter(List<FriendDetailInfo.DataBean> pList, ItemClick pItemClick, Context pContext)
     {
         mFriendData = pList;
         itemClick = pItemClick;
@@ -43,7 +43,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        FriendItem.DataBean item = mFriendData.get(position);
+        FriendDetailInfo.DataBean item = mFriendData.get(position);
+        holder.mTv_name.setText(item.getFriendPhoneNo());
         if(item.getHeadPic().equals(""))
         {
             Glide.with(mContext).load(R.mipmap.ic_jianshu).into(holder.img_head);
@@ -56,7 +57,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
             @Override
             public void onClick(View v) {
                 //点击跳转到好友详情页面
-                itemClick.itemSlect(item);
+                itemClick.itemSelect(item);
             }
         });
     }
@@ -83,6 +84,6 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
     }
 
     public interface ItemClick{
-        void itemSlect(FriendItem.DataBean item);
+        void itemSelect(FriendDetailInfo.DataBean item);
     }
 }

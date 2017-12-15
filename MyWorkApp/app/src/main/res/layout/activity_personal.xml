@@ -54,40 +54,42 @@
             android:layout_centerVertical="true"
             android:text="昵称"/>
         <TextView
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="三尺江湖"/>
+            android:text=""/>
     </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/body_phone"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="40dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:layout_marginTop="1dp"
-        android:layout_below="@+id/body_name"
-        android:layout_alignParentStart="true">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="号码"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="15651010836"/>
-    </RelativeLayout>
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/body_phone"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:background="@color/white"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:paddingLeft="15dp"-->
+        <!--android:paddingRight="15dp"-->
+        <!--android:layout_marginTop="1dp"-->
+        <!--android:layout_below="@+id/body_name"-->
+        <!--android:layout_alignParentStart="true">-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="号码"/>-->
+        <!--<TextView-->
+            <!--android:id="@+id/phone_num"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text=""/>-->
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/body_signature"
         android:layout_width="match_parent"
-        android:layout_below="@+id/body_phone"
+        android:layout_below="@+id/body_name"
         android:layout_marginTop="1dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -99,17 +101,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:text="个性签名"/>
+            android:text="会员信息"/>
         <TextView
+            android:id="@+id/vip_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_alignParentRight="true"
-
             android:layout_centerVertical="true"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="aaasafsd;adsf;al jkp"/>
+            android:text=""/>
     </RelativeLayout>
 
 </RelativeLayout>

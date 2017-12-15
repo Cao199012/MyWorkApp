@@ -11,7 +11,9 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by caojian on 2017/9/19.
@@ -36,81 +39,68 @@ public class SelectDayFragment extends AppCompatDialogFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
-
     @BindView(R.id.recy_day)
     RecyclerView mRecy_day;
-
     FragmentDaySelectListener mListener;
+    List<Integer> mListDay;
+    VipAdapter mVipAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.AlertDialogStyle);
     }
-
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        //设置dilogfragment的高宽
-//        Dialog dialog = getDialog();
-//        if (dialog != null) {
-//            DisplayMetrics dm = new DisplayMetrics();
-//            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-//            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        }
-//    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_select_day,container,false);
         ButterKnife.bind(this,root);
-
         initRecy();
         return root;
     }
-
     private List<String> mListData = new LinkedList<>();
     private void initRecy() {
-
         String[] days = getActivity().getResources().getStringArray(R.array.day_list);
-
+        mListData.clear();
         for (int i = 0 ;i < days.length;i++)
         {
             mListData.add(days[i]);
-
         }
-
-        VipAdapter vipAdapter = new VipAdapter();
+        mVipAdapter = new VipAdapter();
         mRecy_day.addItemDecoration(new LineDecoration(getContext()));
         mRecy_day.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecy_day.setAdapter(vipAdapter);
+        mRecy_day.setAdapter(mVipAdapter);
     }
-
+   //两个按钮的点击事件
+    @OnClick(R.id.btn_sure)
+    public void sureButton(){
+        mListener.sure();
+    }
+    @OnClick(R.id.btn_cancel)
+    public void cancelButton(){
+        mListener.cancel();
+    }
     class VipAdapter extends RecyclerView.Adapter<VipAdapter.ViewHolder>{
-
-
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.select_day_item,parent,false);
             return new ViewHolder(item);
         }
-
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
               holder.tv_day.setText(mListData.get(position));
-//            holder.tv_buy.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //点击购买按钮，通知acticiy 显示支付方式
-//                    if (mListener != null)
-//                    {
-//                        mListener.showBuy(item);
-//                    }
-//                }
-//            });
+              if(mListDay != null && mListDay.size() > 0)
+              {
+                  if(mListDay.contains(position+1)){
+                      holder.check_day.setChecked(true);
+                  }
+              }
+              holder.check_day.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                  @Override
+                  public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                      //根据点击状态改变来记录
+                      mListener.daySelectChange(position+1);
+                  }
+              });
         }
 
         @Override
@@ -119,23 +109,31 @@ public class SelectDayFragment extends AppCompatDialogFragment {
         }
 
         class ViewHolder extends RecyclerView.ViewHolder{
-
             @BindView(R.id.day_checked)
             CheckBox check_day;
             @BindView(R.id.tv_day)
             TextView tv_day;
-
             public ViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this,itemView);
             }
         }
     }
+
+    public void setListDay(List<Integer> mListDay) {
+        this.mListDay = mListDay;
+        if(mVipAdapter != null){
+            mVipAdapter.notifyDataSetChanged();
+        }
+    }
+
     public void setListener(FragmentDaySelectListener mListener) {
         this.mListener = mListener;
     }
     public interface FragmentDaySelectListener{
-
+        void daySelectChange(Integer num);
+        void sure();
+        void cancel();
     }
 
 }

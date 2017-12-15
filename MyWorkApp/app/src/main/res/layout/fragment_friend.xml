@@ -92,7 +92,6 @@
         android:background="@color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/friend_list_item">
-
     </android.support.v7.widget.RecyclerView>
 
     <com.caojian.myworkapp.ui.view.SideBar

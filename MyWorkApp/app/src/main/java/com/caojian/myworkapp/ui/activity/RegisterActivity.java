@@ -3,7 +3,6 @@ package com.caojian.myworkapp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.os.Handler;
 
 
 import android.os.Bundle;
@@ -21,11 +20,13 @@ import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.api.MyApi;
 
 import com.caojian.myworkapp.model.response.VerityCodeMsg;
-import com.caojian.myworkapp.manager.ActivityControl;
-import com.caojian.myworkapp.ui.base.BaseTitleActivity;
+import com.caojian.myworkapp.ui.base.MvpBaseActivity;
+import com.caojian.myworkapp.ui.contract.RegisterContract;
+import com.caojian.myworkapp.ui.presenter.RegisterPresenter;
 import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.manager.RetrofitManger;
 import com.caojian.myworkapp.until.Until;
+import com.caojian.myworkapp.widget.ImageCheckFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,7 +39,7 @@ import retrofit2.Retrofit;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends BaseTitleActivity {
+public class RegisterActivity extends MvpBaseActivity<RegisterContract.View,RegisterPresenter> implements ImageCheckFragment.FragmentImageCheckListener,RegisterContract.View{
 
     public static void go2RegisterActivity(Context from, String phoneNum)
     {
@@ -46,10 +47,6 @@ public class RegisterActivity extends BaseTitleActivity {
         intent.putExtra("phoneNum",phoneNum);
         from.startActivity(intent);
     }
-
-
-
-    // UI references.
     @BindView(R.id.recommend_num)
     EditText recommend_num;
     @BindView(R.id.toolbar)
@@ -60,13 +57,16 @@ public class RegisterActivity extends BaseTitleActivity {
     Button mBtn_code;
     @BindView(R.id.code_time)
     TextView mTv_time;
-
+    ImageCheckFragment imageCheckFragment;
+    private Unbinder unbinder;
+    private EditText mPasswordView;
+    RegisterPresenter mPresenter;
+    //倒计时60秒
     private CountDownTimer downTimer = new CountDownTimer(60*1000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             mTv_time.setText(millisUntilFinished/1000+"秒");
         }
-
         @Override
         public void onFinish() {
             mTv_time.setText("");
@@ -75,24 +75,15 @@ public class RegisterActivity extends BaseTitleActivity {
         }
     };
 
-    private Unbinder unbinder;
-    //private AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
         unbinder = ButterKnife.bind(this);
         //设置全屏显示
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mToolbar.setTitle("");
-
-
         mPasswordView = (EditText) findViewById(R.id.password);
-
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -102,109 +93,93 @@ public class RegisterActivity extends BaseTitleActivity {
         });
     }
 
-    private Call<VerityCodeMsg> call;
     /**
      * 获取验证码
      * @param view
      */
     public void verityCode(View view)
     {
-        showProgerss(RegisterActivity.this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgress();
-                mBtn_code.setVisibility(View.GONE);
-                mTv_time.setVisibility(View.VISIBLE);
-                downTimer.start();
-            }
-        },1000);
-
-        //后台获取验证码
-        Retrofit retrofit = RetrofitManger.getRetrofit(Until.HTTP_BASE_URL);
-        MyApi service = retrofit.create(MyApi.class);
-        call = service.verityCode("","");
-        call.enqueue(new Callback<VerityCodeMsg>() {
-            @Override
-            public void onResponse(Call<VerityCodeMsg> call, Response<VerityCodeMsg> response) {
-                VerityCodeMsg msg = response.body();
-                if(msg != null)
-                {
-                    //验证码获取成功
-                    if(msg.getRetcode().equals("0"))
-                    {
-                        // TODO: 2017/8/21 验证码倒计时
-                    }else
-                    {
-                        showVerityResult(msg.getRetinfo());
-                    }
-
-                }else
-                {
-                    showVerityResult("网络错误");
-                }
-            }
-            @Override
-            public void onFailure(Call<VerityCodeMsg> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-    private void showVerityResult(String msg)
-    {
-       showToast(msg, Toast.LENGTH_SHORT);
-    }
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
-        String recommendNum = recommend_num.getText().toString();
+        String recommendNum = recommend_num.getText().toString().trim();
         if(!ActivityUntil.CheckPhone(recommendNum).equals(""))
         {
             showToast(ActivityUntil.CheckPhone(recommendNum), Toast.LENGTH_SHORT);
             return;
         }
-        String password = mPasswordView.getText().toString();
-        if(password.isEmpty())
+        if(imageCheckFragment == null)
         {
-            showToast("请填写登录密码", Toast.LENGTH_SHORT);
+            imageCheckFragment = new ImageCheckFragment();
+        }
+        imageCheckFragment.setCancelable(false);
+        imageCheckFragment.show(getSupportFragmentManager(),"img");
+    }
+
+
+
+    private void attemptLogin() {
+        String recommendNum = getIntent().getStringExtra("phoneNum");
+        String phoneNum = recommend_num.getText().toString().trim();
+        if(!ActivityUntil.CheckPhone(recommendNum).equals(""))
+        {
+            showToast(ActivityUntil.CheckPhone(recommendNum), Toast.LENGTH_SHORT);
             return;
         }
-        String code = mEdit_code.getText().toString();
+        String password = mPasswordView.getText().toString().trim();
+        if(password.isEmpty())
+        {
+            showToast("请设置登录密码", Toast.LENGTH_SHORT);
+            return;
+        }
+        if(!ActivityUntil.checkPassword(password)){
+            showToast("密码不符合规则",Toast.LENGTH_SHORT);
+            return;
+        }
+        String code = mEdit_code.getText().toString().trim();
         if(code.isEmpty())
         {
             showToast("请输入验证码", Toast.LENGTH_SHORT);
             return;
         }
-        showProgerss(RegisterActivity.this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgress();
-                MainActivity.go2MainActivity(RegisterActivity.this);
-                ActivityControl.finishActivity();
-            }
-        },1000);
-
+        mPresenter.checkRegister(phoneNum,code,ActivityUntil.getStringMD5(password),recommendNum);
     }
 
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+    @Override
+    public RegisterPresenter createPresenter() {
+        mPresenter = new RegisterPresenter(RegisterActivity.this,this);
+        return mPresenter;
+    }
+    //取消图形验证码
+    @Override
+    public void cancelCheck() {
+        imageCheckFragment.setCancelable(true);
+        imageCheckFragment.dismiss();
+    }
+    //提交图形验证码，获取短信验证码
+    @Override
+    public void submitCheck(String code) {
+        imageCheckFragment.setCancelable(true);
+        imageCheckFragment.dismiss();
+        mPresenter.verityCode(recommend_num.getText().toString().trim(),code);
     }
 
+    //注册成功
+    @Override
+    public void registerSuccess() {
+        MainActivity.go2MainActivity(RegisterActivity.this);
+    }
 
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-
+    //获取验证码成功
+    @Override
+    public void verityCodeSuccess() {
+        mBtn_code.setVisibility(View.GONE);
+        mTv_time.setVisibility(View.VISIBLE);
+        downTimer.start();
+        showToast("验证码已发送",Toast.LENGTH_SHORT);
+    }
+    //注册失败提示失败信息
+    @Override
+    public void registerError(String errorMsg) {
+        showToast(errorMsg,Toast.LENGTH_SHORT);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

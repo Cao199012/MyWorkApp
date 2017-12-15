@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:background="?attr/colorPrimary">
-
     </android.support.v7.widget.Toolbar>
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -19,14 +18,11 @@
         android:layout_height="match_parent">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
-            android:name="com.caojian.myworkapp.friend.ItemFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-
             app:layoutManager="LinearLayoutManager"
-            tools:context="com.caojian.myworkapp.ui.fragment.FriendSelectFragment"
-            tools:listitem="@layout/fragment_item" />
+            tools:listitem="@layout/friend_select_item" />
     </FrameLayout>
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

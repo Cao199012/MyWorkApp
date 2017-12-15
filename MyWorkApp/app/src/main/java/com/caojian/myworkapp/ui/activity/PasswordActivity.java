@@ -22,7 +22,12 @@ import com.caojian.myworkapp.model.response.VerityCodeMsg;
 import com.caojian.myworkapp.manager.ActivityControl;
 import com.caojian.myworkapp.manager.RetrofitManger;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
+import com.caojian.myworkapp.ui.base.MvpBaseActivity;
+import com.caojian.myworkapp.ui.contract.PasswordContract;
+import com.caojian.myworkapp.ui.presenter.PasswordPresenter;
+import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.until.Until;
+import com.caojian.myworkapp.widget.ImageCheckFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,7 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class PasswordActivity extends BaseTitleActivity {
+public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,PasswordPresenter>implements PasswordContract.View ,ImageCheckFragment.FragmentImageCheckListener{
 
     public static void go2PasswordActivity(Context from, String phoneNum)
     {
@@ -51,12 +56,14 @@ public class PasswordActivity extends BaseTitleActivity {
     @BindView(R.id.edit_verity)
     EditText mEdit_verity;
     private Unbinder unbinder;
+    PasswordPresenter mPresenter;
+    ImageCheckFragment imageCheckFragment;
+    String mPhoneNum;
     private CountDownTimer downTimer = new CountDownTimer(60*1000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             mTv_time.setText(millisUntilFinished/1000+"秒");
         }
-
         @Override
         public void onFinish() {
             mTv_time.setText("");
@@ -64,7 +71,6 @@ public class PasswordActivity extends BaseTitleActivity {
             mBtn_code.setVisibility(View.VISIBLE);
         }
     };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +78,9 @@ public class PasswordActivity extends BaseTitleActivity {
         unbinder = ButterKnife.bind(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mToolbar.setTitle("");
-
+        //获取传入的号码
+        mPhoneNum = getIntent().getStringExtra("phoneNum");
     }
-
-    Call<VerityCodeMsg> call = null;
 
     /**
      * 获取验证码
@@ -83,66 +88,28 @@ public class PasswordActivity extends BaseTitleActivity {
      */
     public void verityCode(View view)
     {
-        showProgerss(PasswordActivity.this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgress();
-                mBtn_code.setVisibility(View.GONE);
-                mTv_time.setVisibility(View.VISIBLE);
-                downTimer.start();
-            }
-        },1000);
-
-        //后台获取验证码
-        Retrofit retrofit = RetrofitManger.getRetrofit(Until.HTTP_BASE_URL);
-        MyApi service = retrofit.create(MyApi.class);
-        call = service.verityCode("","");
-        call.enqueue(new Callback<VerityCodeMsg>() {
-            @Override
-            public void onResponse(Call<VerityCodeMsg> call, Response<VerityCodeMsg> response) {
-                VerityCodeMsg msg = response.body();
-                if(msg != null)
-                {
-                    //验证码获取成功
-                    if(msg.getRetcode().equals("0"))
-                    {
-                        // TODO: 2017/8/21 验证码倒计时
-                    }else
-                    {
-                        showVerityResult(msg.getRetinfo());
-                    }
-
-                }else
-                {
-                    showVerityResult("网络错误");
-                }
-            }
-            @Override
-            public void onFailure(Call<VerityCodeMsg> call, Throwable t) {
-
-            }
-        });
-
+        if(imageCheckFragment == null)
+        {
+            imageCheckFragment = ImageCheckFragment.newInstance();
+        }
+        imageCheckFragment.show(getSupportFragmentManager(),"img");
     }
-
-    private void showVerityResult(String msg)
-    {
-        showToast(msg, Toast.LENGTH_LONG);
-    }
-
     /**
      * 提交按钮调用
      * @param v
      */
-    public void sumbitPassword(View v)
+    public void submitPassword(View v)
     {
         // TODO: 2017/8/21 提交新密码
-        String password = mTv_password.getText().toString();
-        String code = mEdit_verity.getText().toString();
+        String password = mTv_password.getText().toString().trim();
+        String code = mEdit_verity.getText().toString().trim();
         if(password.isEmpty())
         {
             showToast("新密码不能为空",Toast.LENGTH_SHORT);
+            return;
+        }
+        if(!ActivityUntil.checkPassword(password)){
+            showToast("密码不符合规则",Toast.LENGTH_SHORT);
             return;
         }
         if(code.isEmpty())
@@ -150,31 +117,53 @@ public class PasswordActivity extends BaseTitleActivity {
             showToast("请输入验证码",Toast.LENGTH_SHORT);
             return;
         }
-        //提交成功返回登录页面
-        showProgerss(PasswordActivity.this);
-        try {
-            Thread.sleep(1000);
-            hideProgress();
-            LoginActivity.go2LoginActivity(PasswordActivity.this);
-            ActivityControl.finishActivity();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        mPresenter.checkPassword(mPhoneNum,code,ActivityUntil.getStringMD5(password));
+    }
+    @Override
+    public PasswordPresenter createPresenter() {
+        mPresenter = new PasswordPresenter(PasswordActivity.this,this);
+        return mPresenter;
+    }
+    //获取验证码成功
+    @Override
+    public void verityCodeSuccess() {
+        //倒计时
+        mBtn_code.setVisibility(View.GONE);
+        mTv_time.setVisibility(View.VISIBLE);
+        downTimer.start();
+        showToast("验证码已发送",Toast.LENGTH_SHORT);
+    }
+    //修改密码成功 进入首页
+    @Override
+    public void changePasswordSuccess() {
+        MainActivity.go2MainActivity(PasswordActivity.this);
+    }
+    //修改密码失败，弹出框提示信息
+    @Override
+    public void requestError(String errorMsg) {
+        showToast(errorMsg,Toast.LENGTH_SHORT);
     }
 
-
+    //取消图形验证码
+    @Override
+    public void cancelCheck() {
+        imageCheckFragment.setCancelable(true);
+        imageCheckFragment.dismiss();
+    }
+    //提交图形验证码，获取短信验证码
+    @Override
+    public void submitCheck(String code) {
+        imageCheckFragment.setCancelable(true);
+        imageCheckFragment.dismiss();
+        mPresenter.verityCode(mPhoneNum, code);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(call != null && call.isExecuted())
-        {
-            call.cancel();
-        }
         if (unbinder != null)
         {
             unbinder.unbind();
         }
-
         downTimer.cancel();
     }
 }

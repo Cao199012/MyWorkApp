@@ -7,14 +7,27 @@
     android:background="@color/background_color_gray"
     tools:context="com.caojian.myworkapp.ui.activity.GroupDetailActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="495dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +40,6 @@
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 tools:listitem="@layout/group_member_item">
-
             </android.support.v7.widget.RecyclerView>
 
             <RelativeLayout
@@ -35,15 +47,17 @@
                 android:layout_height="@dimen/item_show_height"
                 android:layout_marginTop="20dp"
                 android:background="@color/white"
+                android:onClick="changeName"
                 android:paddingLeft="15dp"
                 android:paddingRight="5dp">
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:gravity="center_vertical"
-                    android:text="XXX"/>
+                    android:text="XXX" />
 
                 <ImageView
                     android:layout_width="@dimen/item_show_img_height"
@@ -52,6 +66,7 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_chevron_right_30dp" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -87,32 +102,45 @@
                 android:layout_marginTop="10dp"
                 android:visibility="gone">
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:text="监测周期"/>
+                <TextView
+                    android:id="@+id/show_day"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical|right"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text=""/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/time_select_body"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:background="@color/white"
-                android:layout_marginTop="10dp"
                 android:visibility="gone">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
                     android:text="开始时间"/>
                 <TextView
+                    android:id="@+id/tv_start"
                     android:layout_width="wrap_content"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:background="@drawable/btn_select"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
@@ -125,9 +153,10 @@
                     android:text="结束时间"/>
 
                 <TextView
-                    android:id="@+id/textView5"
+                    android:id="@+id/tv_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:background="@drawable/btn_select"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
@@ -141,19 +170,17 @@
                 android:layout_height="40dp"
                 android:layout_margin="20dp"
                 android:background="@color/white"
+                android:onClick="deleteGroup"
                 android:text="删除群组" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="20dp"
+                android:background="@color/white"
+                android:onClick="changeTimeMessage"
+                android:text="修改授权时间" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="0dp" />
 </android.support.constraint.ConstraintLayout>

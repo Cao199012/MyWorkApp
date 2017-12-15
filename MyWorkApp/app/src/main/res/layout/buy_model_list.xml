@@ -21,6 +21,7 @@
             android:textSize="16sp"
             android:text="微信"/>
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_weixin"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true" />
@@ -41,6 +42,7 @@
             android:textSize="16sp"
             android:text="支付宝"/>
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_zhifubao"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true" />
@@ -58,10 +60,10 @@
             android:textSize="16sp"
             android:text="积分"/>
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/check_jifen"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            />
+            android:layout_alignParentRight="true" />
     </RelativeLayout>
     <Button
         android:id="@+id/btn_pay"

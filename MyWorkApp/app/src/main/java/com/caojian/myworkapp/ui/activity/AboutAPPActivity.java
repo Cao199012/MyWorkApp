@@ -2,7 +2,6 @@ package com.caojian.myworkapp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,23 +9,21 @@ import android.view.View;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.model.response.UpdateResponse;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
-import com.caojian.myworkapp.ui.contract.CheckContract;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.caojian.myworkapp.ui.activity.UpdateActivity.go2UpdateActivity;
 
-public class AboutAPPActivity extends BaseTitleActivity {
+public class AboutAppActivity extends BaseTitleActivity {
     public static void go2AboutAPPActivity(Context fromClass)
     {
-        Intent intent = new Intent(fromClass,AboutAPPActivity.class);
+        Intent intent = new Intent(fromClass,AboutAppActivity.class);
         fromClass.startActivity(intent);
     }
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +34,7 @@ public class AboutAPPActivity extends BaseTitleActivity {
 
     public void goFunction(View view)
     {
-        BuyVipActivity.go2BuyVipActivity(AboutAPPActivity.this);
+        BuyVipActivity.go2BuyVipActivity(AboutAppActivity.this,0);
     }
 
     private void checkVersion(Context context) {
@@ -46,7 +43,7 @@ public class AboutAPPActivity extends BaseTitleActivity {
         UpdateResponse.DataBean dataBean = new UpdateResponse.DataBean();
         dataBean.setComment("更新内容说明");
         dataBean.setMandatory("0");
-        go2UpdateActivity(AboutAPPActivity.this,dataBean,101);
+        go2UpdateActivity(AboutAppActivity.this,dataBean,101);
 //        Retrofit retrofit = RetrofitManger.getRetrofitRxjava(Until.HTTP_BASE_URL);
 //        UpdateService updateService = retrofit.create(UpdateService.class);
 //        Observable<UpdateResponse> observable = updateService.getUpdateMsg(getVersionCode(context),Until.TREMINALtYPE);

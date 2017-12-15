@@ -11,18 +11,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled = true;
     }
     signingConfigs {
         config {
             keyAlias 'android'
             keyPassword 'CJ199012'
-            storeFile file('/Users/caojian/Desktop/android.jks')
+            storeFile file('H:/WorkApp/MyWorkApp/app/android.jks')
             storePassword 'CJ199012'
         }
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }
@@ -36,6 +37,10 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+
+    dexOptions {
+        incremental true
+    }
 }
 
 
@@ -44,13 +49,8 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-
-
-
-
-
-
-
+    //    testCompile 'junit:junit:4.12'
+    compile project(':sdk')
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.android.support:recyclerview-v7:25.0.0'
@@ -65,8 +65,8 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.0.0-RC1'
     compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.2'
     compile 'com.android.support:cardview-v7:24.0.0-alpha1'
+    compile 'com.quicklib:quicklib-multidex:1.0.1'
     testCompile 'org.mockito:mockito-all:2.0.2-beta'
-    testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support:support-annotations:25.3.1'

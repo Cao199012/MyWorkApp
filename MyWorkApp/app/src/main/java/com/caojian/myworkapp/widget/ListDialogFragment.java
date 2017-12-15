@@ -36,15 +36,12 @@ public class ListDialogFragment extends AppCompatDialogFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
-
-
     @BindView(R.id.recy_vip)
     RecyclerView mRecy_vip;
-
-
-
-
     FragmentBuyListener mListener;
+    private String[] types = {"三个月","半年","一年"};
+    private int[] prices = {10,20,35};
+    private static int TYPENUM = 4; //总数加1
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +72,13 @@ public class ListDialogFragment extends AppCompatDialogFragment {
 
     private List<VipItem> mListData = new LinkedList<>();
     private void initRecy() {
-
-        for (int i = 0 ;i < 5;i++)
+        for (int i = 1 ;i <TYPENUM;i++)
         {
-            mListData.add(new VipItem());
+            VipItem item = new VipItem();
+            item.setName(types[i-1]);
+            item.setPrice(prices[i-1]);
+            item.setType(i);
+            mListData.add(item);
 
         }
 
@@ -100,6 +100,8 @@ public class ListDialogFragment extends AppCompatDialogFragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             VipItem item = mListData.get(position);
+            holder.tv_kind.setText(item.getName());
+            holder.tv_price.setText(item.getPrice()+"");
             holder.tv_buy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

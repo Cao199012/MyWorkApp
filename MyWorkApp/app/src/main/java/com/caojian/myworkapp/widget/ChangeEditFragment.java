@@ -4,13 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.ui.base.BaseTitleActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +30,7 @@ public class ChangeEditFragment extends AppCompatDialogFragment  {
         Bundle bundle = new Bundle();
         bundle.putString("title",title);
         bundle.putString("comments",comments);
-        bundle.putString("cancel",cancel);
+        bundle.putString("newCancel",cancel);
         bundle.putString("sure",sure);
         fragment.setArguments(bundle);
         return fragment;
@@ -40,6 +43,8 @@ public class ChangeEditFragment extends AppCompatDialogFragment  {
     TextView mChange_cancel;
     @BindView(R.id.btn_sure)
     TextView mChange_sure;
+    @BindView(R.id.edit_change_fragment)
+    AppCompatEditText mEdit_change;
 
     private FragmentChangeListener mListrner;
     private String title,comments,cancel,sure;
@@ -51,7 +56,7 @@ public class ChangeEditFragment extends AppCompatDialogFragment  {
         {
             title = getArguments().getString("title","");
             comments = getArguments().getString("comments","");
-            cancel = getArguments().getString("cancel","");
+            cancel = getArguments().getString("newCancel","");
             sure = getArguments().getString("sure","");
         }
 
@@ -81,7 +86,13 @@ public class ChangeEditFragment extends AppCompatDialogFragment  {
         mChange_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListrner.sumbitEdit();
+                String msg = mEdit_change.getText().toString().trim();
+                if(msg.equals(""))
+                {
+                    ((BaseTitleActivity)getActivity()).showToast("输入信息不能为空", Toast.LENGTH_SHORT);
+                    return;
+                }
+                mListrner.submitEdit(msg);
             }
         });
     }
@@ -100,6 +111,6 @@ public class ChangeEditFragment extends AppCompatDialogFragment  {
 
     public interface FragmentChangeListener{
         void cancelEdit();
-        void sumbitEdit();
+        void submitEdit(String msg);
     }
 }

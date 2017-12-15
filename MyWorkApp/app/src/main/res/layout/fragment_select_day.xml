@@ -36,20 +36,20 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-
+        android:gravity="center_horizontal"
         android:layout_gravity="bottom">
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_cancel"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_radius"
             android:textColor="@color/white"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="取消"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_sure"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/btn_radius"
             android:textColor="@color/white"
             android:text="确定"

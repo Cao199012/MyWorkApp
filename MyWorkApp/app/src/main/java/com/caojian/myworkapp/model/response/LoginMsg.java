@@ -6,47 +6,54 @@ package com.caojian.myworkapp.model.response;
 
 public class LoginMsg {
 
+
     /**
-     * retcode : 0
-     * retinfo :  成功
-     * token : 1*********12
-     * contactsflag :
+     * code : 000000
+     * message :  成功
+     * data : {"token":""}
      */
 
-    private String retcode;
-    private String retinfo;
-    private String token;
-    private String contactsflag;
+    private int code;
+    private String message;
+    private DataBean data;
 
-    public String getRetcode() {
-        return retcode;
+    public int getCode() {
+        return code;
     }
 
-    public void setRetcode(String retcode) {
-        this.retcode = retcode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getRetinfo() {
-        return retinfo;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRetinfo(String retinfo) {
-        this.retinfo = retinfo;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public String getToken() {
-        return token;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
-    public String getContactsflag() {
-        return contactsflag;
-    }
+    public static class DataBean {
+        /**
+         * token :
+         */
 
-    public void setContactsflag(String contactsflag) {
-        this.contactsflag = contactsflag;
+        private String token;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
     }
 }

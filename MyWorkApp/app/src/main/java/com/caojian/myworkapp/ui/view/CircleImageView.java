@@ -2,28 +2,16 @@ package com.caojian.myworkapp.ui.view;
 
 import android.content.Context;
 
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-
-import com.baidu.mapapi.map.Marker;
-import com.caojian.myworkapp.R;
 
 
 /**
@@ -32,7 +20,7 @@ import com.caojian.myworkapp.R;
 
 public class CircleImageView extends AppCompatImageView {
     Paint mPaint;
-    int mRaduis;
+    int mRadius;
     float mScale; //缩放比例
 
     public CircleImageView(Context context) {
@@ -51,7 +39,7 @@ public class CircleImageView extends AppCompatImageView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = Math.min(getMeasuredWidth(),getMeasuredHeight());
-        mRaduis = size/2;
+        mRadius = size/2;
         setMeasuredDimension(size,size);
     }
 
@@ -63,14 +51,14 @@ public class CircleImageView extends AppCompatImageView {
 
         BitmapShader bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
-        mScale = (mRaduis * 2.0f)/Math.min(bitmap.getHeight(),bitmap.getWidth());
+        mScale = (mRadius * 2.0f)/Math.min(bitmap.getHeight(),bitmap.getWidth());
 
         Matrix matrix = new Matrix();
         matrix.setScale(mScale,mScale);
 
         bitmapShader.setLocalMatrix(matrix);
         mPaint.setShader(bitmapShader);
-        canvas.drawCircle(mRaduis,mRaduis,mRaduis,mPaint);
+        canvas.drawCircle(mRadius, mRadius, mRadius,mPaint);
     }
 
     private Bitmap drawableToBitMap(Drawable drawable)

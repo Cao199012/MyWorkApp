@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.model.data.FriendItem;
+import com.caojian.myworkapp.model.response.FriendDetailInfo;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ import butterknife.ButterKnife;
 
 public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapter.ViewHolder>{
 
-    List<FriendItem> mFriendData;
+    List<FriendDetailInfo.DataBean> mFriendData;
     ItemClick itemClick;
     Context mContext;
-    public GroupMembersAdapter(List<FriendItem> pList, ItemClick pItemClick, Context pContext)
+    public GroupMembersAdapter(List<FriendDetailInfo.DataBean> pList, ItemClick pItemClick, Context pContext)
     {
         mFriendData = pList;
         itemClick = pItemClick;
@@ -42,7 +43,6 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-
         if (position == mFriendData.size())
         {
             Glide.with(mContext).load(R.mipmap.ic_add_team_member).into(holder.img_head);
@@ -52,6 +52,7 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
                     itemClick.addItem();
                 }
             });
+            holder.item_name.setVisibility(View.GONE);
 
         } else if (position == mFriendData.size() + 1)
         {
@@ -62,14 +63,23 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
                     itemClick.removeItem();
                 }
             });
+            holder.item_name.setVisibility(View.GONE);
         }else {
-            FriendItem item = mFriendData.get(position);
+            FriendDetailInfo.DataBean item = mFriendData.get(position);
             // TODO: 2017/9/9 设置其他信息
+            holder.item_name.setVisibility(View.VISIBLE  );
+            holder.item_name.setText(item.getFriendPhoneNo());
+            if(!item.getHeadPic().equals("")){
+                Glide.with(mContext).load(item.getHeadPic()).into(holder.img_head);
+            }else {
+                Glide.with(mContext).load(R.mipmap.ic_jianshu).into(holder.img_head);
+
+            }
             holder.mItem_body.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //点击跳转到好友详情页面
-                    itemClick.itemSlected(item);
+                    itemClick.itemSelected(item);
                 }
             });
         }
@@ -90,10 +100,10 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-
         @BindView(R.id.img_item)
         ImageView img_head;
-
+        @BindView(R.id.item_name)
+        TextView item_name;
         @BindView(R.id.body_item)
         LinearLayout mItem_body;
         public ViewHolder(View itemView) {
@@ -103,7 +113,7 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
     }
 
     public interface ItemClick{
-        void itemSlected(FriendItem item);
+        void itemSelected(FriendDetailInfo.DataBean item);
 
         void addItem();
         void removeItem();

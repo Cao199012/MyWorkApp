@@ -1,10 +1,14 @@
 package com.caojian.myworkapp.ui.base;
 
-import java.lang.ref.Reference;
+import com.caojian.myworkapp.api.MyApi;
+import com.caojian.myworkapp.manager.RetrofitManger;
+import com.caojian.myworkapp.until.Until;
+
 import java.lang.ref.WeakReference;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import retrofit2.Retrofit;
 
 /**
  * Created by CJ on 2017/7/20.
@@ -13,7 +17,15 @@ import io.reactivex.disposables.Disposable;
  */
 
 public class BasePresenter<V> {
-    protected Reference<V> myView; //View 弱引用的接口
+    protected  Retrofit retrofit;
+    protected  MyApi service;
+
+    protected WeakReference<V> myView; //View 弱引用的接口
+
+    public BasePresenter(BaseTitleActivity activity) {
+        retrofit = RetrofitManger.getRetrofitRxjava(Until.HTTP_BASE_URL, activity);
+        service = retrofit.create(MyApi.class);
+    }
 
     /**
      * @param view

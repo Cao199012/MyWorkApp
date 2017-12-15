@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.model.data.FriendGroupItem;
+import com.caojian.myworkapp.model.response.FriendsAndGroupsMsg;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ import butterknife.ButterKnife;
 
 public class FriendGroupListAdapter extends RecyclerView.Adapter<FriendGroupListAdapter.ViewHolder>{
 
-    List<FriendGroupItem.DataBean> mFriendData;
+    List<FriendsAndGroupsMsg.DataBean.GroupsBean> mFriendData;
     ItemClick itemClick;
     Context mContext;
-    public FriendGroupListAdapter(List<FriendGroupItem.DataBean> pList, ItemClick pItemClick, Context pContext)
+    public FriendGroupListAdapter(List<FriendsAndGroupsMsg.DataBean.GroupsBean> pList, ItemClick pItemClick, Context pContext)
     {
         mFriendData = pList;
         itemClick = pItemClick;
@@ -42,8 +43,8 @@ public class FriendGroupListAdapter extends RecyclerView.Adapter<FriendGroupList
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        FriendGroupItem.DataBean item = mFriendData.get(position);
-
+        FriendsAndGroupsMsg.DataBean.GroupsBean item = mFriendData.get(position);
+        holder.mTv_name.setText(item.getGroupName());
         // TODO: 2017/9/9 设置其他信息
         holder.mItem_body.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +77,6 @@ public class FriendGroupListAdapter extends RecyclerView.Adapter<FriendGroupList
     }
 
     public interface ItemClick{
-        void itemSlect(FriendGroupItem.DataBean item);
+        void itemSlect(FriendsAndGroupsMsg.DataBean.GroupsBean item);
     }
 }

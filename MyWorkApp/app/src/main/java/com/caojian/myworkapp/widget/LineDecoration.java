@@ -20,10 +20,6 @@ public class LineDecoration extends RecyclerView.ItemDecoration{
         lineHeight = context.getResources().getDimensionPixelSize(R.dimen.recyclerView_line_height);
         marignLeft = context.getResources().getDimensionPixelSize(R.dimen.text_margin);
     }
-    @Override
-    public void getItemOffsets(Rect outRect, int itemPosition, RecyclerView parent) {
-        super.getItemOffsets(outRect, itemPosition, parent);
-    }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

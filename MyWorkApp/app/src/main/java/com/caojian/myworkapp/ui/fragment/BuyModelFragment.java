@@ -4,14 +4,23 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.ui.base.BaseTitleActivity;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.caojian.myworkapp.ui.activity.BuyVipActivity.TYPE_JIFEN;
+import static com.caojian.myworkapp.ui.activity.BuyVipActivity.TYPE_WEIXIN;
 
 /**
  * Created by CJ on 2017/9/8.
@@ -19,19 +28,32 @@ import butterknife.OnClick;
 
 public class BuyModelFragment extends AppCompatDialogFragment  {
 
-    public static BuyModelFragment newInstance()
+    public static BuyModelFragment newInstance(int type)
     {
         BuyModelFragment fragment = new BuyModelFragment();
-
-       // fragment.setArguments(bundle);
+        Bundle bundle = new Bundle();
+        bundle.putInt("type",type);
+        fragment.setArguments(bundle);
         return fragment;
     }
+    @BindView(R.id.check_weixin)
+    AppCompatCheckBox mCheckWeiXin;
+    @BindView(R.id.check_jifen)
+    AppCompatCheckBox mCheckJiFen;
+    @BindView(R.id.check_zhifubao)
+    AppCompatCheckBox mCheckZhi;
+    AppCompatCheckBox mPreCheckBox;
+    @BindView(R.id.model1)
+    RelativeLayout modelZhi;
     private PayAction payAction = null;
+    private int payType = TYPE_WEIXIN;
+    private int modelType = 1;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        if(getArguments() != null){
+            modelType = getArguments().getInt("type");
+        }
     }
 
     @Nullable
@@ -44,6 +66,38 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
     }
 
     private void initView() {
+        modelZhi.setVisibility(View.GONE);
+        mCheckWeiXin.setChecked(true);
+        mPreCheckBox = mCheckWeiXin;
+        mCheckWeiXin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked == true && mPreCheckBox != mCheckWeiXin) {
+                    mPreCheckBox.setChecked(false);
+                    mPreCheckBox = mCheckWeiXin;
+                    payType = TYPE_WEIXIN;
+                } else {
+                    mPreCheckBox = null;
+                }
+            }
+        });
+        if(modelType == 1){
+            mCheckJiFen.setChecked(true);
+            mCheckJiFen.setEnabled(false);
+        }else {
+            mCheckJiFen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked == true && mPreCheckBox != mCheckJiFen){
+                        mPreCheckBox.setChecked(false);
+                        mPreCheckBox = mCheckJiFen;
+                        payType = TYPE_JIFEN;
+                    }else {
+                        mPreCheckBox = null;
+                    }
+                }
+            });
+        }
 
     }
     public void setListen(PayAction payAction)
@@ -52,9 +106,13 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
     }
     @OnClick(R.id.btn_pay)
     public void toPay(){
+        if(mPreCheckBox == null)
+        {
+            ((BaseTitleActivity)getActivity()).showToast("请选择支付方式", Toast.LENGTH_SHORT);
+        }
         if(payAction != null)
         {
-            payAction.pay(1);
+            payAction.pay(payType);
         }
     }
     @Override

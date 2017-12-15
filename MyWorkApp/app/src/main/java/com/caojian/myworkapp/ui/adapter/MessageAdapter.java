@@ -1,5 +1,6 @@
 package com.caojian.myworkapp.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.model.data.ApplyFriendsRecord;
 import com.caojian.myworkapp.model.data.MessageItem;
 
 import java.util.List;
@@ -22,14 +25,15 @@ import butterknife.ButterKnife;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
 
-    private List<MessageItem> mListData;
+    private List<ApplyFriendsRecord.DataBean.RecordsBean> mListData;
 
     RequestMessageListener mListener;
+    Context mContext;
 
-
-    public MessageAdapter(List<MessageItem> pListData,RequestMessageListener listener) {
+    public MessageAdapter(List<ApplyFriendsRecord.DataBean.RecordsBean> pListData, RequestMessageListener listener, Context context) {
         mListData = pListData;
         mListener = listener;
+        mContext = context;
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -39,12 +43,25 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MessageItem item = mListData.get(position);
+        ApplyFriendsRecord.DataBean.RecordsBean item = mListData.get(position);
+        holder.tv_name.setText(item.getFriendNickName());
+        holder.tv_desc.setText(item.getFriendPhoneNo());
+        if(item.getIsApprove().equals("1")){
+            holder.mBtn_accept.setText("已添加");
+        }else {
+            holder.mBtn_accept.setText("接受");
+        }
+
+        if(!item.getHeadPic().isEmpty()){
+            Glide.with(mContext).load(item.getHeadPic()).into(holder.img_friend);
+        }
         // TODO: 2017/9/3 操作显示信息
         holder.mBtn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.accept(item);
+                if(!item.getIsApprove().equals("1")){
+                    mListener.accept(item);
+                }
             }
         });
     }
@@ -72,6 +89,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     public interface RequestMessageListener{
-        void accept(MessageItem item);
+        void accept(ApplyFriendsRecord.DataBean.RecordsBean item);
     }
 }

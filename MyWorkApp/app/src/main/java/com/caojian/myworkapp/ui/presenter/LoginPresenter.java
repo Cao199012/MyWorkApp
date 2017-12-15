@@ -1,60 +1,52 @@
 package com.caojian.myworkapp.ui.presenter;
 
-import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.ui.base.BasePresenter;
-import com.caojian.myworkapp.ui.contract.LoginContract;
+import android.util.Log;
 
-import io.reactivex.Observer;
+import com.caojian.myworkapp.api.MyApi;
+import com.caojian.myworkapp.manager.RetrofitManger;
+import com.caojian.myworkapp.model.response.LoginMsg;
+import com.caojian.myworkapp.ui.base.BaseObserver;
+import com.caojian.myworkapp.ui.base.BasePresenter;
+import com.caojian.myworkapp.ui.base.BaseTitleActivity;
+import com.caojian.myworkapp.ui.contract.LoginContract;
+import com.caojian.myworkapp.until.ActivityUntil;
+import com.caojian.myworkapp.until.Until;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 /**
  * Created by CJ on 2017/7/28.
  */
 
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.Presenter {
-    private MyApi service;
     private LoginContract.View loginView;
-    public LoginPresenter(LoginContract.View pLoginView){
+    BaseTitleActivity activity;
+    public LoginPresenter(BaseTitleActivity activity,LoginContract.View pLoginView){
+        super(activity);
         loginView = pLoginView;
-//        Retrofit retrofit = new Retrofit.Builder()
-//                                .baseUrl("www.baidu.com")
-//                                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                                .addConverterFactory(GsonConverterFactory.create())
-//                                .build();
-//        service = retrofit.create(LoginService.class);
+        this.activity = activity;
     }
-
     @Override
     public void checkLogin(String name, String password) {
-        if(service != null)
-        {
-             service.checkLogin(name,password)
-                    .observeOn(Schedulers.newThread())
-                    .subscribeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<String>() {
-                        @Override
-                        public void onSubscribe(@NonNull Disposable d) {
-                            addDisposable(d);
-                        }
-
-                        @Override
-                        public void onNext(@NonNull String s) {
+         service.checkLogin(name,password)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new BaseObserver<LoginMsg>(activity,this) {
+                    @Override
+                    protected void baseNext(LoginMsg loginMsg) {
+                        if(loginMsg.getCode() == 0)
+                        {
                             loginView.LoginSuccess();
+                            //保存token到本地
+                            ActivityUntil.saveToken(activity,loginMsg.getData().getToken());
+                        }else
+                        {
+                            loginView.LoginError(loginMsg.getMessage());
                         }
+                    }
 
-                        @Override
-                        public void onError(@NonNull Throwable e) {
-                            loginView.LoginError(e.getMessage());
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        }
+                });
     }
 }

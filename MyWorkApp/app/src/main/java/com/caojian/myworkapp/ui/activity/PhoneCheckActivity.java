@@ -3,7 +3,6 @@ package com.caojian.myworkapp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
@@ -14,9 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.ui.base.BaseTitleActivity;
+import com.caojian.myworkapp.ui.base.MvpBaseActivity;
 import com.caojian.myworkapp.ui.contract.CheckContract;
-import com.caojian.myworkapp.ui.presenter.CheckPersenter;
+import com.caojian.myworkapp.ui.presenter.CheckPresenter;
 import com.caojian.myworkapp.until.ActivityUntil;
 
 import butterknife.BindView;
@@ -26,7 +25,7 @@ import butterknife.Unbinder;
 /**
  * 注册和重设密码都需要验证密码是否已经注册
  */
-public class PhoneCheckActivity extends BaseTitleActivity implements CheckContract.View{
+public class PhoneCheckActivity extends MvpBaseActivity<CheckContract.View,CheckPresenter> implements CheckContract.View{
 
     /**
      * @param from
@@ -45,15 +44,13 @@ public class PhoneCheckActivity extends BaseTitleActivity implements CheckContra
     Toolbar mToolbar;
     @BindView(R.id.deal_body)
     LinearLayout mDeal_body; //显示注册协议（找回密码隐藏，注册显示）
-
     @BindView(R.id.tv_forget)
     TextView mTv_forget;
     @BindView(R.id.tv_check_num)
     TextView check_num;
-
     private Unbinder unbinder;
 
-    private CheckContract.Presenter mPresenter;
+    private CheckPresenter mPresenter;
     private int from_flag = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +67,13 @@ public class PhoneCheckActivity extends BaseTitleActivity implements CheckContra
             mDeal_body.setVisibility(View.VISIBLE);
             mTv_forget.setVisibility(View.GONE);
             check_num.setText("推荐人号码");
+            mEdit_check.setText("18252011017");
         }else
         {
             mTv_forget.setVisibility(View.VISIBLE);
             mDeal_body.setVisibility(View.GONE);
             check_num.setText("手机号码");
         }
-        mPresenter = new CheckPersenter(this);
     }
 
     String phone ="";
@@ -84,23 +81,19 @@ public class PhoneCheckActivity extends BaseTitleActivity implements CheckContra
     {
         //对输入的号码做判断
         phone = mEdit_check.getText().toString();
-
         if(!ActivityUntil.CheckPhone(phone).equals(""))
         {
             showToast(ActivityUntil.CheckPhone(phone), Toast.LENGTH_SHORT);
             return;
         }
         //向后台校验号码
-       // mPresenter.checkPhone(phone);
-        showProgerss(PhoneCheckActivity.this);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                hideProgress();
-                checkResultSuccess();
-            }
-        },1000);
-
+         if(from_flag != 1)
+         {
+             mPresenter.checkPhone(phone);
+             //checkResultSuccess();
+         }else {
+             checkResultSuccess();
+         }
 
     }
 
@@ -108,6 +101,12 @@ public class PhoneCheckActivity extends BaseTitleActivity implements CheckContra
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public CheckPresenter createPresenter() {
+        mPresenter = new CheckPresenter(PhoneCheckActivity.this,this);
+        return mPresenter;
     }
 
     @Override
@@ -128,5 +127,13 @@ public class PhoneCheckActivity extends BaseTitleActivity implements CheckContra
         }
     }
 
+    public void goWwbService(View view)
+    {
+        WebViewDetailActivity.go2WebViewDetailActivity(PhoneCheckActivity.this,0);
+    }
+    public void goWebPrivacy(View view)
+    {
+        WebViewDetailActivity.go2WebViewDetailActivity(PhoneCheckActivity.this,1);
+    }
 
 }

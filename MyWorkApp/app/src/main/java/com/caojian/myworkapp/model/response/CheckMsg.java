@@ -7,29 +7,29 @@ package com.caojian.myworkapp.model.response;
 public class CheckMsg {
 
     /**
-     * retcode : 0
-     * retinfo :  成功
-     * data : {}
+     * code : 0
+     * message :  成功
+     * data : {"token":""}
      */
 
-    private String retcode;
-    private String retinfo;
+    private int code;
+    private String message;
     private DataBean data;
 
-    public String getRetcode() {
-        return retcode;
+    public int getCode() {
+        return code;
     }
 
-    public void setRetcode(String retcode) {
-        this.retcode = retcode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getRetinfo() {
-        return retinfo;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRetinfo(String retinfo) {
-        this.retinfo = retinfo;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public DataBean getData() {
@@ -41,5 +41,6 @@ public class CheckMsg {
     }
 
     public static class DataBean {
+
     }
 }

@@ -52,6 +52,8 @@ public class DownLoadService extends Service {
             setPermission(file.getPath());
 
             Toast.makeText(DownLoadService.this,file.length()+"Download success",Toast.LENGTH_SHORT).show();
+            // 由于没有在Activity环境下启动Activity,设置下面的标签
+            installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //版本在7.0以上是不能直接通过uri访问的
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 
@@ -59,15 +61,13 @@ public class DownLoadService extends Service {
                 Uri apkUri = FileProvider.getUriForFile(DownLoadService.this, "com.caojian.myworkapp.fileProvider", file);
                 //添加这一句表示对目标应用临时授权该Uri所代表的文件
                 installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                installIntent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+                installIntent.setDataAndType(apkUri,"application/vnd.android.package-archive");
             } else {
                 installIntent.setDataAndType(Uri.fromFile(file),
                         "application/vnd.android.package-archive");
             }
 //            installIntent.setDataAndType(Uri.fromFile(file),
 //                    "application/vnd.android.package-archive");
-            // 由于没有在Activity环境下启动Activity,设置下面的标签
-            installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(installIntent);
         }
 

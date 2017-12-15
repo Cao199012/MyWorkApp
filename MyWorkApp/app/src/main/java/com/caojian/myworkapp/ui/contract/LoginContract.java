@@ -9,7 +9,6 @@ public class LoginContract {
         void LoginSuccess();
         void LoginError(String errorMsg);
     }
-
     public interface Presenter{
         void checkLogin(String name,String password);
     }

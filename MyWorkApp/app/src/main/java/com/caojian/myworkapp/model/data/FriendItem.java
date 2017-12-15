@@ -1,34 +1,32 @@
 package com.caojian.myworkapp.model.data;
 
+
+
+import com.caojian.myworkapp.model.response.FriendDetailInfo;
+
+import java.util.List;
+
 /**
  * Created by CJ on 2017/7/31.
  */
 
 public class FriendItem {
-    private String name = "";
+
     /**
-     * code : ‘0’
-     * message : ‘成功’
-     * data : {"phoneNo":"\u2018\u2019","headPic":"\u2018\u2019","remarkFirstLetter":"\u2018\u2019"}
+     * code : 0
+     * message :  成功
+     * data : {"friends":[{"friendPhoneNo":"","headPic":""},{"friendPhoneNo":"","headPic":""}]}
      */
 
-    private String code;
+    private int code;
     private String message;
     private DataBean data;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 
@@ -49,38 +47,68 @@ public class FriendItem {
     }
 
     public static class DataBean {
-        /**
-         * phoneNo : ‘’
-         * headPic : ‘’
-         * remarkFirstLetter : ‘’
-         */
+        private List<FriendDetailInfo.DataBean> friends;
 
-        private String phoneNo = "";
-        private String headPic = "";
-        private String remarkFirstLetter = "";
-
-        public String getPhoneNo() {
-            return phoneNo;
+        public List<FriendDetailInfo.DataBean> getFriends() {
+            return friends;
         }
 
-        public void setPhoneNo(String phoneNo) {
-            this.phoneNo = phoneNo;
+        public void setFriends(List<FriendDetailInfo.DataBean> friends) {
+            this.friends = friends;
         }
 
-        public String getHeadPic() {
-            return headPic;
-        }
+        public static class FriendsBean {
+            /**
+             * friendPhoneNo :
+             * headPic :
+             */
 
-        public void setHeadPic(String headPic) {
-            this.headPic = headPic;
-        }
+            private String friendPhoneNo;
+            private String headPic;
+            private String remarkFirstLetter;
+            private String friendRemarkName; //备注
 
-        public String getRemarkFirstLetter() {
-            return remarkFirstLetter;
-        }
+            private String friendNickName; //昵称
 
-        public void setRemarkFirstLetter(String remarkFirstLetter) {
-            this.remarkFirstLetter = remarkFirstLetter;
+            public String getFriendPhoneNo() {
+                return friendPhoneNo;
+            }
+
+            public void setFriendPhoneNo(String friendPhoneNo) {
+                this.friendPhoneNo = friendPhoneNo;
+            }
+
+            public String getHeadPic() {
+                return headPic;
+            }
+
+            public void setHeadPic(String headPic) {
+                this.headPic = headPic;
+            }
+
+
+            public String getRemarkFirstLetter() {
+                return remarkFirstLetter;
+            }
+
+            public void setRemarkFirstLetter(String remarkFirstLetter) {
+                this.remarkFirstLetter = remarkFirstLetter;
+            }
+            public String getFriendRemarkName() {
+                return friendRemarkName;
+            }
+
+            public void setFriendRemarkName(String friendRemarkName) {
+                this.friendRemarkName = friendRemarkName;
+            }
+
+            public String getFriendNickName() {
+                return friendNickName;
+            }
+
+            public void setFriendNickName(String friendNickName) {
+                this.friendNickName = friendNickName;
+            }
         }
     }
 }

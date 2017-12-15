@@ -40,7 +40,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity" />
-        <activity android:name=".mvp.MyMvpActivity" />
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/LunchAppTheme">
@@ -72,16 +71,10 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote"></service>
 
         <activity android:name=".ui.activity.FriendSelectActivity" />
-
-        <service
-            android:name=".services.UpdateXYService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <activity android:name=".ui.activity.FriendMessageActivity" />
+        <activity android:name=".ui.activity.FriendAPPlyRecordActivity" />
         <activity android:name=".ui.activity.SearchByPhoneActivity" />
         <activity android:name=".ui.activity.SearchByContactActivity" />
         <activity android:name=".ui.activity.FriendDetailActivity" />
@@ -117,29 +110,33 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".ui.activity.AboutAPPActivity"></activity>
+        <activity android:name=".ui.activity.AboutAppActivity" />
 
-        <!--如果开启测试模式，需要添加（上线版本不需要）-->
+        <!-- 如果开启测试模式，需要添加（上线版本不需要） -->
         <activity
             android:name="cn.beecloud.BCMockPayActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!--对于微信APP支付，需要添加-->
+        <!-- 对于微信APP支付，需要添加 -->
         <activity
             android:name="cn.beecloud.BCWechatPaymentActivity"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity-alias
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:targetActivity="cn.beecloud.BCWechatPaymentActivity" />
-        <!--对于支付宝，需要添加-->
+        <!-- 对于支付宝，需要添加 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity android:name=".ui.activity.WebViewDetailActivity" />
+        <activity android:name=".ui.activity.TiXianDetailActivity" />
+        <activity android:name=".ui.activity.BuyZengZhiActivity"></activity>
     </application>
 
 </manifest>

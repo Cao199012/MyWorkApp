@@ -44,18 +44,18 @@
         app:headerLayout="@layout/nav_header"
         app:menu="@menu/main"
         app:theme="@style/menu_style"
-        app:itemTextAppearance="@color/background_color"
-        >
+        app:itemTextAppearance="@color/background_color">
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:paddingLeft="20dp"
             android:layout_gravity="bottom|center_horizontal"
             android:gravity="center"
-            android:paddingLeft="20dp"
             android:textSize="22sp"
             android:onClick="outLogin"
-            android:text="退出登录"/>
+            android:textColor="@color/background_color_gray"
+            android:text="退 出 登 录"/>
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

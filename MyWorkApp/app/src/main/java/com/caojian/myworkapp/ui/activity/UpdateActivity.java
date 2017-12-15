@@ -37,11 +37,11 @@ import static com.caojian.myworkapp.until.ActivityUntil.myCheckPermission;
 
 public class UpdateActivity extends BaseTitleActivity {
 
-    public static void go2UpdateActivity(Context from, UpdateResponse.DataBean data, int requestCode)
+    public static void go2UpdateActivity(BaseTitleActivity from, UpdateResponse.DataBean data, int requestCode)
     {
         Intent intent = new Intent(from,UpdateActivity.class);
         intent.putExtra("databean",data);
-        ((AppCompatActivity)from).startActivityForResult(intent,requestCode);
+        from.startActivityForResult(intent,requestCode);
     }
     @BindView(R.id.tv_update_comments)
     TextView mTv_comments;

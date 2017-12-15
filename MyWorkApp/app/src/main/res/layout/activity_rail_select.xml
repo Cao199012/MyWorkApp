@@ -80,19 +80,107 @@
     <RelativeLayout
         android:id="@+id/select_range"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@color/white"
-        android:layout_marginTop="10dp"
+
         android:layout_below="@+id/time_select_body"
-        android:onClick="go2SelectPoint">
+        android:layout_alignParentStart="true">
         <TextView
+            android:id="@+id/tv_ground"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="选择观察范围"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_ground"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentLeft="true"
+                    android:text="第一个点"/>
+                <TextView
+                    android:id="@+id/first_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/btn_select"
+                    android:onClick="go2SelectPoint"
+                    android:layout_marginLeft="100dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentLeft="true"
+                    android:text="第二个点"/>
+                <TextView
+                    android:id="@+id/second_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/btn_select"
+                    android:onClick="go2SelectPoint"
+                    android:layout_marginLeft="100dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentLeft="true"
+                    android:text="第三个点"/>
+                <TextView
+                    android:id="@+id/third_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/btn_select"
+                    android:onClick="go2SelectPoint"
+                    android:layout_marginLeft="100dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentLeft="true"
+                    android:text="第四个点"/>
+                <TextView
+                    android:id="@+id/fourth_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/btn_select"
+                    android:onClick="go2SelectPoint"
+                    android:layout_marginLeft="100dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
     <Button

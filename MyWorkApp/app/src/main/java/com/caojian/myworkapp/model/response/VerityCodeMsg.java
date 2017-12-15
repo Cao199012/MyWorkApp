@@ -7,27 +7,22 @@ package com.caojian.myworkapp.model.response;
 public class VerityCodeMsg {
 
 
-    /**
-     * retcode : 000000
-     * retinfo : 成功
-     */
+    private int code;
+    private String message;
 
-    private String retcode;
-    private String retinfo;
-
-    public String getRetcode() {
-        return retcode;
+    public int getCode() {
+        return code;
     }
 
-    public void setRetcode(String retcode) {
-        this.retcode = retcode;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public String getRetinfo() {
-        return retinfo;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRetinfo(String retinfo) {
-        this.retinfo = retinfo;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
