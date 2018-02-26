@@ -1,5 +1,6 @@
 package com.caojian.myworkapp.until;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 
@@ -43,9 +44,11 @@ public class DownloadTask extends AsyncTask<String,Integer,Integer>{
     private boolean isPaused = false;
 
     private int lastProgress;
+    private Context mContext;
 
-    public DownloadTask(DownloadListen listen){
+    public DownloadTask(DownloadListen listen,Context pContext){
         downloadListen = listen;
+        mContext = pContext;
     }
     //后台下载
     @Override
@@ -57,7 +60,7 @@ public class DownloadTask extends AsyncTask<String,Integer,Integer>{
             long downloadedlenth = 0; //记录已经下载的长度
             String downUrl = params[0]; //传入的第一个参数为下载地址
 
-            String fileName = downUrl.substring(downUrl.lastIndexOf("/"));
+            String fileName = "/wayApp"+ActivityUntil.getVersionCode(mContext)+".apk";
             String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
 
             file = new File(directory+fileName);

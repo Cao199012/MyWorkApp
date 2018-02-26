@@ -3,11 +3,8 @@ package com.caojian.myworkapp.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,26 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.model.response.VerityCodeMsg;
 
-import com.caojian.myworkapp.manager.ActivityControl;
-import com.caojian.myworkapp.manager.RetrofitManger;
-import com.caojian.myworkapp.ui.base.BaseTitleActivity;
 import com.caojian.myworkapp.ui.base.MvpBaseActivity;
 import com.caojian.myworkapp.ui.contract.PasswordContract;
 import com.caojian.myworkapp.ui.presenter.PasswordPresenter;
 import com.caojian.myworkapp.until.ActivityUntil;
-import com.caojian.myworkapp.until.Until;
 import com.caojian.myworkapp.widget.ImageCheckFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,PasswordPresenter>implements PasswordContract.View ,ImageCheckFragment.FragmentImageCheckListener{
 
@@ -59,7 +46,7 @@ public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,Pass
     PasswordPresenter mPresenter;
     ImageCheckFragment imageCheckFragment;
     String mPhoneNum;
-    private CountDownTimer downTimer = new CountDownTimer(60*1000,1000) {
+    private CountDownTimer mDownTimer = new CountDownTimer(60*1000,1000) {
         @Override
         public void onTick(long millisUntilFinished) {
             mTv_time.setText(millisUntilFinished/1000+"秒");
@@ -92,7 +79,9 @@ public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,Pass
         {
             imageCheckFragment = ImageCheckFragment.newInstance();
         }
-        imageCheckFragment.show(getSupportFragmentManager(),"img");
+      //  imageCheckFragment.show(getSupportFragmentManager(),"img");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),imageCheckFragment,"img");
+
     }
     /**
      * 提交按钮调用
@@ -130,13 +119,15 @@ public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,Pass
         //倒计时
         mBtn_code.setVisibility(View.GONE);
         mTv_time.setVisibility(View.VISIBLE);
-        downTimer.start();
+        mDownTimer.start();
         showToast("验证码已发送",Toast.LENGTH_SHORT);
     }
     //修改密码成功 进入首页
     @Override
     public void changePasswordSuccess() {
-        MainActivity.go2MainActivity(PasswordActivity.this);
+        ActivityUntil.savePhone(PasswordActivity.this,mPhoneNum);
+        SplashActivity.go2SplashActivity(PasswordActivity.this);
+        finish();
     }
     //修改密码失败，弹出框提示信息
     @Override
@@ -157,6 +148,14 @@ public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,Pass
         imageCheckFragment.dismiss();
         mPresenter.verityCode(mPhoneNum, code);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mDownTimer.onFinish();
+        mDownTimer.cancel();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -164,6 +163,6 @@ public class PasswordActivity extends MvpBaseActivity<PasswordContract.View,Pass
         {
             unbinder.unbind();
         }
-        downTimer.cancel();
+        mDownTimer.cancel();
     }
 }

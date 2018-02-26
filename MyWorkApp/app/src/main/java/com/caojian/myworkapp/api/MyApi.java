@@ -1,10 +1,9 @@
 package com.caojian.myworkapp.api;
 
-import com.caojian.myworkapp.model.Request.PositionInfoDto;
-import com.caojian.myworkapp.model.data.ApplyFriendsRecord;
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+import com.caojian.myworkapp.model.response.ApplyFriendsRecord;
 import com.caojian.myworkapp.model.data.FriendItem;
-import com.caojian.myworkapp.model.response.CheckMsg;
-import com.caojian.myworkapp.model.response.CustomResult;
+import com.caojian.myworkapp.model.response.DrawInfo;
 import com.caojian.myworkapp.model.response.FriendDetailInfo;
 import com.caojian.myworkapp.model.response.FriendMsg;
 import com.caojian.myworkapp.model.response.FriendPosition;
@@ -13,17 +12,16 @@ import com.caojian.myworkapp.model.response.GroupInfo;
 import com.caojian.myworkapp.model.response.LoginMsg;
 import com.caojian.myworkapp.model.response.OrderNumberMsg;
 import com.caojian.myworkapp.model.response.PersonalMsg;
+import com.caojian.myworkapp.model.response.RailHistoryMsg;
 import com.caojian.myworkapp.model.response.RechargeInfo;
 import com.caojian.myworkapp.model.response.RegisterMsg;
 import com.caojian.myworkapp.model.response.RewardScoreDetailMsg;
-import com.caojian.myworkapp.model.response.UpdateResponse;
-import com.caojian.myworkapp.model.response.VerityCodeMsg;
-
-import java.io.File;
-import java.util.List;
+import com.caojian.myworkapp.model.response.ValueAddedResult;
+import com.caojian.myworkapp.model.response.CustomResult;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -43,25 +41,25 @@ public interface MyApi {
     @POST("login.do")
     Observable<LoginMsg> checkLogin(@Field("phoneNo")String name, @Field("password")String password);
 
-    //版本更新接口
-    @FormUrlEncoded
-    @POST("versionUpdate.do")
-    Observable<UpdateResponse> getUpdateMsg(@Field("currentVersion") String version, @Field("terminalType") int type);
+//    //版本更新接口
+//    @FormUrlEncoded
+//    @POST("versionUpdate.do")
+//    Observable<UpdateResponse> getUpdateMsg(@Field("currentVersion") String version, @Field("terminalType") int type);
 
     //获取验证码接口 type:0:注册，1：忘记密码
     @FormUrlEncoded
     @POST("getVerificationCode.do")
-    Observable<VerityCodeMsg> verityCode(@Field("phoneNo")String phone, @Field("imgCode")String imgCode, @Field("type")String type);
+    Observable<CustomResult> verityCode(@Field("phoneNo")String phone, @Field("imgCode")String imgCode, @Field("type")String type);
 
     //验证手机是否注册
     @FormUrlEncoded
     @POST("checkPhone.do")
-    Observable<CheckMsg> checkPhone(@Field("friendPhoneNo")String phone);
+    Observable<CustomResult> checkPhone(@Field("friendPhoneNo")String phone);
 
     //会员注册
     @FormUrlEncoded
     @POST("regist.do")
-    Observable<RegisterMsg> register(@Field("phoneNo")String phone,@Field("verificationCode")String verificationCode,@Field("password")String password,@Field("invitationCode")String invitationCode);
+    Observable<RegisterMsg> register(@Field("phoneNo")String phone,@Field("verificationCode")String verificationCode,@Field("password")String password,@Field("invitationCode")String invitationCode,@Field("nickName")String nickName);
 
     //会员登录
     @FormUrlEncoded
@@ -81,7 +79,7 @@ public interface MyApi {
     //更改头像（二进制流）
     @Multipart
     @POST("uploadHeadPic.do")
-    Observable<CustomResult> uploadHeadPic(@Part("token")String token,  @Part MultipartBody.Part part);
+    Observable<CustomResult> uploadHeadPic(@Part("token") RequestBody token, @Part MultipartBody.Part part);
 
     //更新定位坐标
     @FormUrlEncoded
@@ -92,22 +90,18 @@ public interface MyApi {
     @FormUrlEncoded
     @POST("getRealtimePositionByPhoneNo.do")
     //Observable<FriendPosition> getFriendPosition(@Field("token")String token, @Field("positionInfoDtos")List<PositionInfoDto> phoneNo);
-    Observable<FriendPosition> getFriendPosition(@Field("token")String token, @Field("positionInfoDtos")String phoneNo);
+    Observable<FriendPosition> getFriendPosition(@Field("token")String token, @Field("positionInfoDtos")String phoneNo);    //获取好友位置
+
+    @FormUrlEncoded
+    @POST("setFriendsVisibleBeforeExiting.do")
+    Observable<CustomResult> setFriendsVisibleBeforeExiting(@Field("token")String token, @Field("friendPhoneNos")String phoneNo);
 
     //查询上次观察的好友位置
     @FormUrlEncoded
     @POST("getUserViewBeforeExit.do")
     Observable<FriendsAndGroupsMsg> getUserViewBeforeExit(@Field("token")String token);
 
-    //根据组ID获取获取好友位置
-    @FormUrlEncoded
-    @POST("getRealtimePositionByGroupId.do")
-    Observable<FriendPosition> getRealtimePositionByGroupId(@Field("token")String token, @Field("groupId")String groupId);
 
-    //取消查看好友位置
-    @FormUrlEncoded
-    @POST("cancelGetFriendPosition.do")
-    Observable<CustomResult> cancelGetFriendPosition(@Field("token")String token, @Field("friendPhoneNos")String phoneNo);
 
     //取消查看组好友位置
     @FormUrlEncoded
@@ -132,7 +126,7 @@ public interface MyApi {
     //申请添加好友
     @FormUrlEncoded
     @POST("applyForAddFriend.do")
-    Observable<CustomResult> applyForAddFriend(@Field("token")String token,@Field("friendPhoneNo")String phone,@Field("applyInfo")String applyInfo);
+    Observable<CustomResult> applyForAddFriend(@Field("token")String token, @Field("friendPhoneNo")String phone, @Field("applyInfo")String applyInfo);
     //获取申请好友记录
     @FormUrlEncoded
     @POST("getApplicationRecordOfFriend.do")
@@ -141,7 +135,7 @@ public interface MyApi {
     //同意或拒绝添加好友 isApprove 1 同意 2 拒绝
     @FormUrlEncoded
     @POST("agreeToAddFriend.do")
-    Observable<CustomResult> agreeToAddFriend(@Field("token")String token,@Field("friendPhoneNo")String friendPhoneNo,@Field("applicationId")String applicationId,@Field("isApprove")String isApprove);
+    Observable<CustomResult> agreeToAddFriend(@Field("token")String token, @Field("friendPhoneNo")String friendPhoneNo, @Field("applicationId")String applicationId, @Field("isApprove")String isApprove);
 
     //同意或拒绝添加好友 isApprove 1 同意 2 拒绝
     @FormUrlEncoded
@@ -151,22 +145,22 @@ public interface MyApi {
     //修改好友信息
     @FormUrlEncoded
     @POST("modifyFriendInfo.do")
-    Observable<CustomResult> modifyFriendInfo(@Field("token")String token,@Field("friendPhoneNo")String friendPhoneNo,@Field("friendRemarkName")String friendRemarkName,@Field("accreditStartTime")String accreditStartTime,@Field("accreditEndTime")String accreditEndTime,@Field("isAccreditVisible")String isAccreditVisible,@Field("accreditWeeks")String weeks);
+    Observable<CustomResult> modifyFriendInfo(@Field("token")String token, @Field("friendPhoneNo")String friendPhoneNo, @Field("friendRemarkName")String friendRemarkName, @Field("accreditStartTime")String accreditStartTime, @Field("accreditEndTime")String accreditEndTime, @Field("isAccreditVisible")String isAccreditVisible, @Field("accreditWeeks")String weeks);
 
     //删除好友
     @FormUrlEncoded
     @POST("deleteFriend.do")
-    Observable<CustomResult> deleteFriend(@Field("token")String token,@Field("friendPhoneNo")String friendPhoneNo);
+    Observable<CustomResult> deleteFriend(@Field("token")String token, @Field("friendPhoneNo")String friendPhoneNo);
 
     //获取好友以及好友群列表
     @FormUrlEncoded
     @POST("getFriendsAndGroups.do")
     Observable<FriendsAndGroupsMsg> getFriendsAndGroups(@Field("token")String token);
 
-    //获取好友以及好友群列表
+    //添加群
     @FormUrlEncoded
     @POST("addGroupInfo.do")
-    Observable<CustomResult> addGroupInfo(@Field("token")String token,@Field("groupName")String groupName);
+    Observable<CustomResult> addGroupInfo(@Field("token")String token, @Field("groupName")String groupName);
 
     //获取好友群信息
     @FormUrlEncoded
@@ -176,22 +170,22 @@ public interface MyApi {
 
     @FormUrlEncoded
     @POST("modifyGroupInfo.do")
-    Observable<CustomResult> modifyGroupInfo(@Field("token")String token,@Field("groupId")String groupId,@Field("groupName")String groupName,@Field("accreditStartTime")String accreditStartTime,@Field("accreditEndTime")String accreditEndTime,@Field("isAccreditVisible")String isAccreditVisible,@Field("authorizedWeeks")String weeks);
+    Observable<CustomResult> modifyGroupInfo(@Field("token")String token, @Field("groupId")String groupId, @Field("groupName")String groupName, @Field("accreditStartTime")String accreditStartTime, @Field("accreditEndTime")String accreditEndTime, @Field("isAccreditVisible")String isAccreditVisible, @Field("accreditWeeks")String weeks);
 
     //删除好友群信息
     @FormUrlEncoded
     @POST("deleteGroupInfo.do")
-    Observable<CustomResult  > deleteGroupInfo(@Field("token")String token, @Field("groupId")String groupName);
+    Observable<CustomResult> deleteGroupInfo(@Field("token")String token, @Field("groupId")String groupName);
 
     //将好友添加到分组
     @FormUrlEncoded
     @POST("moveFriendToGroup.do")
-    Observable<CustomResult  > moveFriendToGroup(@Field("token")String token, @Field("groupId")String groupId,@Field("friendPhoneNo")String friendPhoneNo);
+    Observable<CustomResult> moveFriendToGroup(@Field("token")String token, @Field("groupId")String groupId, @Field("friendPhoneNos")String friendPhoneNo);
 
     //将好友从分组中删除
     @FormUrlEncoded
     @POST("removeFriendFromGroup.do")
-    Observable<CustomResult  > removeFriendFromGroup(@Field("token")String token, @Field("groupId")String groupId,@Field("friendPhoneNo")String friendPhoneNo);
+    Observable<CustomResult> removeFriendFromGroup(@Field("token")String token, @Field("groupId")String groupId, @Field("friendPhoneNos")String friendPhoneNo);
 
     //获取个人信息
     @FormUrlEncoded
@@ -201,18 +195,23 @@ public interface MyApi {
     //修改个人信息
     @FormUrlEncoded
     @POST("modifyMemberInfo.do")
-    Observable<CustomResult> modifyMemberInfo(@Field("token")String token,@Field("headPic")String headPic,@Field("nickName")String nickName,@Field("age")String age);
+    Observable<CustomResult> modifyMemberInfo(@Field("token")String token, @Field("headPic")String headPic, @Field("nickName")String nickName, @Field("age")String age);
 
     //查询积分明细
     @FormUrlEncoded
     @POST("getRewardScoreDetail.do")
     Observable<RewardScoreDetailMsg> getRewardScoreDetail(@Field("token")String token, @Field("pageNumber")String pageNumber);
 
+    //转赠积分
+    @FormUrlEncoded
+    @POST("transferRewardScoreToFriend.do")
+    Observable<CustomResult> transferRewardScoreToFriend(@Field("token")String token, @Field("rewardScore")String rewardScore, @Field("friendPhoneNo")String friendPhoneNo, @Field("verificationCode")String verificationCode);
+
     //积分提现
     @FormUrlEncoded
     @POST("withdrawalRewardScore.do")
     Observable<CustomResult> withdrawalRewardScore(@Field("token")String token, @Field("rewardScore")int rewardScore
-            , @Field("detailInfo")String detailInfo , @Field("bankName")String bankName , @Field("bankNumber")String bankNumber , @Field("name")String name, @Field("bankBranch")String bankBranch);
+            , @Field("detailInfo")String detailInfo , @Field("bankName")String bankName , @Field("bankNumber")String bankNumber , @Field("name")String name, @Field("verificationCode")String verificationCode);
 
    //积分购买会员
     @FormUrlEncoded
@@ -230,15 +229,30 @@ public interface MyApi {
 //    //现金购买增值服务
 //    @FormUrlEncoded
 //    @POST("buyValueAddedServiceByRecharge.do")
-//    Observable<CustomResult> buyValueAddedServiceByRecharge(@Field("token")String token, @Field("type")String type);
+//    Observable<> buyValueAddedServiceByRecharge(@Field("token")String token, @Field("type")String type);
 
     //获取充值记录
     @FormUrlEncoded
     @POST("getRechargeInfo.do")
-    Observable<RechargeInfo> getRechargeInfo(@Field("token")String token);
+    Observable<RechargeInfo> getRechargeInfo(@Field("token")String token,@Field("pageNumber")String pageNumber);
+
+    //获取提现记录
+    @FormUrlEncoded
+    @POST("getWithdrawalRewardScoreInfo.do")
+    Observable<DrawInfo> getWithdrawalRewardScoreInfo(@Field("token")String token, @Field("pageNumber")String pageNumber);
 
     //获取订单号
     @FormUrlEncoded
     @POST("getOrderNumber.do")
     Observable<OrderNumberMsg> getOrderNumber(@Field("token")String token,@Field("type")String type,@Field("validityDurationType")String validityDurationType); //type:0 会员1轨迹回放 2电子围栏
+
+    // 获取增值服务时间
+    @FormUrlEncoded
+    @POST("getMemberValueAddedTime.do")
+    Observable<ValueAddedResult> getMemberValueAddedTime(@Field("token")String token, @Field("type")String type); //type:0 会员1轨迹回放 2电子围栏
+
+
+    @FormUrlEncoded
+    @POST("getMemberHistoryPositions.do")
+    Observable<RailHistoryMsg> getMemberHistoryPositions(@Field("token")String token,@Field("friendPhoneNo")String friendPhoneNo,@Field("startTime")String startTime,@Field("endTime")String endTime);
 }

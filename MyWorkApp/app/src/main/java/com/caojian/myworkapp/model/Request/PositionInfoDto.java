@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class PositionInfoDto implements Serializable {
     private String phoneNo;
-    private String modifyTime = "";
+    private String modifyTime = null;
 
     public String getPhoneNo() {
         return phoneNo;

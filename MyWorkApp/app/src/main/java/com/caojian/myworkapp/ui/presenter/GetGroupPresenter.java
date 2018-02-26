@@ -1,28 +1,21 @@
 package com.caojian.myworkapp.ui.presenter;
 
-import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.manager.ActivityControl;
-import com.caojian.myworkapp.manager.RetrofitManger;
-import com.caojian.myworkapp.model.response.CheckMsg;
 import com.caojian.myworkapp.model.response.FriendsAndGroupsMsg;
-import com.caojian.myworkapp.ui.activity.LoginActivity;
-import com.caojian.myworkapp.ui.activity.MainActivity;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
-import com.caojian.myworkapp.ui.contract.CheckContract;
 import com.caojian.myworkapp.ui.contract.FriendGroupContract;
 import com.caojian.myworkapp.until.ActivityUntil;
-import com.caojian.myworkapp.until.Until;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 /**
  * Created by CJ on 2017/8/20.
@@ -54,11 +47,15 @@ public class GetGroupPresenter extends BasePresenter<FriendGroupContract.View> i
                                 bean.setFriends(friendsAndGroupsMsg.getData().getFriends());
                                 _listData.add(bean);
                                 return _listData;
-                            }else if(friendsAndGroupsMsg.getCode()==3){
+                            }else if(friendsAndGroupsMsg.getCode()==3 || friendsAndGroupsMsg.getCode()==2){
                                 // TODO: 2017/12/4 账号过期  重新登录
                                 mView.onFailed(friendsAndGroupsMsg.getMessage());
                                 activity.outLogin(friendsAndGroupsMsg.getMessage());
-                            } else {
+                            } else if(friendsAndGroupsMsg.getCode()== 6)
+                            {
+                                activity.showBuyVip();
+                                return _listData;
+                            }else {
                                 mView.onFailed(friendsAndGroupsMsg.getMessage());
                                 return _listData;
                             }
@@ -67,12 +64,27 @@ public class GetGroupPresenter extends BasePresenter<FriendGroupContract.View> i
                     }
                 })
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<List<FriendsAndGroupsMsg.DataBean.GroupsBean>>(activity,this) {
+                .subscribe(new Observer<List<FriendsAndGroupsMsg.DataBean.GroupsBean>>() {
                     @Override
-                    protected void baseNext(List<FriendsAndGroupsMsg.DataBean.GroupsBean> groupsMsg) {
-                        if(!groupsMsg.isEmpty()) {
-                          mView.onSuccess(groupsMsg);
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<FriendsAndGroupsMsg.DataBean.GroupsBean> value) {
+                        if(!value.isEmpty()) {
+                            mView.onSuccess(value);
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
                     }
                 });
 

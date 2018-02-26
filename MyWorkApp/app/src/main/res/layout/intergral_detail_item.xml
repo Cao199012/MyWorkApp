@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:background="@color/background_color_gray">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tv_money"
@@ -12,8 +12,9 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:paddingRight="15dp"
-        android:textColor="#00DB00"
-        android:textSize="20sp"
+        android:paddingLeft="10dp"
+        android:textSize="18sp"
+        android:textStyle="italic"
         android:text="+ 30"/>
 
     <RelativeLayout
@@ -26,16 +27,18 @@
             android:id="@+id/tv_from"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/white"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textSize="14sp"
+            android:textColor="@color/background_color_gray"
             android:text="xxxxxx充值"/>
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_from"
-            android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textColor="@color/background_color_gray"
             android:text="2017/9/12"/>
     </RelativeLayout>
 </RelativeLayout>

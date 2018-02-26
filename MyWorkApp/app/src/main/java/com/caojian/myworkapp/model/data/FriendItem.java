@@ -2,6 +2,7 @@ package com.caojian.myworkapp.model.data;
 
 
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 import com.caojian.myworkapp.model.response.FriendDetailInfo;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * Created by CJ on 2017/7/31.
  */
 
-public class FriendItem {
+public class FriendItem extends BaseResponseResult<FriendItem.DataBean>{
 
     /**
      * code : 0
@@ -18,43 +19,11 @@ public class FriendItem {
      * data : {"friends":[{"friendPhoneNo":"","headPic":""},{"friendPhoneNo":"","headPic":""}]}
      */
 
-    private int code;
-    private String message;
-    private DataBean data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         private List<FriendDetailInfo.DataBean> friends;
 
         public List<FriendDetailInfo.DataBean> getFriends() {
             return friends;
-        }
-
-        public void setFriends(List<FriendDetailInfo.DataBean> friends) {
-            this.friends = friends;
         }
 
         public static class FriendsBean {
@@ -62,12 +31,10 @@ public class FriendItem {
              * friendPhoneNo :
              * headPic :
              */
-
             private String friendPhoneNo;
             private String headPic;
             private String remarkFirstLetter;
             private String friendRemarkName; //备注
-
             private String friendNickName; //昵称
 
             public String getFriendPhoneNo() {
@@ -77,16 +44,9 @@ public class FriendItem {
             public void setFriendPhoneNo(String friendPhoneNo) {
                 this.friendPhoneNo = friendPhoneNo;
             }
-
             public String getHeadPic() {
                 return headPic;
             }
-
-            public void setHeadPic(String headPic) {
-                this.headPic = headPic;
-            }
-
-
             public String getRemarkFirstLetter() {
                 return remarkFirstLetter;
             }

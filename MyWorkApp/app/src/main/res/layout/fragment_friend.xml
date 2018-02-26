@@ -24,7 +24,7 @@
            <ImageView
                android:layout_width="@dimen/item_show_img_height"
                android:layout_height="@dimen/item_show_img_height"
-               android:background="#fea5ff"
+               android:background="#CD8500"
                android:src="@drawable/ic_person_outline_black_24dp"
                android:scaleType="centerInside"/>
            <TextView
@@ -33,7 +33,7 @@
                android:layout_weight="1"
                android:gravity="center_vertical"
                android:paddingLeft="10dp"
-               android:text="新朋友"
+               android:text="新的朋友"
                android:textSize="18sp"/>
 
            <!--<ImageView-->
@@ -62,7 +62,7 @@
            <ImageView
                android:layout_width="@dimen/item_show_img_height"
                android:layout_height="@dimen/item_show_img_height"
-               android:background="#fea5ff"
+               android:background="#228B22"
                android:src="@drawable/ic_people_outline_black_24dp"
                android:scaleType="centerInside"/>
 
@@ -82,17 +82,24 @@
            <!--android:layout_height="@dimen/item_show_img_height"-->
            <!--android:src="@drawable/ic_chevron_right_30dp"/>-->
        </LinearLayout>
+
    </android.support.design.widget.AppBarLayout>
 
+   <android.support.v4.widget.SwipeRefreshLayout
+       android:id="@+id/swipe_friend"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:layout_behavior="@string/appbar_scrolling_view_behavior">
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/recy_friend"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="@color/white"
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_friend"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:listitem="@layout/friend_list_item">
-    </android.support.v7.widget.RecyclerView>
+           tools:listitem="@layout/friend_list_item">
+       </android.support.v7.widget.RecyclerView>
+   </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <com.caojian.myworkapp.ui.view.SideBar
         android:id="@+id/sidebar_friend"

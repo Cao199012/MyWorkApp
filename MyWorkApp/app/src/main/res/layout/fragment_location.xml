@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="60dp">
+    android:layout_marginBottom="50dp">
 
     <!--<TextView-->
         <!--android:id="@+id/tv_position"-->
@@ -19,6 +19,14 @@
 
     </com.baidu.mapapi.map.TextureMapView>
 
+    <ImageButton
+        android:id="@+id/my_location"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="10dp"
+        android:src="@mipmap/golocation"
+        android:layout_gravity="bottom|left"
+        android:layout_margin="20dp"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btn_select"
         android:layout_width="wrap_content"

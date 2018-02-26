@@ -20,7 +20,7 @@ public class FriendSelectRecyclerViewAdapter extends RecyclerView.Adapter<Friend
 
     private final List<FriendDetailInfo.DataBean> mValues;
     private SelectListen mListener;
-    private int showType = 1 ; //1为好友群 2 为好友列表
+    private int showType = 1 ; //1为好友群 2 为好友列表,3 单独
 
     public FriendSelectRecyclerViewAdapter(List<FriendDetailInfo.DataBean> items, SelectListen listen,int type) {
         mValues = items;
@@ -38,12 +38,12 @@ public class FriendSelectRecyclerViewAdapter extends RecyclerView.Adapter<Friend
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText( holder.mItem.getFriendPhoneNo());
+        holder.mIdView.setText( holder.mItem.getFriendRemarkName());
         holder.mContentView.setText(holder.mItem.getFriendPhoneNo());
         if(showType == 1)
         {
             holder.radioButton.setVisibility(View.GONE);
-        }else
+        }else if(showType == 2)
         {
             holder.radioButton.setVisibility(View.VISIBLE);
             if(holder.mItem.getIsCheckBeforeExit() != null && holder.mItem.getIsCheckBeforeExit() == 1){
@@ -53,9 +53,7 @@ public class FriendSelectRecyclerViewAdapter extends RecyclerView.Adapter<Friend
                 holder.radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        if(!mListener.checkSelect(holder.mItem.getFriendPhoneNo())){
-                            buttonView.setChecked(false);
-                        }
+                        mListener.checkSelect(holder.mItem,holder.radioButton);
                     }
                 });
                 holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +63,13 @@ public class FriendSelectRecyclerViewAdapter extends RecyclerView.Adapter<Friend
                     }
                 });
             }
+        }else {
+            holder.radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    mListener.checkSelect(holder.mItem,holder.radioButton);
+                }
+            });
         }
     }
 
@@ -95,7 +100,7 @@ public class FriendSelectRecyclerViewAdapter extends RecyclerView.Adapter<Friend
     }
 
     public interface SelectListen{
-        boolean checkSelect(String friendId);
+        boolean checkSelect(FriendDetailInfo.DataBean friend,AppCompatCheckBox checkBox);
     }
 
 }

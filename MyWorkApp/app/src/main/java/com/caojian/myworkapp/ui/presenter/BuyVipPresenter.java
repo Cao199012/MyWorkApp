@@ -1,12 +1,16 @@
 package com.caojian.myworkapp.ui.presenter;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 import com.caojian.myworkapp.model.response.CustomResult;
 import com.caojian.myworkapp.model.response.OrderNumberMsg;
+import com.caojian.myworkapp.model.response.PersonalMsg;
+import com.caojian.myworkapp.model.response.ValueAddedResult;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
 import com.caojian.myworkapp.ui.contract.BuyVipContract;
 import com.caojian.myworkapp.until.ActivityUntil;
+import com.caojian.myworkapp.widget.PersonalInstance;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -33,15 +37,12 @@ public class BuyVipPresenter extends BasePresenter<BuyVipContract.View> implemen
                 .subscribe(new BaseObserver<OrderNumberMsg>(activity,this) {
                     @Override
                     protected void baseNext(OrderNumberMsg orderNumberMsg) {
-                        if(orderNumberMsg.getCode() == 0)
-                        {
-                            mView.getOrderNumSuccess(orderNumberMsg.getData().getOrderNumber());
-                        }else if(orderNumberMsg.getCode()==3){
-                            activity.outLogin(orderNumberMsg.getMessage());
-                        }else
-                        {
-                            mView.error(orderNumberMsg.getMessage());
-                        }
+                        mView.getOrderNumSuccess(orderNumberMsg.getData().getOrderNumber(),orderNumberMsg.getData().getAmount());
+                    }
+
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }
@@ -53,42 +54,71 @@ public class BuyVipPresenter extends BasePresenter<BuyVipContract.View> implemen
         Observable<CustomResult> observable = service.buyMemberByRewardScore(ActivityUntil.getToken(activity),vipType);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<CustomResult>(activity,this) {
+                .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
                     @Override
-                    protected void baseNext(CustomResult customResult) {
-                        if(customResult.getCode() == 0)
-                        {
-                            mView.buySuccess(customResult.getMessage());
-                        }else if(customResult.getCode()==3){
-                            activity.outLogin(customResult.getMessage());
-                        }else
-                        {
-                            mView.error(customResult.getMessage());
-                        }
+                    protected void baseNext(BaseResponseResult baseResponseResult) {
+                        mView.buySuccess(baseResponseResult.getMessage());
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }
-
+    //积分购买增值服务
     @Override
     public void buyValueAddedServiceByRewardScore(String kindType) {
         Observable<CustomResult> observable = service.buyValueAddedServiceByRewardScore(ActivityUntil.getToken(activity),kindType);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<CustomResult>(activity,this) {
+                .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
                     @Override
-                    protected void baseNext(CustomResult customResult) {
-                        if(customResult.getCode() == 0)
-                        {
-                            mView.buySuccess(customResult.getMessage());
-                        }else if(customResult.getCode()==3){
-                            activity.outLogin(customResult.getMessage());
-                        }else
-                        {
-                            mView.error(customResult.getMessage());
-                        }
+                    protected void baseNext(BaseResponseResult baseResponseResult) {
+                        mView.buySuccess(baseResponseResult.getMessage());
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }
 
-
+    public void getOrderTime(String vipType) {
+        Observable<ValueAddedResult> observable = service.getMemberValueAddedTime(ActivityUntil.getToken(activity),vipType);
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new BaseObserver<ValueAddedResult>(activity,this) {
+                    @Override
+                    protected void baseNext(ValueAddedResult orderNumberMsg) {
+                       if(orderNumberMsg.getData() == null){
+                                mView.getOrderTimeSuccess(null,null);
+                                return;
+                            }
+                        mView.getOrderTimeSuccess(orderNumberMsg.getData().getStartTime(),orderNumberMsg.getData().getEndTime());
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
+                    }
+                });
+    }
+    public void getPersonalInfo() {
+        Observable<PersonalMsg> observable = service.getMemberInfo(ActivityUntil.getToken(activity));
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new BaseObserver<PersonalMsg>(activity,this) {
+                    @Override
+                    protected void baseNext(PersonalMsg personalMsg) {
+                        if(personalMsg != null) {
+                            //单例存储个人信息
+                            PersonalInstance.getInstance().setPersonalMsg(personalMsg);
+                            mView.getPersonalSuccess(personalMsg);
+                        }
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.getPersonalError(msg);
+                    }
+                });
+    }
 }

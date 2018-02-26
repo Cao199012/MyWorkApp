@@ -2,6 +2,7 @@ package com.caojian.myworkapp.ui.presenter;
 
 
 import com.caojian.myworkapp.model.response.RewardScoreDetailMsg;
+import com.caojian.myworkapp.ui.base.BaseNoProgressObserver;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
@@ -33,22 +34,19 @@ public class IntegralDetailPresenter extends BasePresenter<IntegralDetailContrac
         {
             observable = service.getRewardScoreDetail(ActivityUntil.getToken(activity),"");
         }else{
-            observable = service.getRewardScoreDetail(ActivityUntil.getToken(activity),pageNum+"");
+            observable = service.getRewardScoreDetail(ActivityUntil.getToken(activity),(pageNum+1)+"");
         }
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<RewardScoreDetailMsg>(activity,this) {
+                .subscribe(new BaseNoProgressObserver<RewardScoreDetailMsg>(activity,this,0) {
                     @Override
                     protected void baseNext(RewardScoreDetailMsg resultMsg) {
-                        if(resultMsg.getCode() == 0)
-                        {
-                            mView.getSuccess(resultMsg.getData());
-                        }else if(resultMsg.getCode()==3){
-                            activity.outLogin(resultMsg.getMessage());
-                        }else
-                        {
-                            mView.error(resultMsg.getMessage());
-                        }
+                        mView.getSuccess(resultMsg.getData());
+                    }
+
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }

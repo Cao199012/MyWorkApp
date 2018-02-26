@@ -2,7 +2,9 @@ package com.caojian.myworkapp.ui.presenter;
 
 
 
+import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.model.data.FriendItem;
+import com.caojian.myworkapp.ui.base.BaseNoProgressObserver;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
@@ -30,19 +32,20 @@ public class FriendPresenter extends BasePresenter<FriendContract.View> implemen
     public void getFriends() {
         service.getFriendLsit(ActivityUntil.getToken(activity)).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<FriendItem>(activity,this) {
+                .subscribe(new BaseNoProgressObserver<FriendItem>(activity,this,0) {
                     @Override
                     protected void baseNext(FriendItem friend) {
-                        if(friend.getCode() == 0){
-                            if(friend.getData() != null && friend.getData().getFriends()!=null)
-                            {
-                                mView.onSuccess(friend.getData().getFriends());
-                            }else {
-                                mView.onFailed(friend.getMessage());
-                            }
-                        }else if(friend.getCode()==3){
-                            activity.outLogin(friend.getMessage());
+                        if(friend.getData() != null && friend.getData().getFriends()!=null)
+                        {
+                            ((MyApplication)activity.getApplication()).setFriendList(friend.getData().getFriends());
+                            mView.onSuccess(friend.getData().getFriends());
+                        }else {
+                            mView.onFailed(friend.getMessage());
                         }
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.onFailed(msg);
                     }
                 });
     }

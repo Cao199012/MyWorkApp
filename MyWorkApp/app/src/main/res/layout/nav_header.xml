@@ -6,11 +6,12 @@
     android:layout_height="192dp"
     android:background="?attr/colorPrimaryDark">
     <com.caojian.myworkapp.ui.view.CircleImageView
+        android:id="@+id/menu_head"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_jianshu"
+        android:src="@mipmap/logo_launcher"
         app:border_width="2dp"
         app:border_color="@color/white"
         />

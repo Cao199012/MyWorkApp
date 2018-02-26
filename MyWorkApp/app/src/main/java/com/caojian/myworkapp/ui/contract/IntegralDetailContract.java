@@ -9,6 +9,7 @@ import com.caojian.myworkapp.model.response.RewardScoreDetailMsg;
 public class IntegralDetailContract {
     public interface View{
         void getSuccess(RewardScoreDetailMsg.DataBean dataBean);
+
         void error(String msg);
     }
 

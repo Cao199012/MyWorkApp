@@ -2,22 +2,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+   <TextView
+       android:id="@+id/function_des"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginTop="10dp"
+       android:padding="10dp"
+       android:textStyle="italic"
+       android:textColor="#3333FF"
+       android:textSize="16sp"
+       />
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:layout_centerVertical="true"
        android:orientation="vertical">
+
       <TextView
+          android:id="@+id/pay_kind"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:gravity="center"
           android:text="购买围栏报警增值服务"/>
       <TextView
+          android:id="@+id/pay_num"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="10dp"
           android:gravity="center"
-          android:text="支付金额"/>
+          android:text="支付金额:"/>
    </LinearLayout>
 
 </RelativeLayout>

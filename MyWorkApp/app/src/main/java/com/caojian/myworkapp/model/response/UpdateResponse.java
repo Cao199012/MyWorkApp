@@ -1,12 +1,14 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
 import java.io.Serializable;
 
 /**
  * Created by CJ on 2017/8/17.
  */
 
-public class UpdateResponse {
+public class UpdateResponse extends BaseResponseResult {
 
     /**
      * code : 000000
@@ -14,29 +16,14 @@ public class UpdateResponse {
      * data : {"isUpdate":"1","mandatory":"1","downLoadAddr":"","comment":""}
      */
 
-    private String code;
-    private String message;
+
+
     private DataBean data;
 
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
+//    public DataBean getData() {
+//        return data;
+//    }
 
     public void setData(DataBean data) {
         this.data = data;

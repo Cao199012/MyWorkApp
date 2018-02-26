@@ -18,12 +18,17 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.model.data.LocationItem;
+import com.caojian.myworkapp.model.response.FriendDetailInfo;
 import com.caojian.myworkapp.model.response.FriendsAndGroupsMsg;
 import com.caojian.myworkapp.ui.activity.SelectPointActivity;
+import com.caojian.myworkapp.until.Until;
+import com.caojian.myworkapp.widget.ImageLoad;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,13 +97,7 @@ public class LocationDetailAdapter extends BaseExpandableListAdapter{
         }
         FriendsAndGroupsMsg.DataBean.GroupsBean groupsBean = mFriendData.get(groupPosition);
         viewHolder.mTv_name.setText(groupsBean.getGroupName());
-//        viewHolder.mTv_name.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                itemClick.groupSelect(groupsBean);
-//                return true;
-//            }
-//        });
+
         return convertView;
     }
 
@@ -114,55 +113,68 @@ public class LocationDetailAdapter extends BaseExpandableListAdapter{
             childViewHolder = (ChildViewHolder) convertView.getTag();
         }
         List<LocationItem> _list = ((MyApplication)parent.getContext().getApplicationContext()).getmSeeFriendLocation();
-        LocationItem item = null;
-        if(groupPosition*childPosition+childPosition < _list.size()){
-            item = _list.get(groupPosition*childPosition+childPosition);
-            childViewHolder.mTv_name.setText(item.getPhoneNo());
-            if(item.getLatitude().isEmpty() || item.getLongitude().isEmpty())
-            {
 
-            }else
-            {
-                LatLng ll = new LatLng(Long.parseLong(item.getLatitude()),Long.parseLong(item.getLongitude()));
-                GeoCoder geoCoder = GeoCoder.newInstance();
-                // 设置地理编码检索监听者
-                geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
-                    // 反地理编码查询结果回调函数
-                    @Override
-                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
-                        if (result == null
-                                || result.error != SearchResult.ERRORNO.NO_ERROR) {
-                            // 没有检测到结果
-                            return;
-                        }
-                        childViewHolder.mTv_dec.setText(result.getAddress());
-                        geoCoder.destroy();
-                    }
-                    // 地理编码查询结果回调函数
-                    @Override
-                    public void onGetGeoCodeResult(GeoCodeResult result) {
-                        geoCoder.destroy();
-                    }
-                });
-                geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(ll));
+        FriendDetailInfo.DataBean dataBean = mFriendData.get(groupPosition).getFriends().get(childPosition);
+        childViewHolder.mTv_name.setText(dataBean.getFriendRemarkName());
+        if(!dataBean.getHeadPic().isEmpty()){
+            File _file = ImageLoad.getBitmapFile(dataBean.getHeadPic());
+            if(_file != null) {
+                Glide.with(parent.getContext()).load(_file).into(childViewHolder.img_head);
+            }else {
+                Glide.with(parent.getContext()).load(Until.HTTP_BASE_IMAGE_URL+dataBean.getHeadPic()).into(childViewHolder.img_head);
             }
         }
 
-        LocationItem finalItem = item;
-        childViewHolder.mItem_body.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                itemClick.itemSelect(finalItem);
-                return true;
+
+        LocationItem  item = null;
+        if(_list != null && !_list.isEmpty()) {
+            for (LocationItem _item : _list) {
+                if (_item.getPhoneNo().equals(dataBean.getFriendPhoneNo())) {
+                    item = _item;
+                }
             }
 
-        });
+        }
+        LocationItem finalItem = item;
+
         childViewHolder.mItem_body.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClick.itemClick(finalItem);
             }
         });
+        if(item == null)
+        {
+            childViewHolder.mTv_dec.setText("好友暂无坐标");
+        } else if(item.getLatitude().isEmpty() || item.getLongitude().isEmpty())
+        {
+            childViewHolder.mTv_dec.setText("未得到好友授权");
+        }else
+        {
+            LatLng ll = new LatLng(Double.parseDouble(item.getLatitude()),Double.parseDouble(item.getLongitude()));
+            GeoCoder geoCoder = GeoCoder.newInstance();
+            // 设置地理编码检索监听者
+            geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+                // 反地理编码查询结果回调函数
+                @Override
+                public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+                    if (result == null
+                            || result.error != SearchResult.ERRORNO.NO_ERROR) {
+                        // 没有检测到结果
+                        childViewHolder.mTv_dec.setText("地理位置解析失败");
+                        geoCoder.destroy();
+                        return;
+                    }
+                    childViewHolder.mTv_dec.setText(result.getSematicDescription());
+                    geoCoder.destroy();
+                }
+                // 地理编码查询结果回调函数
+                @Override
+                public void onGetGeoCodeResult(GeoCodeResult result) {
+                }
+            });
+            geoCoder.reverseGeoCode(new ReverseGeoCodeOption().location(ll));
+        }
         return convertView;
     }
 
@@ -171,36 +183,7 @@ public class LocationDetailAdapter extends BaseExpandableListAdapter{
         return false;
     }
 
-//    @Override
-//    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.location_detail_item,parent,false);
-//        return new ViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(ViewHolder holder, int position) {
-//        LocationItem item = mFriendData.get(position);
-//        holder.mTv_name.setText(item.getPhoneNo());
-//        holder.mItem_body.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                itemClick.itemSelect(item);
-//                return true;
-//            }
-//
-//        });
-//        holder.mItem_body.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                itemClick.itemClick(item);
-//            }
-//        });
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return mFriendData.size();
-//    }
+
 
     public class ChildViewHolder{
         @BindView(R.id.img_head)
@@ -227,7 +210,5 @@ public class LocationDetailAdapter extends BaseExpandableListAdapter{
 
     public interface ItemClick{
         void itemClick(LocationItem item);
-        void itemSelect(LocationItem item);
-        void groupSelect( FriendsAndGroupsMsg.DataBean.GroupsBean groupsBean);
     }
 }

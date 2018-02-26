@@ -62,12 +62,13 @@ public class PhoneCheckActivity extends MvpBaseActivity<CheckContract.View,Check
 
         mToolbar.setTitle("");
         from_flag = getIntent().getIntExtra("fromFlag",-1);
-        if(from_flag == 1)
+        if(from_flag == 1) //注册
         {
             mDeal_body.setVisibility(View.VISIBLE);
-            mTv_forget.setVisibility(View.GONE);
+            mTv_forget.setVisibility(View.INVISIBLE);
             check_num.setText("推荐人号码");
-            mEdit_check.setText("18252011017");
+            //不需要默认号码
+          //  mEdit_check.setText("18252011017");
         }else
         {
             mTv_forget.setVisibility(View.VISIBLE);
@@ -80,18 +81,23 @@ public class PhoneCheckActivity extends MvpBaseActivity<CheckContract.View,Check
     public void checkPhone(View view)
     {
         //对输入的号码做判断
-        phone = mEdit_check.getText().toString();
-        if(!ActivityUntil.CheckPhone(phone).equals(""))
-        {
-            showToast(ActivityUntil.CheckPhone(phone), Toast.LENGTH_SHORT);
-            return;
-        }
-        //向后台校验号码
+        phone = mEdit_check.getText().toString().trim();
+
+
          if(from_flag != 1)
          {
+             if(!ActivityUntil.CheckPhone(phone).equals(""))
+             {
+                 showToast(ActivityUntil.CheckPhone(phone), Toast.LENGTH_SHORT);
+                 return;
+             }
+             //向后台校验号码
              mPresenter.checkPhone(phone);
-             //checkResultSuccess();
          }else {
+             if(phone.isEmpty()){
+                 showToast("邀请码不能为空",Toast.LENGTH_SHORT);
+                 return;
+             }
              checkResultSuccess();
          }
 
@@ -111,6 +117,15 @@ public class PhoneCheckActivity extends MvpBaseActivity<CheckContract.View,Check
 
     @Override
     public void checkResultError(String result) {
+
+        if(from_flag == 2)
+        {
+            if(result.contains("邀请")){
+                showToast("号码未注册",Toast.LENGTH_SHORT);
+                return;
+            }
+
+        }
         showToast(result,Toast.LENGTH_SHORT);
     }
 

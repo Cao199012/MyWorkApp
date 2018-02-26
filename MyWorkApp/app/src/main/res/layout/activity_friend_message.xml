@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.0" />
     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_apply"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginRight="0dp"

@@ -1,17 +1,13 @@
 package com.caojian.myworkapp.ui.presenter;
 
-import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.manager.RetrofitManger;
-import com.caojian.myworkapp.model.response.CheckMsg;
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 import com.caojian.myworkapp.model.response.CustomResult;
 import com.caojian.myworkapp.model.response.PersonalMsg;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
-import com.caojian.myworkapp.ui.contract.CheckContract;
 import com.caojian.myworkapp.ui.contract.PersonalContract;
 import com.caojian.myworkapp.until.ActivityUntil;
-import com.caojian.myworkapp.until.Until;
 import com.caojian.myworkapp.widget.PersonalInstance;
 
 import java.io.File;
@@ -22,7 +18,6 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Retrofit;
 
 /**
  * Created by CJ on 2017/8/20.
@@ -40,54 +35,42 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View> impl
     @Override
     public void getPersonalInfo() {
         Observable<PersonalMsg> observable = service.getMemberInfo(ActivityUntil.getToken(activity));
-        BaseObserver<PersonalMsg> observer = new BaseObserver<PersonalMsg>(activity,this) {
-            @Override
-            protected void baseNext(PersonalMsg personalMsg) {
-                if(personalMsg != null) {
-                    if(personalMsg.getCode()==0)
-                    {
-                        mView.getPersonalSuccess(personalMsg);
-                        //单例存储个人信息
-                        PersonalInstance.getInstance().setPersonalMsg(personalMsg);
-                    }else if(personalMsg.getCode()==3){
-                        activity.outLogin(personalMsg.getMessage());
-                    }else {
-                        mView.error(personalMsg.getMessage());
-                    }
-
-                }else
-                {
-                    mView.error("网络错误");
-                }
-            }
-        };
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(observer);
+                .subscribe(new BaseObserver<PersonalMsg>(activity,this) {
+                    @Override
+                    protected void baseNext(PersonalMsg personalMsg) {
+                         PersonalInstance.getInstance().setPersonalMsg(personalMsg);
+                        mView.getPersonalSuccess(personalMsg);
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
+                    }
+                });
     }
 
     @Override
     public void changePersonal(PersonalMsg.DataBean personalMsg) {
-        Observable<CustomResult> observable = service.modifyMemberInfo(ActivityUntil.getToken(activity),personalMsg.getHeadPic(),personalMsg.getNickName(),personalMsg.getAge());
+        Observable<CustomResult> observable = service.modifyMemberInfo(ActivityUntil.getToken(activity),personalMsg.getHeadPic(),personalMsg.getNickName(),"");
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
                 .subscribe(new BaseObserver<CustomResult>(activity,this) {
                     @Override
                     protected void baseNext(CustomResult personalMsg) {
-                        if(personalMsg != null) {
-                            mView.error(personalMsg.getMessage());
-                        }else if(personalMsg.getCode()==3){
-                            activity.outLogin(personalMsg.getMessage());
-                        }else
-                        {
-                            mView.error("网络错误");
-                        }
+                       mView.changeMsgSuccess(personalMsg.getMessage());
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }
 
     @Override
     public void uploadHeadPic(File file) {
+        RequestBody requestToken =
+                RequestBody.create(MediaType.parse("application/json"), ActivityUntil.getToken(activity));
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
@@ -96,20 +79,18 @@ public class PersonalPresenter extends BasePresenter<PersonalContract.View> impl
                 MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 
 
-        Observable<CustomResult> observable = service.uploadHeadPic(ActivityUntil.getToken(activity),body);
+        Observable<CustomResult> observable = service.uploadHeadPic(requestToken,body);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<CustomResult>(activity,this) {
+                .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
                     @Override
-                    protected void baseNext(CustomResult resultMsg) {
-                        if (resultMsg.getCode() == 0){
-                            mView.changeMsgSuccess(resultMsg.getMessage());
-                            return;
-                        }else if(resultMsg.getCode()==3){
-                            activity.outLogin(resultMsg.getMessage());
-                            return;
-                        }
-                        mView.error(resultMsg.getMessage());
+                    protected void baseNext(BaseResponseResult resultMsg) {
+                       mView.changeMsgSuccess(resultMsg.getMessage());
+                    }
+
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }

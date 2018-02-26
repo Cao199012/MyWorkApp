@@ -13,12 +13,19 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"></android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recy_integral_detail"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/intergral_detail_item">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_integral"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_integral_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_color_gray"
+            tools:listitem="@layout/intergral_detail_item">
 
-    </android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

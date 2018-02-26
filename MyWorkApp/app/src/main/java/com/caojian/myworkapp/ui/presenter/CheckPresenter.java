@@ -1,7 +1,8 @@
 package com.caojian.myworkapp.ui.presenter;
 
 import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.model.response.CheckMsg;
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+import com.caojian.myworkapp.model.response.CustomResult;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
@@ -31,28 +32,20 @@ public class CheckPresenter extends BasePresenter<CheckContract.View> implements
     public void checkPhone(String phone) {
         Retrofit retrofit = RetrofitManger.getRetrofitRxjava(Until.HTTP_BASE_URL,activity);
         MyApi service = retrofit.create(MyApi.class);
-        Observable<CheckMsg> observable = service.checkPhone(phone);
-        BaseObserver<CheckMsg> observer = new BaseObserver<CheckMsg>(activity,this) {
-            @Override
-            protected void baseNext(CheckMsg checkMsg) {
-                if(checkMsg != null) {
-                    if(checkMsg.getCode()==0)
-                    {
-                        mView.checkResultSuccess();
-                    }else if(checkMsg.getCode()==3){
-                        activity.outLogin(checkMsg.getMessage());
-                    }else {
-                        mView.checkResultError(checkMsg.getMessage());
-                    }
-                }else
-                {
-                    mView.checkResultError("网络错误");
-                }
-            }
-        };
+        Observable<CustomResult> observable = service.checkPhone(phone);
+
         observable.observeOn(AndroidSchedulers.mainThread())
                   .subscribeOn(Schedulers.newThread())
-                  .subscribe(observer);
+                  .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
+                      @Override
+                      protected void baseNext(BaseResponseResult checkMsg) {
+                          mView.checkResultSuccess();
+                      }
+                      @Override
+                      protected void baseError(String msg) {
+                          mView.checkResultError(msg);
+                      }
+                  });
 
     }
 }

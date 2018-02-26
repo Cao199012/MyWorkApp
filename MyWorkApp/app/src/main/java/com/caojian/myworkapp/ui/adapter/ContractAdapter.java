@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.model.data.ContactBean;
-import com.caojian.myworkapp.model.data.MessageItem;
 
 import java.util.List;
 
@@ -44,6 +43,7 @@ public class ContractAdapter extends RecyclerView.Adapter<ContractAdapter.ViewHo
         // TODO: 2017/9/3 操作显示信息
         holder.tv_name.setText(item.getName());
         holder.tv_desc.setText(item.getPhonenum());
+        holder.img_friend.setVisibility(View.GONE);
         holder.mBtn_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,7 +11,7 @@
             android:id="@+id/img_head"
             android:layout_width="@dimen/item_show_img_height"
             android:layout_height="@dimen/item_show_img_height"
-            android:src="@mipmap/app_icn"
+            android:src="@mipmap/logo_launcher"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="fitXY"/>
@@ -40,12 +40,12 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="绷带的血迹"/>
+                android:text=""/>
             <TextView
                 android:id="@+id/tv_deadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="到期时间 2017-9-10"/>
+                android:text=""/>
         </LinearLayout>
     </RelativeLayout>
     <LinearLayout
@@ -94,7 +94,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
-                android:text="手机定位"/>
+                android:text="组建好友"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -102,8 +102,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/function_body1">
-
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_weight="1"
@@ -123,7 +123,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
-                android:text="手机定位"/>
+                android:text="围栏报警"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:textSize="14sp"
-                android:text="手机定位"/>
+                android:text="查看轨迹"/>
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:background="@color/background_color"
@@ -17,36 +18,15 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
-    <ScrollView
-        android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
-
-        <LinearLayout
-            android:id="@+id/email_login_form"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp">
+                android:layout_marginTop="80dp"
+                app:theme="@style/AppMainTheme">
 
                 <EditText
-                    android:id="@+id/recommend_num"
+                    android:id="@+id/phone_num"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="手机号码"
@@ -54,11 +34,26 @@
                     android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                app:theme="@style/AppMainTheme">
+
+                <EditText
+                    android:id="@+id/register_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="昵称"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:theme="@style/AppMainTheme">
 
                 <EditText
                     android:id="@+id/password"
@@ -69,8 +64,7 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -99,7 +93,8 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="150dp"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:theme="@style/AppMainTheme">
 
                     <EditText
                         android:id="@+id/verity_code"
@@ -110,22 +105,25 @@
                         android:imeActionLabel="验证码"
                         android:imeOptions="actionUnspecified"
                         android:inputType="text"
-                        android:maxLines="1"
-                        android:singleLine="true" />
+                        android:maxLines="1" />
                 </android.support.design.widget.TextInputLayout>
 
             </RelativeLayout>
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
             <Button
                 android:id="@+id/email_sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/btn_radius"
+                android:layout_marginBottom="15dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
 
-        </LinearLayout>
-    </ScrollView>
 </LinearLayout>

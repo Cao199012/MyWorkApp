@@ -163,7 +163,8 @@ public class GroupDetailActivity extends MvpBaseActivity<ChangeGroupMsgContract.
     public void changeName(View view)
     {
         changeEditFragment = ChangeEditFragment.newInstance("修改组名","不能超过十个字","取消","确定");
-        changeEditFragment.show(getSupportFragmentManager(),"edit");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),changeEditFragment,"edit");
+
     }
     @Override
     public void cancelEdit() {
@@ -172,7 +173,7 @@ public class GroupDetailActivity extends MvpBaseActivity<ChangeGroupMsgContract.
     @Override
     public void submitEdit(String msg) {
         changeEditFragment.dismiss();
-        groupInfo.getData().setGroupName("msg");
+        groupInfo.getData().setGroupName(msg);
         mPresenter.changeMsg(groupInfo.getData());
     }
     //删除组信息
@@ -183,7 +184,8 @@ public class GroupDetailActivity extends MvpBaseActivity<ChangeGroupMsgContract.
         {
             dialogFragment = MyDialogFragment.newInstance("删除群组","你确定要删除此群组","取消","确定");
         }
-        dialogFragment.show(getSupportFragmentManager(),"delete");
+       // dialogFragment.show(getSupportFragmentManager(),"delete");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),dialogFragment,"delete");
     }
 
     @Override
@@ -232,16 +234,20 @@ public class GroupDetailActivity extends MvpBaseActivity<ChangeGroupMsgContract.
                 mPresenter.getGroupInfo(groupId);
                 break;
             case 2:
+                mPresenter.getGroupInfo(groupId);
                 break;
             case 3:
+                mPresenter.getGroupInfo(groupId);
                 break;
         }
+        showToast("修改信息成功",Toast.LENGTH_SHORT);
     }
     //删除群组成功
     @Override
     public void deleteSuccess(String msg) {
         // TODO: 2017/11/12
         showToast(msg, Toast.LENGTH_SHORT);
+        setResult(RESULT_OK);//删除组，刷新列表
         finish();
     }
     @Override
@@ -295,13 +301,24 @@ public class GroupDetailActivity extends MvpBaseActivity<ChangeGroupMsgContract.
         switch (requestCode){
             case FriendSelectActivity.SELECT_ADD:
                 if(friends.isEmpty()) return;
-                // TODO: 2017/11/14 批量请求
-                mPresenter.addFriend2Group(groupId,friends.get(0));
+                //可以传多个,用“|” 分割号码
+                StringBuilder _builder = new StringBuilder();
+                for (String phone : friends){
+                    _builder.append(phone);
+                    _builder.append("|");
+                }
+                mPresenter.addFriend2Group(groupId,_builder.toString().substring(0,_builder.length()-1));
                // mPresenter.
                 break;
             case FriendSelectActivity.SELECT_DELETE:
                 if(friends.isEmpty()) return;
-                mPresenter.removeFriendFromGroup(groupId,friends.get(0));
+                //可以传多个,用“|” 分割号码
+                StringBuilder _builder2 = new StringBuilder();
+                for (String phone : friends){
+                    _builder2.append(phone);
+                    _builder2.append("|");
+                }
+                mPresenter.removeFriendFromGroup(groupId,_builder2.toString().substring(0,_builder2.length()-1));
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);

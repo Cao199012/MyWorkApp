@@ -10,6 +10,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import java.io.File;
@@ -132,4 +134,6 @@ public class HVGalleryHunter implements LoaderManager.LoaderCallbacks<Cursor> {
     intent.setType("image/*");
     return intent;
   }
+
+
 }

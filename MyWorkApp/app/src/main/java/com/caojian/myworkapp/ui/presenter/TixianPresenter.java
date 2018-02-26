@@ -1,22 +1,16 @@
 package com.caojian.myworkapp.ui.presenter;
 
-import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.manager.RetrofitManger;
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 import com.caojian.myworkapp.model.response.CustomResult;
-import com.caojian.myworkapp.model.response.RegisterMsg;
-import com.caojian.myworkapp.model.response.VerityCodeMsg;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
-import com.caojian.myworkapp.ui.contract.RegisterContract;
 import com.caojian.myworkapp.ui.contract.TixianContract;
 import com.caojian.myworkapp.until.ActivityUntil;
-import com.caojian.myworkapp.until.Until;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 /**
  * Created by CJ on 2017/8/20.
@@ -32,42 +26,55 @@ public class TixianPresenter extends BasePresenter<TixianContract.View> implemen
         this.activity = activity;
     }
 
+    //积分提现
     @Override
-    public void submitMsg(int rewardScore, String cardName, String cardNum, String bankName,String bankBranch) {
-        Observable<CustomResult> observable = service.withdrawalRewardScore(ActivityUntil.getToken(activity),rewardScore,"",bankName,cardNum,cardName,bankBranch);
+    public void submitTixianMsg(int rewardScore, String cardName, String bankName, String cardNum, String verCode) {
+        Observable<CustomResult> observable = service.withdrawalRewardScore(ActivityUntil.getToken(activity),rewardScore,"",bankName,cardNum,cardName,verCode);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<CustomResult>(activity,this) {
+                .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
                     @Override
-                    protected void baseNext(CustomResult resultMsg) {
-                        if(resultMsg.getCode() == 0)
-                        {
-                            mView.submitSuccess();
-                        }else if(resultMsg.getCode()==3){
-                            activity.outLogin(resultMsg.getMessage());
-                        }else
-                        {
-                            mView.error(resultMsg.getMessage());
-                        }
+                    protected void baseNext(BaseResponseResult resultMsg) {
+                        mView.submitSuccess();
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
+                    }
+                });
+    }
+
+    //积分转赠
+    @Override
+    public void submitGiveMsg(String rewardScore, String friendNo, String verCode) {
+        Observable<CustomResult> observable = service.transferRewardScoreToFriend(ActivityUntil.getToken(activity),rewardScore,friendNo,verCode);
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
+                    @Override
+                    protected void baseNext(BaseResponseResult resultMsg) {
+                       mView.submitSuccess();
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }
 
     @Override
-    public void verityCode(String phone, String imgCode) {
+    public void verityCode(String phone, String imgCode,int type) {
         //后台获取验证码
-        service.verityCode(phone, imgCode,"0").observeOn(AndroidSchedulers.mainThread())
+        service.verityCode(phone, imgCode,type+"").observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<VerityCodeMsg>(activity,this) {
+                .subscribe(new BaseObserver<CustomResult>(activity,this) {
                     @Override
-                    protected void baseNext(VerityCodeMsg verityCodeMsg) {
-                        if(verityCodeMsg.getCode() == 0)
-                        {
-                            mView.verityCodeSuccess();
-                        }else
-                        {
-                            mView.error(verityCodeMsg.getMessage());
-                        }
+                    protected void baseNext(CustomResult verityCodeMsg) {
+                        mView.verityCodeSuccess();
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }

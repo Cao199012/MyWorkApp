@@ -1,4 +1,6 @@
-package com.caojian.myworkapp.model.data;
+package com.caojian.myworkapp.model.response;
+
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 
 import java.util.List;
 
@@ -6,7 +8,7 @@ import java.util.List;
  * Created by CJ on 2017/10/30.
  */
 
-public class ApplyFriendsRecord {
+public class ApplyFriendsRecord extends BaseResponseResult<ApplyFriendsRecord.DataBean> {
 
     /**
      * code : 0
@@ -14,43 +16,11 @@ public class ApplyFriendsRecord {
      * message : 操作成功
      */
 
-    private int code;
-    private DataBean data;
-    private String message;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         private List<RecordsBean> records;
 
         public List<RecordsBean> getRecords() {
             return records;
-        }
-
-        public void setRecords(List<RecordsBean> records) {
-            this.records = records;
         }
 
         public static class RecordsBean {

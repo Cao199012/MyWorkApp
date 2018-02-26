@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.model.data.FriendGroupItem;
 import com.caojian.myworkapp.model.response.FriendsAndGroupsMsg;
 
 import java.util.List;

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-
+    android:background="#bbbbbb"
     android:orientation="vertical"
     tools:context="com.caojian.myworkapp.ui.activity.TiXianActivity">
     <android.support.v7.widget.Toolbar
@@ -22,10 +21,15 @@
             android:text="提现记录"
             android:textColor="@color/white" />
     </android.support.v7.widget.Toolbar>
+    <!--<Space-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_weight="1"/>-->
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:theme="@style/AppMainTheme"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
 
@@ -33,13 +37,14 @@
             android:id="@+id/integral_num"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:hint="提现积分"
+            android:hint="提现积分(整百且不小于500)"
             android:inputType="number" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:theme="@style/AppMainTheme"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
@@ -52,9 +57,11 @@
             android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
+
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:theme="@style/AppMainTheme"
         android:layout_marginTop="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp">
@@ -69,6 +76,7 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:theme="@style/AppMainTheme"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -107,7 +115,8 @@
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="150dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:theme="@style/AppMainTheme">
 
             <EditText
                 android:id="@+id/verity_code"
@@ -118,8 +127,7 @@
                 android:imeActionLabel="验证码"
                 android:imeOptions="actionUnspecified"
                 android:inputType="text"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
     </RelativeLayout>
 
@@ -127,19 +135,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@color/white">
+
         <Button
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
+            android:layout_height="40dp"
+           android:layout_margin="15dp"
+            android:background="@drawable/btn_radius"
             android:text="提 现"/>
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>

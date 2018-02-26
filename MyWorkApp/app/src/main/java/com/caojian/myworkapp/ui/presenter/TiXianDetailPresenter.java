@@ -1,11 +1,10 @@
 package com.caojian.myworkapp.ui.presenter;
 
 
-import com.caojian.myworkapp.model.response.RewardScoreDetailMsg;
-import com.caojian.myworkapp.ui.base.BaseObserver;
+import com.caojian.myworkapp.model.response.DrawInfo;
+import com.caojian.myworkapp.ui.base.BaseNoProgressObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
-import com.caojian.myworkapp.ui.contract.IntegralDetailContract;
 import com.caojian.myworkapp.ui.contract.TiXianDetailContract;
 import com.caojian.myworkapp.until.ActivityUntil;
 
@@ -29,27 +28,24 @@ public class TiXianDetailPresenter extends BasePresenter<TiXianDetailContract.Vi
 
     @Override
     public void getTiXianDetail(int pageNum) {
-        Observable<RewardScoreDetailMsg> observable;
+        Observable<DrawInfo> observable ;
+
         if(pageNum == -1)
         {
-            observable = service.getRewardScoreDetail(ActivityUntil.getToken(activity),"");
+            observable = service.getWithdrawalRewardScoreInfo(ActivityUntil.getToken(activity),1+"");
         }else{
-            observable = service.getRewardScoreDetail(ActivityUntil.getToken(activity),pageNum+"");
+            observable = service.getWithdrawalRewardScoreInfo(ActivityUntil.getToken(activity),(pageNum+1)+"");
         }
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<RewardScoreDetailMsg>(activity,this) {
+                .subscribe(new BaseNoProgressObserver<DrawInfo>(activity,this,0) {
                     @Override
-                    protected void baseNext(RewardScoreDetailMsg resultMsg) {
-                        if(resultMsg.getCode() == 0)
-                        {
-                            mView.getSuccess(resultMsg.getData());
-                        }else if(resultMsg.getCode()==3){
-                            activity.outLogin(resultMsg.getMessage());
-                        }else
-                        {
-                            mView.error(resultMsg.getMessage());
-                        }
+                    protected void baseNext(DrawInfo resultMsg) {
+                       mView.getSuccess(resultMsg.getData());
+                    }
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }

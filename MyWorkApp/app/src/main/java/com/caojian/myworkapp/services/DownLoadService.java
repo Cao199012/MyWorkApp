@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.ui.activity.MainActivity;
+import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.until.DownloadTask;
 
 import java.io.File;
@@ -27,7 +29,7 @@ import static com.caojian.myworkapp.until.ActivityUntil.setPermission;
 
 public class DownLoadService extends Service {
     DownloadTask downloadTask;
-    String downloadUrl = "http://www.lljyz.cn/lljyz/Gas_Station_qh.apk";
+    String downloadUrl = "http://103.255.178.23:8080/app-release.apk";
 
 
     DownloadTask.DownloadListen downloadListen = new DownloadTask.DownloadListen() {
@@ -37,6 +39,7 @@ public class DownLoadService extends Service {
             getNotificationManager().notify(1,getNotification("Downloading....",progress));
         }
 
+
         @Override
         public void onSuccess() {
             downloadTask = null; //自动回收
@@ -45,13 +48,13 @@ public class DownLoadService extends Service {
 
             getNotificationManager().notify(1,getNotification("Download Success",-1));
             Intent installIntent = new Intent(Intent.ACTION_VIEW);
-            String fileName = downloadUrl.substring(downloadUrl.lastIndexOf("/"));
+            String fileName = "/wayApp"+ActivityUntil.getVersionCode(DownLoadService.this)+".apk";
             String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
             File file = new File(directory+fileName);
             Log.d("lengtn",file.length()+"");
             setPermission(file.getPath());
 
-            Toast.makeText(DownLoadService.this,file.length()+"Download success",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(DownLoadService.this,file.length()+"Download success",Toast.LENGTH_SHORT).show();
             // 由于没有在Activity环境下启动Activity,设置下面的标签
             installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             //版本在7.0以上是不能直接通过uri访问的
@@ -110,11 +113,23 @@ public class DownLoadService extends Service {
 
         if(downloadTask == null)
         {
-            downloadTask = new DownloadTask(downloadListen);
+            downloadTask = new DownloadTask(downloadListen,DownLoadService.this);
         }
-        downloadTask.execute(downloadUrl);
+        if(intent != null && intent.getStringExtra("url") != null && !intent.getStringExtra("url").isEmpty()){
+            downloadUrl = intent.getStringExtra("url");
+        }
+        if(downloadTask.getStatus() != AsyncTask.Status.RUNNING)
+                downloadTask.execute(downloadUrl);
         return super.onStartCommand(intent, flags, startId);
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+
+
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -129,7 +144,7 @@ public class DownLoadService extends Service {
             if(downloadTask == null)
             {
                 downloadUrl = url;
-                downloadTask = new DownloadTask(downloadListen);
+                downloadTask = new DownloadTask(downloadListen,DownLoadService.this);
                 downloadTask.execute(url);
 
                 startForeground(1,getNotification("Download....",0));
@@ -156,7 +171,7 @@ public class DownLoadService extends Service {
                 if(downloadUrl != null)
                 {
                     //取消下载时需要将文件删除，并通知关闭
-                    String fileName = downloadUrl.substring(downloadUrl.lastIndexOf("/"));
+                    String fileName = "/wayApp"+ActivityUntil.getVersionCode(DownLoadService.this)+".apk";
                     String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath();
 
                     File file = new File(directory+fileName);
@@ -181,13 +196,13 @@ public class DownLoadService extends Service {
 
     Notification getNotification(String title,int progress)
     {
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(this,0,intent,0);
+//        Intent intent = new Intent(this, MainActivity.class);
+//        PendingIntent pi = PendingIntent.getActivity(this,0,intent,0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
+        builder.setSmallIcon(R.mipmap.logo_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.logo_launcher));
 
-        builder.setContentIntent(pi);
+        //builder.setContentIntent(pi);
         builder.setContentTitle(title);
 
         if(progress > 0)

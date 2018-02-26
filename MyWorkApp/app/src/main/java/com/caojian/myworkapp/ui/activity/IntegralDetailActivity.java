@@ -2,7 +2,9 @@ package com.caojian.myworkapp.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -37,6 +39,8 @@ public class IntegralDetailActivity extends MvpBaseActivity<IntegralDetailContra
     Toolbar mToolbar;
     @BindView(R.id.recy_integral_detail)
     RecyclerView mRecy_detail;
+    @BindView(R.id.swipe_integral)
+    SwipeRefreshLayout mSwipeIntegral;
     Unbinder unbinder;
     List<RewardScoreDetailMsg.DataBean.DetailsBean> mListData = new LinkedList<>();
     IntegralDetailAdapter mAdapter;
@@ -50,6 +54,13 @@ public class IntegralDetailActivity extends MvpBaseActivity<IntegralDetailContra
         mToolbar.setTitle("积分明细");
         initRecy();
         mPresenter.getIntegralDetail(nowPageNum);
+        mSwipeIntegral.setRefreshing(true);
+        mSwipeIntegral.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getIntegralDetail(nowPageNum);
+            }
+        });
     }
 
     private void initRecy() {
@@ -74,17 +85,26 @@ public class IntegralDetailActivity extends MvpBaseActivity<IntegralDetailContra
 
     @Override
     public void getSuccess(RewardScoreDetailMsg.DataBean dataBean) {
+        if(mSwipeIntegral.isRefreshing())
+        {
+            mSwipeIntegral.setRefreshing(false);
+        }
         if(Integer.parseInt(dataBean.getPageNumber()) == nowPageNum)
         {
             mListData.clear();
         }
+        nowPageNum = Integer.parseInt(dataBean.getPageNumber());
         mListData.addAll(dataBean.getDetails());
         mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void error(String msg) {
-        showToast(msg, Toast.LENGTH_SHORT);
+        if(mSwipeIntegral.isRefreshing())
+        {
+            mSwipeIntegral.setRefreshing(false);
+        }
+        if(!msg.isEmpty()) showToast(msg, Toast.LENGTH_SHORT);
     }
 
 
@@ -99,7 +119,13 @@ public class IntegralDetailActivity extends MvpBaseActivity<IntegralDetailContra
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             RewardScoreDetailMsg.DataBean.DetailsBean item = mListData.get(position);
-            holder.mTv_money.setText(item.getRewardScore());
+            if(item.getRewardScoreType().equals("2") || item.getRewardScoreType().equals("5")){
+                holder.mTv_money.setText("+"+item.getRewardScore());
+            }else {
+                holder.mTv_money.setText("-"+item.getRewardScore());
+                holder.mTv_money.setTextColor(Color.BLUE);
+            }
+
             holder.mTv_from.setText(item.getDetailInfo());
             holder.mTv_time.setText(item.getCreateTime());
             // TODO: 2017/9/17 展示信息

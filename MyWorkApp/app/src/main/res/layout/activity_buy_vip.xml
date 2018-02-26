@@ -16,6 +16,14 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary">
 
+            <TextView
+                android:id="@+id/go_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="15dp"
+                android:layout_gravity="end"
+                android:text="充值记录"
+                android:textColor="@color/white" />
         </android.support.v7.widget.Toolbar>
 
         <include
@@ -33,12 +41,27 @@
 
 
         <Button
+            android:id="@+id/vip_buy"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="15dp"
             android:layout_alignParentBottom="true"
-            android:text="开通会员"
-            android:onClick="buy"/>
+            android:text="开通会员" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/error_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/background_color"
+        android:onClick="refresh"
+        android:visibility="invisible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="获取个人信息失败,无法购买服务。请点击刷新"/>
+    </RelativeLayout>
 </FrameLayout>

@@ -1,48 +1,22 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
 import java.util.Date;
 
 /**
  * Created by CJ on 2017/10/29.
  */
 
-public class PersonalMsg {
+public class PersonalMsg extends BaseResponseResult<PersonalMsg.DataBean> {
 
     /**
      * code : 0
      * message :  成功
      * data : {"headPic":"","nickName":"","age":"","memberType":"","valueAddedService":"","rewardScore":""}
      */
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
 
-    private int code;
-    private String message;
-    private DataBean data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
         /** 客户手机号 */
         private String phoneNo;
         /** 客户姓名 */
@@ -69,6 +43,10 @@ public class PersonalMsg {
         private Double rewardScore;
         /** 邀请码 */
         private String invitationCode;
+        /** 下级数 */
+        private String nextLevelCount;
+        /** 下下级数 */
+        private String underNextLevelCount;
 
 
         public String getPhoneNo() {
@@ -91,16 +69,8 @@ public class PersonalMsg {
             return nickSpell;
         }
 
-        public void setNickSpell(String nickSpell) {
-            this.nickSpell = nickSpell;
-        }
-
         public String getGender() {
             return gender;
-        }
-
-        public void setGender(String gender) {
-            this.gender = gender;
         }
 
         public int getMemberType() {
@@ -171,8 +141,12 @@ public class PersonalMsg {
             return invitationCode;
         }
 
-        public void setInvitationCode(String invitationCode) {
-            this.invitationCode = invitationCode;
+        public String getNextLevelCount() {
+            return nextLevelCount;
+        }
+
+        public String getUnderNextLevelCount() {
+            return underNextLevelCount;
         }
     }
 }

@@ -2,9 +2,12 @@ package com.caojian.myworkapp.ui.presenter;
 
 import android.util.Log;
 
+import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.api.MyApi;
 import com.caojian.myworkapp.manager.RetrofitManger;
 import com.caojian.myworkapp.model.response.LoginMsg;
+import com.caojian.myworkapp.model.response.UpdateResponse;
+import com.caojian.myworkapp.ui.activity.UpdateActivity;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
@@ -36,17 +39,14 @@ public class LoginPresenter extends BasePresenter<LoginContract.View> implements
                 .subscribe(new BaseObserver<LoginMsg>(activity,this) {
                     @Override
                     protected void baseNext(LoginMsg loginMsg) {
-                        if(loginMsg.getCode() == 0)
-                        {
-                            loginView.LoginSuccess();
+                        ActivityUntil.saveToken(activity,loginMsg.getData().getToken());
+                        loginView.LoginSuccess();
                             //保存token到本地
-                            ActivityUntil.saveToken(activity,loginMsg.getData().getToken());
-                        }else
-                        {
-                            loginView.LoginError(loginMsg.getMessage());
-                        }
                     }
-
+                    @Override
+                    protected void baseError(String msg) {
+                        loginView.LoginError(msg);
+                    }
                 });
     }
 }

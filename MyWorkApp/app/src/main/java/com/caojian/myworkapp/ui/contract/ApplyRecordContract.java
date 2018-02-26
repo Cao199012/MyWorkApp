@@ -1,6 +1,6 @@
 package com.caojian.myworkapp.ui.contract;
 
-import com.caojian.myworkapp.model.data.ApplyFriendsRecord;
+import com.caojian.myworkapp.model.response.ApplyFriendsRecord;
 
 import java.util.List;
 

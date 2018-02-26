@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +50,8 @@ import static com.caojian.myworkapp.ui.activity.SearchByPhoneActivity.go2SearchB
 
 public class FriendFragment extends MvpBaseFragment<FriendContract.View,FriendPresenter> implements FriendListAdapter.ItemClick ,FriendContract.View{
 
+    @BindView(R.id.swipe_friend)
+    SwipeRefreshLayout mSwipe_friend;
     @BindView(R.id.recy_friend)
     RecyclerView mRecy_friend;
     @BindView(R.id.sidebar_friend)
@@ -82,27 +85,17 @@ public class FriendFragment extends MvpBaseFragment<FriendContract.View,FriendPr
         initSideVar();
         //请求好友数据
         mPresenter.getFriends();
-//        //接收广播 更新列表
-//        BroadcastReceiver receiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if(mPresenter != null) {
-//                    mPresenter.getFriends();
-//                }
-//            }
-//        };
-//        getActivity().registerReceiver(receiver,new IntentFilter(Until.ACTION_FRIEND));
+        mSwipe_friend.setRefreshing(true);
+        mSwipe_friend.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getFriends();
+            }
+        });
         return root;
     }
 
     private void initRecy() {
-//        for (int i = 0; i < 5 ;i++){
-//            FriendItem.DataBean.FriendsBean data = new FriendItem.DataBean.FriendsBean();
-//            data.setFriendPhoneNo("qqqqq");
-//            data.setHeadPic("");
-//            data.setRemarkFirstLetter("A");
-//            mListData.add(data);
-//        }
         listAdapter = new FriendListAdapter(mListData,this,getActivity());
         //RecyclerView设置manager
         manager = new LinearLayoutManager(getActivity());
@@ -112,7 +105,7 @@ public class FriendFragment extends MvpBaseFragment<FriendContract.View,FriendPr
             @Override
             public String getGroupId(int position) {
 
-                return mListData.get(position).getRemarkFirstLetter();
+                return mListData.get(position).getRemarkFirstLetter().trim().toUpperCase();
             }
         });
         mRecy_friend.setAdapter(listAdapter);
@@ -215,10 +208,9 @@ public class FriendFragment extends MvpBaseFragment<FriendContract.View,FriendPr
     //接受Activity返回结果判断是否更新好友
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == FriendDetailActivity.REQUESTCODE)
         {
-            if(requestCode == getActivity().RESULT_OK)
+            if(resultCode == getActivity().RESULT_OK)
             {
                 mPresenter.getFriends();
             }
@@ -228,14 +220,16 @@ public class FriendFragment extends MvpBaseFragment<FriendContract.View,FriendPr
     //网络请求好友列表结果
     @Override
     public void onSuccess(List<FriendDetailInfo.DataBean> friends) {
+        mSwipe_friend.setRefreshing(false);
         mListData.clear();
         mListData.addAll(friends);
         listAdapter.notifyDataSetChanged();
-        ((MyApplication)getActivity().getApplication()).setFriendList(friends);
+
     }
     @Override
     public void onFailed(String errorMsg) {
-        ((BaseTitleActivity)getActivity()).showToast(errorMsg, Toast.LENGTH_SHORT);
+        mSwipe_friend.setRefreshing(false);
+        if(!errorMsg.isEmpty()) ((BaseTitleActivity)getActivity()).showToast(errorMsg, Toast.LENGTH_SHORT);
     }
 
 

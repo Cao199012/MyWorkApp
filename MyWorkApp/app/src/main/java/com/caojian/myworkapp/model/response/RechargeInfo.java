@@ -1,78 +1,60 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
+import java.util.List;
+
 /**
  * Created by CJ on 2017/11/10.
  */
 
-public class RechargeInfo {
+public class RechargeInfo extends BaseResponseResult<RechargeInfo.DataBean> {
 
     /**
      * code : 0
      * message :  成功
-     * data : {"money":"","detailInfo":"","createTime":""}
+     * data : {"amount":"","detailInfo":"","createTime":""}
      */
 
-    private int code;
-    private String message;
-    private DataBean data;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         /**
-         * money :
+         * amount :
          * detailInfo :
          * createTime :
          */
+        private int pageCount;  //总页数
+        private int pageNumber; //返回数据的格式
+        private List<DetailsBean> details;
 
-        private String money;
-        private String detailInfo;
-        private String createTime;
-
-        public String getMoney() {
-            return money;
+        public int getPageCount() {
+            return pageCount;
+        }
+        public int getPageNumber() {
+            return pageNumber;
         }
 
-        public void setMoney(String money) {
-            this.money = money;
+        public List<DetailsBean> getDetails() {
+            return details;
         }
 
-        public String getDetailInfo() {
-            return detailInfo;
-        }
+        public static class DetailsBean {
+            private String amount;
+            private int type; //详情
+            private String createTime;
 
-        public void setDetailInfo(String detailInfo) {
-            this.detailInfo = detailInfo;
-        }
 
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
+            public String getAmount() {
+                return amount;
+            }
+            public int getDetailInfo() {
+                return type;
+            }
+            public String getCreateTime() {
+                return createTime;
+            }
         }
     }
+
+
 }

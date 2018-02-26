@@ -1,39 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_color_gray">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_height="wrap_content"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?colorPrimary"
         android:layout_width="match_parent"
-        >
+        app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
+    </android.support.v7.widget.Toolbar>
 
-            </android.support.v7.widget.Toolbar>
+<android.support.v7.widget.SearchView
+    android:id="@+id/contract_search"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_show_height"
+    android:layout_below="@+id/toolbar">
 
-    </android.support.design.widget.AppBarLayout>
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+</android.support.v7.widget.SearchView>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_contracts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/contract_search"
             tools:listitem="@layout/friend_message_item"
             android:background="@color/background_color_gray">
 
         </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

@@ -1,6 +1,6 @@
 package com.caojian.myworkapp.ui.contract;
 
-import com.caojian.myworkapp.model.response.RewardScoreDetailMsg;
+import com.caojian.myworkapp.model.response.DrawInfo;
 
 /**
  * Created by CJ on 2017/11/12.
@@ -8,7 +8,7 @@ import com.caojian.myworkapp.model.response.RewardScoreDetailMsg;
 
 public class TiXianDetailContract {
     public interface View{
-        void getSuccess(RewardScoreDetailMsg.DataBean dataBean);
+        void getSuccess(DrawInfo.DataBean dataBean);
         void error(String msg);
     }
 

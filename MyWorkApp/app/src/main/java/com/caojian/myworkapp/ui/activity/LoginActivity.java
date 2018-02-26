@@ -86,7 +86,8 @@ public class LoginActivity extends MvpBaseActivity<LoginContract.View,LoginPrese
     //登录验证成功，跳转到首页
     @Override
     public void LoginSuccess() {
-        MainActivity.go2MainActivity(LoginActivity.this);
+        ActivityUntil.savePhone(LoginActivity.this,mEditName.getText().toString().trim());
+        SplashActivity.go2SplashActivity(LoginActivity.this);
         finish();
     }
     //验证失败，弹出框提示失败信息

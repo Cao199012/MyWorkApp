@@ -1,4 +1,4 @@
-package com.caojian.myworkapp.ui.fragment;
+package com.caojian.myworkapp.widget;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
@@ -36,6 +37,8 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
         fragment.setArguments(bundle);
         return fragment;
     }
+    @BindView(R.id.tv_jifen)
+    TextView mTv_jifenShow;
     @BindView(R.id.check_weixin)
     AppCompatCheckBox mCheckWeiXin;
     @BindView(R.id.check_jifen)
@@ -43,11 +46,11 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
     @BindView(R.id.check_zhifubao)
     AppCompatCheckBox mCheckZhi;
     AppCompatCheckBox mPreCheckBox;
-    @BindView(R.id.model1)
+    @BindView(R.id.model2)
     RelativeLayout modelZhi;
     private PayAction payAction = null;
     private int payType = TYPE_WEIXIN;
-    private int modelType = 1;
+    private int modelType = 1;  //代表积分余额不足必须第三方支付
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,33 +70,40 @@ public class BuyModelFragment extends AppCompatDialogFragment  {
 
     private void initView() {
         modelZhi.setVisibility(View.GONE);
-        mCheckWeiXin.setChecked(true);
+        mCheckWeiXin.setChecked(true);  //默认勾选微信支付
         mPreCheckBox = mCheckWeiXin;
         mCheckWeiXin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked == true && mPreCheckBox != mCheckWeiXin) {
-                    mPreCheckBox.setChecked(false);
+                    if(mPreCheckBox != null) {  //如果之前有勾选 吧前一个取消勾选
+                        mPreCheckBox.setChecked(false);
+                    }
                     mPreCheckBox = mCheckWeiXin;
                     payType = TYPE_WEIXIN;
                 } else {
                     mPreCheckBox = null;
+                    payType = -1; //取消支付方式置-1
                 }
             }
         });
-        if(modelType == 1){
+        if(modelType == 1){  //
             mCheckJiFen.setChecked(true);
             mCheckJiFen.setEnabled(false);
+            mTv_jifenShow.append(" (余额不足)");
         }else {
             mCheckJiFen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if(isChecked == true && mPreCheckBox != mCheckJiFen){
-                        mPreCheckBox.setChecked(false);
+                        if(mPreCheckBox != null) {
+                            mPreCheckBox.setChecked(false);
+                        }
                         mPreCheckBox = mCheckJiFen;
                         payType = TYPE_JIFEN;
                     }else {
                         mPreCheckBox = null;
+                        payType = -1;  //取消支付方式置-1
                     }
                 }
             });

@@ -29,8 +29,11 @@ public class WebViewDetailActivity extends BaseTitleActivity {
     @BindView(R.id.web_container)
     FrameLayout mContainer;
     WebView mWebView;
-    String[] msgUrl = {"getRegisterProtocol.do","getPrivacyProtocol.do"};
-    String[] titles = {"服务条款","隐私条款"};
+//    http://app.xuxinpei.com/mobile-server/licensingAndServiceAgreements.html
+//    使用条款和隐私政策协议
+//    http://app.xuxinpei.com/mobile-server/termsOfUseAndPrivacyPolicyAgreement.html
+    String[] msgUrl = {Until.HTTP_BASE_URL+"licensingAndServiceAgreements.html",Until.HTTP_BASE_URL+"termsOfUseAndPrivacyPolicyAgreement.html",Until.QUESTION_BASE_URL};
+    String[] titles = {"服务条款","隐私条款","常见问题"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +52,7 @@ public class WebViewDetailActivity extends BaseTitleActivity {
     protected void onResume() {
         super.onResume();
         mWebView.onResume();
-        mWebView.loadUrl(Until.HTTP_BASE_URL+msgUrl[getIntent().getIntExtra("kind",1)]);
+        mWebView.loadUrl(msgUrl[getIntent().getIntExtra("kind",1)]);
     }
 
     @Override

@@ -4,12 +4,9 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.model.inner.GeoPoint;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.api.MyApi;
@@ -43,7 +40,7 @@ public class UpdateLocationService extends IntentService {
     MyApi myApi;
     Retrofit retrofit;
     MyApplication application ;
-    BDLocation mPrelocation;
+    LatLng mPrelocation;
     public UpdateLocationService() {
         super("UpdateLocationService");
     }
@@ -67,27 +64,28 @@ public class UpdateLocationService extends IntentService {
                     application = (MyApplication)getApplicationContext();
                 }
                 //本地采集到坐标 上传（若没取到，则进入下次循环）
-                if(application.getBdLocation() != null && getDistance(mPrelocation,application.getBdLocation()) > Until.MIN_DISTANCE){
-                    Call<CustomResult> call = myApi.uploadPosition(ActivityUntil.getToken(UpdateLocationService.this),application.getBdLocation().getLongitude()+"",application.getBdLocation().getLatitude()+"");
+                if(application.getLatLng() != null && (!(application.getLatLng().latitude+"").contains("4.9E-324")) && getDistance(mPrelocation,application.getLatLng()) > Until.MIN_DISTANCE){
+                    Call<CustomResult> call = myApi.uploadPosition(ActivityUntil.getToken(UpdateLocationService.this),application.getLatLng().longitude+"",application.getLatLng().latitude+"");
                     call.enqueue(new Callback<CustomResult>() {
                         @Override
                         public void onResponse(Call<CustomResult> call, Response<CustomResult> response) {
-                            if(response != null && response.code() == 200) {
-                               mPrelocation = application.getBdLocation();
-                            }
+                            mPrelocation = application.getLatLng();
                         }
 
                         @Override
                         public void onFailure(Call<CustomResult> call, Throwable t) {
-                            String a = t.toString();
+                            mPrelocation = application.getLatLng();
                         }
                     });
+                    handler.postDelayed(this, ((MyApplication)getApplicationContext()).getUpdateTime());
+                }else {
+                    if(application.getLatLng() == null){  //采集失败 重新上传
+                        mPrelocation = null;
+                    }
+                    handler.postDelayed(this, ((MyApplication)getApplicationContext()).getUpdateTime());
                 }
 
-                // TODO Auto-generated method stub
                 //要做的事情，这里再次调用此Runnable对象，以实现每两秒实现一次的定时器操作
-
-                handler.postDelayed(this, ((MyApplication)getApplicationContext()).getUpdateTime());
             }
         };
     }
@@ -159,13 +157,11 @@ public class UpdateLocationService extends IntentService {
         }
     }
 
-    private double getDistance(BDLocation pre,BDLocation now){
+    private double getDistance(LatLng pre,LatLng now){
         if(pre == null){
             return Until.MIN_DISTANCE + 1;
         }
-        LatLng p1LL = new LatLng(pre.getLatitude(), pre.getLongitude());
-        LatLng p2LL = new LatLng(now.getLatitude(), now.getLongitude());
-        double distance = DistanceUtil.getDistance(p2LL, p1LL);
-        return distance;
+        double distance = DistanceUtil.getDistance(now, pre);
+        return Math.abs(distance);
     }
 }

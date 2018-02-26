@@ -1,20 +1,47 @@
 <resources>
-    <string name="app_name">定位APP</string>
+    <string name="app_name">在哪儿</string>
     <string name="title_activity_register">Register</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">设置密码（6-12）位数字与字母组合</string>
-    <string name="action_sign_in">提交注册</string>
+    <string name="action_sign_in">提 交 注 册</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="rule_integral" formatted="false">1.每推荐一位好友加入，即可获系统赠送该好友所缴费用的30%以及好友的下级好友所缴费用的10%作为积分奖励，但仅限自己所付费开通功能的部分。\n
+2.每积分等值于人民币壹元，可以转赠也可用于自己的缴费。\n
+3.积分可以提现。每次提现500积分起步，以100的倍数增加。提现时所产生的汇费将从剩余积分中扣除。\n
+4.会员须及时续费，谨慎更换手机号码。会员一旦超过有效期，或手机号码不再持有时，该手机号码上所依附的剩余积分将被清零，上下级好友也将立即失效，同时不再享有下二层级原好友的积分奖励。\n
+5.本公司对以上规则拥有最终解释权，并可根据运营情况进行修改。
+</string>
+    <string name="app_detail">“在哪儿”(Where Are You)APP是通过GPS、手机信号基站、无线Wifi等方式,基于百度地图实现好友定位、电子围栏报警和轨迹回放等功能的绿色软件，让您随时了解至爱亲友的位置和行踪。世界那么大，尽在方寸间。
+特色功能：\n
+1.位置实时共享：实时显示个人及多位好友的位置信息，相互距离一目了然。\n
+2.电子围栏报警：为至爱的人设立电子围栏，一旦超出即时提醒。\n
+3.任意轨迹回放：可按任意时间查看自己或好友的轨迹，了解过往的足迹并方便分享。\n
+4.七重安全保障：从注册到开始使用，重重安全保障个人信息，仅限授权的好友了解和掌握。\n
+5.授权方式灵活：既可为家人设立7*24小时的全天候授权，亦可为部门同事设立有限时间范围内的共享，并可随时修改或关闭。\n
+6.多分享多收益：软件注册必须填写推荐人手机号码，只限好友分享使用。更可获得下二层级好友的积分奖励。今天栽下一棵树苗，明日可成参天大树，累累硕果年年分享。
+</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--<string name="integral_rules">积分下方增加积分和提现规则:每推荐一位好友加入, 即可获得好友所缴基本会员费用的30%以及好友的下级好友所缴基本会员费用的10%作为积分奖励.每分积分等值于人民币1元,可以赠送也可以缴费,每次提现不少于500积分</string>-->
 
+    <!-- TrackQueryOptionsActivity主选项 -->
+    <string name="track_query_option_time">起止时间:</string>
+    <string name="track_query_option_process">纠偏与数据分析:</string>
+    <string name="track_query_option_radius_threshold">精度过滤(单位:米):</string>
+    <string name="track_query_option_transport_mode">交通方式:</string>
+    <string name="track_query_option_sort_type">排序规则:</string>
 
+    <!-- 纠偏与数据分析子选项 -->
+    <string name="processed">纠偏</string>
+    <string name="denoise">去噪</string>
+    <string name="vacuate">抽稀</string>
+    <string name="mapmatch">绑路</string>
 </resources>

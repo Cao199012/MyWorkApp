@@ -18,11 +18,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.v7.widget.AppCompatEditText
+        <EditText
             android:id="@+id/edit_imgecheck"
             android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
+            style="@style/MyEditText"
             android:layout_alignParentLeft="true"/>
         <ImageView
             android:id="@+id/img_imagecheck"

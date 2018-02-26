@@ -3,6 +3,8 @@ package com.caojian.myworkapp.widget;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -69,7 +71,12 @@ public class MyDialogFragment extends AppCompatDialogFragment  {
     }
 
     private void initView() {
-        mDialog_title.setText(title);
+        if(title.isEmpty()){
+            mDialog_title.setVisibility(View.GONE);
+        }else {
+            mDialog_title.setText(title);
+        }
+
         mDialog_comments.setText(comments);
         mDialog_cancel.setText(cancel);
         mDialog_sure.setText(sure);
@@ -106,4 +113,6 @@ public class MyDialogFragment extends AppCompatDialogFragment  {
         void cancel();
         void sure();
     }
+
+
 }

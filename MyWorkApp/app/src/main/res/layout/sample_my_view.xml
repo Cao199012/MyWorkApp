@@ -1,15 +1,26 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="25dp"
+    android:layout_height="25dp"
+    android:orientation="vertical"
+    android:background="@color/background_color">
 
-    <com.caojian.myworkapp.ui.view.MyView
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:background="#ccc"
-        app:exampleColor="#33b5e5"
-        app:exampleDimension="16sp"
-        app:exampleDrawable="@android:drawable/btn_default_small"
-        app:exampleString="Hello, MyView" />
+    <RelativeLayout
+        android:layout_width="25dp"
+        android:layout_height="25dp">
+        <ImageView
+            android:id="@+id/head_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/logo_launcher"
+            />
+        <TextView
+            android:id="@+id/mark_content_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="16sp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
 
-</FrameLayout>
+
+</LinearLayout>

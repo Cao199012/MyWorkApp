@@ -1,7 +1,6 @@
 package com.caojian.myworkapp.ui.activity;
 
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +8,12 @@ import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.model.response.FriendDetailInfo;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
@@ -62,6 +63,8 @@ public class FriendDetailActivity extends MvpBaseActivity<ChangeFriendMsgContrac
     TextView mEndTime;
     @BindView(R.id.show_day)
     TextView mTv_showDay;
+    @BindView(R.id.detail_head)
+    ImageView mDetail_head;
     private Unbinder unbinder;
     ChangeFriendPresenter mPresenter;
     FriendDetailInfo.DataBean mFriendDataBean;
@@ -121,7 +124,7 @@ public class FriendDetailActivity extends MvpBaseActivity<ChangeFriendMsgContrac
     public void changeName(View view)
     {
         changeEditFragment = ChangeEditFragment.newInstance("修改好友备注","不能超过十个字","取消","确定");
-        changeEditFragment.show(getSupportFragmentManager(),"edit");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),changeEditFragment,"edit");
     }
     SelectDayFragment selectDayFragment ;
     //选择监测周期
@@ -151,7 +154,9 @@ public class FriendDetailActivity extends MvpBaseActivity<ChangeFriendMsgContrac
             });
         }
         selectDayFragment.setListDay(mListDaySelected);
-        selectDayFragment.show(getSupportFragmentManager(),"select");
+        //selectDayFragment.show(getSupportFragmentManager(),"select");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),selectDayFragment,"select");
+
 
     }
 
@@ -187,13 +192,13 @@ public class FriendDetailActivity extends MvpBaseActivity<ChangeFriendMsgContrac
         mFriend_name.setText(mFriendInfo.getFriendRemarkName());
         //删除成功好友列表发生变化，要刷新列表
         setResult(RESULT_OK);
+        showToast("修改成功",Toast.LENGTH_SHORT);
        // mPresenter.getFriendInfo(mFriendDataBean.getFriendPhoneNo());
     }
 
     //删除好友成功
     @Override
     public void deleteSuccess(String msg) {
-        //// TODO: 2017/11/1 发送广播更新好友列表
         showToast(msg,Toast.LENGTH_SHORT);
 //        Intent intent = new Intent(Until.ACTION_FRIEND);
         //删除成功好友列表发生变化，要刷新列表
@@ -217,6 +222,11 @@ public class FriendDetailActivity extends MvpBaseActivity<ChangeFriendMsgContrac
         FriendDetailInfo.DataBean dataBean = friendDetailInfo.getData();
         mFriend_name.setText(friendDetailInfo.getData().getFriendRemarkName());
         mFriend_phone.setText(friendDetailInfo.getData().getFriendPhoneNo());
+        if(!friendDetailInfo.getData().getHeadPic().equals(""))
+        {
+            Glide.with(FriendDetailActivity.this).load(Until.HTTP_BASE_URL+"downLoadPic.do?fileId="+dataBean.getHeadPic()).into(mDetail_head);
+
+        }
         if(dataBean.getIsAccreditVisible() == 1){
             mToggleButton.setChecked(true);
             mBodyTimeSelect.setVisibility(View.VISIBLE);
@@ -244,7 +254,8 @@ public class FriendDetailActivity extends MvpBaseActivity<ChangeFriendMsgContrac
         {
             dialogFragment = MyDialogFragment.newInstance("删除好友","你确定要删除此好友","取消","确定");
         }
-        dialogFragment.show(getSupportFragmentManager(),"delete");
+       // dialogFragment.show(getSupportFragmentManager(),"delete");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),dialogFragment,"delete");
     }
 
     @Override

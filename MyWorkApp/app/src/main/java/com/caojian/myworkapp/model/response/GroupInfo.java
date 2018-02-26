@@ -1,12 +1,14 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
 import java.util.List;
 
 /**
  * Created by CJ on 2017/11/4.
  */
 
-public class GroupInfo {
+public class GroupInfo extends BaseResponseResult<GroupInfo.DataBean> {
 
     /**
      * code : 0
@@ -14,35 +16,8 @@ public class GroupInfo {
      * data : {"groupName":"","groupAccreditStartTime":"","groupAccreditEndTime":"","isAccreditVisible":""}
      */
 
-    private int code;
-    private String message;
-    private DataBean data;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
 
         /** 是否授权可见 1:是,2:否 */
         private Integer isAccreditVisible;

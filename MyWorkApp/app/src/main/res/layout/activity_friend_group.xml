@@ -39,7 +39,7 @@
                 <ImageView
                     android:layout_width="@dimen/item_show_img_height"
                     android:layout_height="@dimen/item_show_img_height"
-                    android:background="#fea5ff"
+                    android:background="#CD8500"
                     android:src="@drawable/ic_person_outline_black_24dp"
                     android:scaleType="centerInside"/>
                 <TextView
@@ -65,9 +65,8 @@
                 android:id="@+id/recy_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:background="@color/background_color_gray"
+
                 tools:listitem="@layout/friendgroup_list_item">
 
             </android.support.v7.widget.RecyclerView>

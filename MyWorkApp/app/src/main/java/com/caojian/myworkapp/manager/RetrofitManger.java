@@ -1,8 +1,12 @@
 package com.caojian.myworkapp.manager;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.caojian.myworkapp.MyApplication;
+import com.caojian.myworkapp.until.ActivityUntil;
+import com.caojian.myworkapp.until.Until;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +37,9 @@ public class RetrofitManger {
                 public Response intercept(Chain chain) throws IOException {
                     Request request = chain.request().newBuilder()
                             .addHeader("deviceNo",((MyApplication)context.getApplicationContext()).getDeviceId())
-                            .addHeader("version","1.0.0").build();
+                            .addHeader("version", ActivityUntil.getVersionName(context))
+                            .addHeader("noForceFlag",((MyApplication)context.getApplicationContext()).getNoForceFlag())
+                            .addHeader("client", "2").build();
                     return chain.proceed(request);
                 }
             };
@@ -70,5 +76,31 @@ public class RetrofitManger {
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build();
         return retrofit;
+    }
+
+    //版本名
+    public static String getVersionName(Context context) {
+        return getPackageInfo(context).versionName;
+    }
+
+    //版本号
+    public static int getVersionCode(Context context) {
+        return getPackageInfo(context).versionCode;
+    }
+
+    private static PackageInfo getPackageInfo(Context context) {
+        PackageInfo pi = null;
+
+        try {
+            PackageManager pm = context.getPackageManager();
+            pi = pm.getPackageInfo(context.getPackageName(),
+                    PackageManager.GET_CONFIGURATIONS);
+
+            return pi;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pi;
     }
 }

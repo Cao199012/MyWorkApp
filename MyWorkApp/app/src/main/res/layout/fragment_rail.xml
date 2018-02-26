@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".ui.fragment.RailFragment">
+    android:background="@color/background_color_gray"
+    tools:context=".ui.fragment.FenceAlarmFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <!--<TextView-->
@@ -13,14 +13,19 @@
     <com.baidu.mapapi.map.TextureMapView
         android:id="@+id/map_rail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp">
 
     </com.baidu.mapapi.map.TextureMapView>
-    <ImageView
-        android:id="@+id/img_location"
-        android:layout_width="40dp"
+    <TextView
+        android:id="@+id/text_location"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:src="@mipmap/location"
+        android:visibility="invisible"
+        android:background="@color/background_color_gray"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textStyle="italic"
         android:layout_gravity="center"/>
 
 </FrameLayout>

@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.model.data.ApplyFriendsRecord;
-import com.caojian.myworkapp.model.data.MessageItem;
+import com.caojian.myworkapp.model.response.ApplyFriendsRecord;
+import com.caojian.myworkapp.until.Until;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
 
         if(!item.getHeadPic().isEmpty()){
-            Glide.with(mContext).load(item.getHeadPic()).into(holder.img_friend);
+            Glide.with(mContext).load(Until.HTTP_BASE_IMAGE_URL+item.getHeadPic()).into(holder.img_friend);
         }
         // TODO: 2017/9/3 操作显示信息
         holder.mBtn_accept.setOnClickListener(new View.OnClickListener() {

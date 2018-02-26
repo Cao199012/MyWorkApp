@@ -10,9 +10,8 @@ import android.widget.Toast;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.ui.base.MvpBaseActivity;
 import com.caojian.myworkapp.ui.contract.AddByPhoneContrct;
-import com.caojian.myworkapp.ui.contract.CheckContract;
 import com.caojian.myworkapp.ui.presenter.AddByPhonePresenter;
-import com.caojian.myworkapp.ui.presenter.CheckPresenter;
+import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.widget.MyDialogFragment;
 
 import butterknife.BindView;
@@ -24,14 +23,13 @@ import static com.caojian.myworkapp.until.ActivityUntil.CheckPhone;
 
 public class SearchByPhoneActivity extends MvpBaseActivity<AddByPhoneContrct.View,AddByPhonePresenter> implements AddByPhoneContrct.View
                 ,MyDialogFragment.FragmentDialogListener{
-
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @BindView(R.id.searchView)
     SearchView mPhoneSearch;
     private Unbinder unbinder;
     AddByPhonePresenter mPersenter;
-    MyDialogFragment fragment;
+    MyDialogFragment mDialogFragment;
     String phone;
     public static void go2SearchByPhoneActivity(Context fromClass)
     {
@@ -44,6 +42,8 @@ public class SearchByPhoneActivity extends MvpBaseActivity<AddByPhoneContrct.Vie
         setContentView(R.layout.activity_search_by_phone);
         unbinder = ButterKnife.bind(this);
         mToolbar.setTitle("添加好友");
+        //初始化打开
+        mPhoneSearch.onActionViewExpanded();
     }
 
     @OnClick(R.id.btnSearch)
@@ -54,6 +54,9 @@ public class SearchByPhoneActivity extends MvpBaseActivity<AddByPhoneContrct.Vie
         if(!checkResult.equals(""))
         {
             showToast(checkResult, Toast.LENGTH_SHORT);
+            return;
+        }else if(phone.equals(ActivityUntil.getPhone(SearchByPhoneActivity.this))){
+            showToast("不能添加本人", Toast.LENGTH_SHORT);
             return;
         }
         //校验手机号
@@ -74,11 +77,13 @@ public class SearchByPhoneActivity extends MvpBaseActivity<AddByPhoneContrct.Vie
     //手机验证通过
     @Override
     public void checkSuccess() {
-        if(fragment == null || !fragment.getTag().equals("check"))
+        if(mDialogFragment == null || !mDialogFragment.getTag().equals("check"))
         {
-            fragment = MyDialogFragment.newInstance("验证结果","此用户已注册是否添加为好友","取消","确定");
+            mDialogFragment = MyDialogFragment.newInstance("验证结果","此用户已注册，是否添加为好友?","取消","添加");
         }
-        fragment.show(getSupportFragmentManager(),"check");
+        //mDialogFragment.show(getSupportFragmentManager(),"check");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),mDialogFragment,"check");
+
     }
 
     //发送请求成功
@@ -94,35 +99,30 @@ public class SearchByPhoneActivity extends MvpBaseActivity<AddByPhoneContrct.Vie
 
     @Override
     public void checkFail(String msg) {
-        if(fragment == null || !fragment.getTag().equals("Invite"))
+        if(mDialogFragment == null || !mDialogFragment.getTag().equals("Invite"))
         {
-            fragment = MyDialogFragment.newInstance("邀请加入",msg,"取消","邀请");
+            mDialogFragment = MyDialogFragment.newInstance("此用户还未注册，邀请加入?",msg,"取消","邀请");
         }
-        fragment.show(getSupportFragmentManager(),"Invite");
+        //mDialogFragment.show(getSupportFragmentManager(),"Invite");
+        ActivityUntil.showDialogFragment(getSupportFragmentManager(),mDialogFragment,"Invite");
     }
 
     //dialogfragment 的监听
     @Override
     public void cancel() {
-        fragment.dismiss();
-        fragment = null;
+        mDialogFragment.dismiss();
+        mDialogFragment = null;
     }
 
     @Override
     public void sure() {
-
-        if(fragment.getTag().equals("check")){
+        if(mDialogFragment.getTag().equals("check")){
             mPersenter.addFriend(phone,"申请加好友");
         }else {
-            Intent sendIntent =new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT,"This is my text to send.");
-            sendIntent.setType("text/plain");
-            startActivity(Intent.createChooser(sendIntent, "加入我们"));
+            shareApp(); //
         }
-        fragment.dismiss();
-        fragment = null;
-
+        mDialogFragment.dismiss();
+        mDialogFragment = null;
     }
 
 }

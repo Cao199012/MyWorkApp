@@ -26,8 +26,11 @@
             android:id="@+id/detail_head"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:src="@mipmap/ic_jianshu"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@mipmap/logo_launcher"
             android:layout_centerVertical="true"
+            android:scaleType="fitXY"
             android:layout_alignParentLeft="true"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="设置好友昵称"/>
+            android:text="设置好友备注名"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -167,8 +170,27 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_margin="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="50dp"
+        android:layout_gravity="end"
+        android:background="@color/white"
+        app:cardCornerRadius="10dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:onClick="changeTimeMessage"
+            android:text="修改授权时间" />
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="end"
         android:background="@color/white"
         app:cardCornerRadius="10dp">
@@ -179,11 +201,5 @@
             android:background="@color/white"
             android:onClick="deleteFriend"
             android:text="删除好友" />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:onClick="changeTimeMessage"
-            android:text="修改授权时间" />
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 import com.caojian.myworkapp.model.data.LocationItem;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by CJ on 2017/10/20.
  */
 
-public class FriendPosition {
+public class FriendPosition extends BaseResponseResult<FriendPosition.DataBean> {
 
     /**
      * code : 0
@@ -16,35 +17,7 @@ public class FriendPosition {
      * data : {"positions":[{"longitude":"","latitude":"","headPic":""},{"longitude":"","latitude":"","headPic":""}]}
      */
 
-    private int code;
-    private String message;
-    private DataBean data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         private List<LocationItem> positions;
 
         public List<LocationItem> getPositions() {

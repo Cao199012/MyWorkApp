@@ -13,7 +13,7 @@ public class RegisterContract {
     }
 
     public interface Presenter{
-        void checkRegister(String phone,String verificationCode,String password,String invitationCode);
+        void checkRegister(String phone,String verificationCode,String password,String invitationCode,String nickName);
         void verityCode(String phone,String imgCode);
     }
 }

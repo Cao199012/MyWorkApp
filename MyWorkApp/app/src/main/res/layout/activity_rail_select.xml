@@ -24,14 +24,19 @@
         android:orientation="horizontal"
         android:gravity="center_vertical"
         android:background="@color/white"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/toolbar"
-        android:onClick="selectRailFriend">
+        android:onClick="selectRailFriend"
+        android:layout_below="@+id/toolbar">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:text="选择观察好友"/>
+        <TextView
+            android:id="@+id/select_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
@@ -52,9 +57,11 @@
             android:textSize="14sp"
             android:text="开始时间"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_start"
+            android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="center"
             android:background="@drawable/btn_select"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
@@ -64,19 +71,93 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:text="结束时间"/>
+            android:text="结束时间" />
 
         <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tv_end"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:gravity="center"
             android:background="@drawable/btn_select"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:textSize="14sp"
             android:onClick="showTimeSelect"/>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/select_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:gravity="center|left"
+        android:background="@color/white"
+        android:layout_below="@+id/time_select_body"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center|left"
+            android:text="@string/track_query_option_process"
+            android:textColor="@color/list_item_title"
+            android:textSize="14dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:weightSum="1">
+
+            <CheckBox
+                android:id="@+id/processed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:minHeight="25dp"
+                android:checked="true"
+                android:text="@string/processed"
+                android:textColor="@color/list_item_desc"
+                android:textSize="12dp"
+                android:button="@drawable/chk_selector"/>
+
+            <CheckBox
+                android:id="@+id/denoise"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:minHeight="25dp"
+                android:text="@string/denoise"
+                android:textColor="@color/list_item_desc"
+                android:textSize="12dp"
+                android:button="@drawable/chk_selector"/>
+
+            <CheckBox
+                android:id="@+id/vacuate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="@string/vacuate"
+                android:textColor="@color/list_item_desc"
+                android:minHeight="25dp"
+                android:textSize="12dp"
+                android:button="@drawable/chk_selector"/>
+
+
+            <CheckBox
+                android:id="@+id/mapmatch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:text="@string/mapmatch"
+                android:textColor="@color/list_item_desc"
+                android:minHeight="25dp"
+                android:textSize="12dp"
+                android:button="@drawable/chk_selector"/>
+        </LinearLayout>
+
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/select_range"
         android:layout_width="match_parent"
@@ -87,8 +168,7 @@
         android:gravity="center"
         android:background="@color/white"
 
-        android:layout_below="@+id/time_select_body"
-        android:layout_alignParentStart="true">
+        android:layout_below="@+id/time_select_body">
         <TextView
             android:id="@+id/tv_ground"
             android:layout_width="wrap_content"
@@ -101,7 +181,7 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -113,6 +193,8 @@
                     android:id="@+id/first_point"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:background="@drawable/btn_select"
                     android:onClick="go2SelectPoint"
@@ -121,7 +203,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -134,6 +216,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:background="@drawable/btn_select"
                     android:onClick="go2SelectPoint"
                     android:layout_marginLeft="100dp"
@@ -141,7 +225,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="10dp">
                 <TextView
                     android:layout_width="wrap_content"
@@ -153,6 +237,8 @@
                     android:id="@+id/third_point"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:background="@drawable/btn_select"
                     android:onClick="go2SelectPoint"
@@ -161,7 +247,7 @@
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp">
                 <TextView
@@ -174,6 +260,8 @@
                     android:id="@+id/fourth_point"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:background="@drawable/btn_select"
                     android:onClick="go2SelectPoint"
@@ -186,11 +274,13 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
         android:background="@drawable/btn_radius"
-        android:text="确定"
+        android:text="确 定"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="submitMsg">
     </Button>
 </RelativeLayout>

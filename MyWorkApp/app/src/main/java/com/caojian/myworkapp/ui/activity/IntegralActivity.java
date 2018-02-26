@@ -39,12 +39,21 @@ public class IntegralActivity extends MvpBaseActivity<PersonalContract.View,Pers
         setContentView(R.layout.activity_integral);
         unbinder = ButterKnife.bind(this);
         mToolbar.setTitle("积分");
-        PersonalMsg personalMsg = PersonalInstance.getInstance().getPersonalMsg();
-        if(personalMsg != null){
-            mTv_integral.setText(personalMsg.getData().getRewardScore()+"");
-        }else {
-            mPresenter.getPersonalInfo();
-        }
+//        PersonalMsg personalMsg = PersonalInstance.getInstance().getPersonalMsg();
+//        if(personalMsg != null){
+//            mTv_integral.setText(personalMsg.getData().getRewardScore()+"");
+//        }else {
+//            mPresenter.getPersonalInfo();
+//        }
+
+    }
+
+
+    @Override
+    protected void onResume() {
+        //每次进入更新信息
+        mPresenter.getPersonalInfo();
+        super.onResume();
     }
 
     //进入详情
@@ -61,10 +70,11 @@ public class IntegralActivity extends MvpBaseActivity<PersonalContract.View,Pers
         TiXianActivity.go2TiXianActivity(IntegralActivity.this);
     }
 
-    @OnClick(R.id.go_share)
-    public void go2Share()
-    {
 
+    //转赠好友积分
+    @OnClick(R.id.go_give)
+    public void goGive(){
+        GiveActivity.go2GiveActivity(IntegralActivity.this);
     }
 
     @Override
@@ -81,7 +91,14 @@ public class IntegralActivity extends MvpBaseActivity<PersonalContract.View,Pers
 
     @Override
     public void getPersonalSuccess(PersonalMsg personalMsg) {
-        mTv_integral.setText(personalMsg.getData().getRewardScore()+"");
+        double rewardScore = personalMsg.getData().getRewardScore();
+        String score = "";
+//        if(rewardScore >= 1000){
+//            score = (int)(rewardScore/1000)+","+rewardScore%1000;
+//        }else {
+//            score = rewardScore + "";
+//        }
+        mTv_integral.setText(rewardScore+"");
     }
 
     @Override

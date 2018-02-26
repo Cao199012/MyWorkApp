@@ -1,12 +1,14 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
 import java.util.List;
 
 /**
  * Created by CJ on 2017/11/10.
  */
 
-public class RewardScoreDetailMsg {
+public class RewardScoreDetailMsg extends BaseResponseResult<RewardScoreDetailMsg.DataBean> {
 
     /**
      * code : 0
@@ -14,35 +16,8 @@ public class RewardScoreDetailMsg {
      * data : {"totalRewardScore":"","pageCount":"","pageNumber":"","details":[{"rewardScoreType":"","detailInfo":"","rewardScore":""},{"rewardScoreType":"","detailInfo":"","rewardScore":""}]}
      */
 
-    private int code;
-    private String message;
-    private DataBean data;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         /**
          * totalRewardScore :
          * pageCount :
@@ -88,13 +63,8 @@ public class RewardScoreDetailMsg {
         }
 
         public static class DetailsBean {
-            /**
-             * rewardScoreType :
-             * detailInfo :
-             * rewardScore :
-             */
 
-            private String rewardScoreType;
+            private String rewardScoreType;   //1:购买会员,2:推荐奖励,3:提现,4:转增,5:获赠
             private String detailInfo;
             private String rewardScore;
             private String createTime;

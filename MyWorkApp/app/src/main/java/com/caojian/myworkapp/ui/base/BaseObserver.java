@@ -1,9 +1,14 @@
 package com.caojian.myworkapp.ui.base;
 
 import android.accounts.NetworkErrorException;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.caojian.myworkapp.MyApplication;
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+import com.caojian.myworkapp.model.response.UpdateResponse;
+import com.caojian.myworkapp.ui.activity.UpdateActivity;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSyntaxException;
 
@@ -26,6 +31,7 @@ import io.reactivex.disposables.Disposable;
 public abstract class BaseObserver<T> implements Observer<T> {
 
     protected abstract void baseNext(T t);
+    protected abstract void baseError(String msg);
     //abstract void baseComplete();
 
     BaseTitleActivity baseTitleActivity;
@@ -46,15 +52,56 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     @Override
     public void onNext( T t) {
-        baseNext(t);
+        BaseResponseResult baseResponseResult = (BaseResponseResult) t;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if(baseTitleActivity.isDestroyed()) {
+                return;
+
+            }
+        }
+        if (baseTitleActivity == null ||baseTitleActivity.isFinishing()) {
+            return;
+        }
+        if (baseResponseResult.getCode() == 0)
+        {
+            baseNext(t);
+        } else if(baseResponseResult.getCode()==3 || baseResponseResult.getCode()==2){
+
+            baseTitleActivity.outLogin(baseResponseResult.getMessage());
+
+        }else if(baseResponseResult.getCode() == 4  || baseResponseResult.getCode() == 5){
+            UpdateResponse.DataBean dataBean = new UpdateResponse.DataBean();
+            dataBean.setComment(baseResponseResult.getData().getComment());
+            dataBean.setMandatory(baseResponseResult.getData().getMandatory());
+            dataBean.setIsUpdate(baseResponseResult.getData().getIsUpdate());
+            dataBean.setDownLoadAddr(baseResponseResult.getData().getDownLoadAddr());
+            UpdateActivity.go2UpdateActivity(baseTitleActivity,dataBean,101);
+            if(baseResponseResult.getCode() == 4){ //标记已经升级过一次
+                ((MyApplication)baseTitleActivity.getApplicationContext()).setNoForceFlag("1");
+            }
+            return;
+        }else if(baseResponseResult.getCode()== 6)
+        {
+            baseTitleActivity.showBuyVip();
+        }else {
+            baseError(baseResponseResult.getMessage());
+        }
+
     }
 
     @Override
     public void onError(@NonNull Throwable t) {
-        if(baseTitleActivity != null)
-        {
-            baseTitleActivity.hideProgress();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if(baseTitleActivity.isDestroyed()) {
+                return;
+
+            }
         }
+        if (baseTitleActivity == null ||baseTitleActivity.isFinishing()) {
+            return;
+        }
+
+        baseTitleActivity.hideProgress();
         StringBuffer sb = new StringBuffer();
         sb.append("请求失败：");
         if (t instanceof NetworkErrorException || t instanceof UnknownHostException || t instanceof ConnectException) {
@@ -68,26 +115,30 @@ public abstract class BaseObserver<T> implements Observer<T> {
                 || t instanceof ParseException) {   //  解析错误
             sb.append("解析错误");
         } else {
-            if(baseTitleActivity != null)
-            {
-                baseTitleActivity.showToast(t.getMessage(), Toast.LENGTH_SHORT);
-            }
+
+            baseError(t.getMessage());
             return;
         }
-        //Log.e(TAG, "onBaseError: " + sb.toString());
-        if(baseTitleActivity != null)
-        {
-            baseTitleActivity.showToast(sb.toString(), Toast.LENGTH_SHORT);
-        }
+
+        baseError(sb.toString());
+
 
     }
 
     @Override
     public void onComplete() {
         //结束时取消进度条显示
-        if(baseTitleActivity != null)
-        {
-            baseTitleActivity.hideProgress();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            if(baseTitleActivity.isDestroyed()) {
+                return;
+
+            }
         }
+        if (baseTitleActivity == null ||baseTitleActivity.isFinishing()) {
+            return;
+        }
+
+        baseTitleActivity.hideProgress();
+
     }
 }

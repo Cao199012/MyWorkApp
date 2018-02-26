@@ -1,23 +1,16 @@
 package com.caojian.myworkapp.ui.presenter;
 
-import com.caojian.myworkapp.api.MyApi;
-import com.caojian.myworkapp.manager.RetrofitManger;
-import com.caojian.myworkapp.model.response.CustomResult;
+import com.caojian.myworkapp.model.base.BaseResponseResult;
 import com.caojian.myworkapp.model.response.FriendMsg;
-import com.caojian.myworkapp.model.response.RegisterMsg;
-import com.caojian.myworkapp.model.response.VerityCodeMsg;
 import com.caojian.myworkapp.ui.base.BaseObserver;
 import com.caojian.myworkapp.ui.base.BasePresenter;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
 import com.caojian.myworkapp.ui.contract.AddByPhoneContrct;
-import com.caojian.myworkapp.ui.contract.RegisterContract;
 import com.caojian.myworkapp.until.ActivityUntil;
-import com.caojian.myworkapp.until.Until;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 /**
  * Created by CJ on 2017/8/20.
@@ -41,20 +34,23 @@ public class AddByPhonePresenter extends BasePresenter<AddByPhoneContrct.View> i
                 .subscribe(new BaseObserver<FriendMsg>(activity,this) {
                     @Override
                     protected void baseNext(FriendMsg friendMsg) {
-                        if(friendMsg.getCode() == 0 && friendMsg.getData() != null)
-                        {
-                            //搜索号码 判断是否已经是好友了
-                            if(friendMsg.getData().getIsFriend() == 1){
-                                mView.checkFail(friendMsg.getMessage());
-                                return;
-                            }
-                            mView.checkSuccess();
-                        }else if(friendMsg.getCode()==3){
-                            activity.outLogin(friendMsg.getMessage());
-                        }else
-                        {
-                            mView.checkFail(friendMsg.getMessage());
+
+                        //搜索号码 判断是否已经是好友了
+                        if(friendMsg.getData() == null){
+                            mView.checkFail("好友还没注册，邀请加入");
+                            return;
                         }
+                        if(friendMsg.getData().getIsFriend() == 1){
+                            mView.error("已是好友");
+                            return;
+                        }
+                        mView.checkSuccess();
+
+                    }
+
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }
@@ -65,18 +61,15 @@ public class AddByPhonePresenter extends BasePresenter<AddByPhoneContrct.View> i
 
         service.applyForAddFriend(ActivityUntil.getToken(activity),phone,applyInfo).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(new BaseObserver<CustomResult>(activity,this) {
+                .subscribe(new BaseObserver<BaseResponseResult>(activity,this) {
                     @Override
-                    protected void baseNext(CustomResult  applyFriendMsg) {
-                        if(applyFriendMsg.getCode() == 0)
-                        {
-                            mView.addSuccess(applyFriendMsg.getMessage());
-                        }else if(applyFriendMsg.getCode()==3){
-                            activity.outLogin(applyFriendMsg.getMessage());
-                        }else
-                        {
-                            mView.error(applyFriendMsg.getMessage());
-                        }
+                    protected void baseNext(BaseResponseResult applyFriendMsg) {
+                        mView.addSuccess(applyFriendMsg.getMessage());
+                    }
+
+                    @Override
+                    protected void baseError(String msg) {
+                        mView.error(msg);
                     }
                 });
     }

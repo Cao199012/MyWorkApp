@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color_gray"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     app:cardCornerRadius="30dp">
@@ -43,7 +44,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_radius"
-            android:textColor="@color/white"
+            android:textColor="@color/background_color"
             android:gravity="center"
             android:text="取消"/>
         <TextView
@@ -51,7 +52,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_radius"
-            android:textColor="@color/white"
+            android:textColor="@color/background_color"
             android:text="确定"
             android:gravity="center"
             android:layout_marginLeft="30dp"/>

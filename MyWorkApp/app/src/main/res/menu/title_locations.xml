@@ -2,10 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:title=""
+        android:title="定位列表"
         android:id="@+id/title_drop"
-        android:icon="@drawable/ic_pin_drop_white_24dp"
-
         app:showAsAction="always">
     </item>
+
+    <!--android:icon="@drawable/ic_pin_drop_white_24dp" -->
+
 </menu>

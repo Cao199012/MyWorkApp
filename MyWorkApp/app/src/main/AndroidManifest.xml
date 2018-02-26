@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.caojian.myworkapp">
 
+    <uses-sdk tools:overrideLibrary="com.quicklib.android.multidex" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -30,16 +32,24 @@
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- SD卡读取权限，用于写入对象存储BOS数据 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 用于加快GPS首次定位 -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <!-- 用于Android M及以上系统，申请加入忽略电池优化白名单 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/logo_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity" />
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.activity.SplashActivity"
             android:theme="@style/LunchAppTheme">
@@ -49,29 +59,40 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LoginActivity" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppMainTheme"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ui.activity.PhoneCheckActivity"
             android:theme="@style/FullAppTheme" />
-        <activity android:name=".ui.activity.PasswordActivity" />
+        <activity
+            android:name=".ui.activity.PasswordActivity"
+            android:theme="@style/AppMainTheme" />
         <activity
             android:name=".ui.activity.IntroduceActivity"
             android:theme="@style/FullAppTheme" />
         <activity
             android:name=".ui.activity.UpdateActivity"
+            android:launchMode="singleTop"
             android:theme="@style/WindowActivity" />
         <activity
             android:name=".ui.activity.RegisterActivity"
-            android:label="@string/title_activity_register" />
+            android:label="@string/title_activity_register"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="autMNcrfbLlA0CKAcjzC585uRInGNxTz" /> <!-- //key:开发者申请的Key -->
-
+        <service
+            android:name="com.baidu.trace.LBSTraceService"
+            android:enabled="true"
+            android:process=":remote"></service>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
 
         <activity android:name=".ui.activity.FriendSelectActivity" />
         <activity android:name=".ui.activity.FriendAPPlyRecordActivity" />
@@ -136,7 +157,9 @@
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".ui.activity.WebViewDetailActivity" />
         <activity android:name=".ui.activity.TiXianDetailActivity" />
-        <activity android:name=".ui.activity.BuyZengZhiActivity"></activity>
+        <activity android:name=".ui.activity.BuyZengZhiActivity" />
+        <activity android:name=".ui.activity.GiveActivity" />
+        <activity android:name=".ui.activity.RechargeInfoDetailActivity" />
     </application>
 
 </manifest>

@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,7 +42,7 @@ public class ListDialogFragment extends AppCompatDialogFragment {
     RecyclerView mRecy_vip;
     FragmentBuyListener mListener;
     private String[] types = {"三个月","半年","一年"};
-    private int[] prices = {10,20,35};
+    private int[] prices = {1500,2400,3600};
     private static int TYPENUM = 4; //总数加1
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,7 +103,7 @@ public class ListDialogFragment extends AppCompatDialogFragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             VipItem item = mListData.get(position);
             holder.tv_kind.setText(item.getName());
-            holder.tv_price.setText(item.getPrice()+"");
+            holder.tv_price.setText((item.getPrice()/100)+"元");
             holder.tv_buy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -140,5 +142,7 @@ public class ListDialogFragment extends AppCompatDialogFragment {
         void cancelBuy();
         void showBuy(VipItem item);
     }
+
+
 
 }

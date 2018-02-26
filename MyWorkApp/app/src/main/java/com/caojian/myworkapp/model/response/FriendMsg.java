@@ -1,47 +1,19 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
 /**
  * Created by CJ on 2017/10/31.
  */
 
-public class FriendMsg {
+public class FriendMsg extends BaseResponseResult<FriendMsg.DataBean> {
 
     /**
      * code : 0
      * message :  成功
      * data : {"phoneNo":"","headPic":"","nickName":"","remarkName":""}
      */
-
-    private int code;
-    private String message;
-
-    private DataBean data;
-
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         /**
          * phoneNo :
          * headPic :

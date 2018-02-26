@@ -1,5 +1,7 @@
 package com.caojian.myworkapp.model.response;
 
+import com.caojian.myworkapp.model.base.BaseResponseResult;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Created by CJ on 2017/11/4.
  */
 
-public class FriendsAndGroupsMsg {
+public class FriendsAndGroupsMsg extends BaseResponseResult<FriendsAndGroupsMsg.DataBean> {
 
     /**
      * code : 0
@@ -15,35 +17,8 @@ public class FriendsAndGroupsMsg {
      * data : {"friends":[{"friendPhoneNo":"","headPic":""},{"friendPhoneNo":"","headPic":""}],"groups":[{"groupId":"","groupName":"","friends":[{"friendPhoneNo":"","headPic":""},{"friendPhoneNo":"","headPic":""}]},{"groupId":"","groupName":"","friends":[{"friendPhoneNo":"","headPic":""},{"friendPhoneNo":"","headPic":""}]}]}
      */
 
-    private int code;
-    private String message;
-    private DataBean data;
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DataBean getData() {
-        return data;
-    }
-
-    public void setData(DataBean data) {
-        this.data = data;
-    }
-
-    public static class DataBean {
+    public static class DataBean extends BaseResponseResult.UpdateDataBean{
         private List<FriendDetailInfo.DataBean> friends;
         private List<GroupsBean> groups;
 

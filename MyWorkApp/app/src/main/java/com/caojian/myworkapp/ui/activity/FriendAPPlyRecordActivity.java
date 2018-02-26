@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
-import com.caojian.myworkapp.model.data.ApplyFriendsRecord;
+import com.caojian.myworkapp.model.response.ApplyFriendsRecord;
 import com.caojian.myworkapp.ui.adapter.MessageAdapter;
 import com.caojian.myworkapp.ui.base.MvpBaseActivity;
 import com.caojian.myworkapp.ui.contract.ApplyRecordContract;
@@ -28,12 +29,14 @@ public class FriendAPPlyRecordActivity extends MvpBaseActivity<ApplyRecordContra
 
     public static void go2FriendMessageActivity(Context from){
         Intent intent = new Intent(from,FriendAPPlyRecordActivity.class);
-        ((Activity)from).startActivityForResult(intent,102);
+        ((Activity)from).startActivityForResult(intent,1003);
     }
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.recy_messgae)
     RecyclerView mRecyMessage;
+    @BindView(R.id.swipe_apply)
+    SwipeRefreshLayout mSwipeApply;
     private Unbinder unbinder;
     private List<ApplyFriendsRecord.DataBean.RecordsBean> mListData = new ArrayList<>();
     private MessageAdapter mListAdapter;
@@ -44,6 +47,14 @@ public class FriendAPPlyRecordActivity extends MvpBaseActivity<ApplyRecordContra
         setContentView(R.layout.activity_friend_message);
         unbinder = ButterKnife.bind(this);
         toolbar.setTitle("请求信息");
+        //swipe  下拉刷新
+        mSwipeApply.setRefreshing(true);
+        mSwipeApply.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.getRecords();
+            }
+        });
         intRecy();
     }
     private void intRecy() {
@@ -55,7 +66,7 @@ public class FriendAPPlyRecordActivity extends MvpBaseActivity<ApplyRecordContra
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getRecords();
+        mPresenter.getRecords();  //请求记录
     }
     @Override
     protected void onDestroy() {
@@ -70,12 +81,15 @@ public class FriendAPPlyRecordActivity extends MvpBaseActivity<ApplyRecordContra
     //list 按钮点击
     @Override
     public void accept(ApplyFriendsRecord.DataBean.RecordsBean item) {
-        // TODO: 2017/9/30 向后台发送确认请求
+        // 向后台发送确认请求
         mPresenter.agreeApply(item);
     }
     //请求成功，刷新列表
     @Override
     public void getRecords(List<ApplyFriendsRecord.DataBean.RecordsBean> recordsBeanList) {
+        if(mSwipeApply.isRefreshing()){  //数据返回停止加载
+            mSwipeApply.setRefreshing(false);
+        }
         mListData.clear();
         mListData.addAll(recordsBeanList);
         mListAdapter.notifyDataSetChanged();
@@ -84,12 +98,17 @@ public class FriendAPPlyRecordActivity extends MvpBaseActivity<ApplyRecordContra
     //接受邀请，返回好友列表展示好友
     @Override
     public void agreeSuccess() {
-      finish();
+
+        setResult(RESULT_OK);
+        finish();
     }
     //请求失败，显示错误信息
     @Override
     public void error(String msg) {
-        showToast(msg, Toast.LENGTH_SHORT);
+        if(mSwipeApply.isRefreshing()){ //数据返回停止加载
+            mSwipeApply.setRefreshing(false);
+        }
+        if(!msg.isEmpty()) showToast(msg, Toast.LENGTH_SHORT);
     }
 }
 

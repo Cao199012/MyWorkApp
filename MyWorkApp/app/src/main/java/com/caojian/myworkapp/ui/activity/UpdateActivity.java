@@ -92,29 +92,6 @@ public class UpdateActivity extends BaseTitleActivity {
         }
     }
 
-//    DownLoadService.DownBinder binder;
-//    ServiceConnection connection = new ServiceConnection() {
-//        @Override
-//        public void onServiceConnected(ComponentName name, IBinder service) {
-//            binder = (DownLoadService.DownBinder) service;
-//
-//            String[] pers = myCheckPermission(UpdateActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE});
-//            if(pers.length > 0)
-//            {
-//                ActivityCompat.requestPermissions(UpdateActivity.this,pers,1);
-//
-//            }else
-//            {
-//                binder.startDown("http://download.cntv.cn/app/cntv/cbox_androidguanwang_v6.3.1.1.apk");
-//               // ActivityControl.finishActivity();
-//            }
-//        }
-
-//        @Override
-//        public void onServiceDisconnected(ComponentName name) {
-//
-//        }
-//    };
     public void updateForNow(View v)
     {
         // TODO: 2017/8/18启动服务 下载应用
@@ -128,6 +105,7 @@ public class UpdateActivity extends BaseTitleActivity {
 //            binder.startDown("http://download.cntv.cn/app/cntv/cbox_androidguanwang_v6.3.1.1.apk");
             //
             Intent intent = new Intent(UpdateActivity.this,DownLoadService.class);
+            intent.putExtra("url",dataBean.getDownLoadAddr());
             startService(intent);
             ActivityControl.finishActivity();
         }
@@ -154,6 +132,7 @@ public class UpdateActivity extends BaseTitleActivity {
                     }
                     Intent intent = new Intent(UpdateActivity.this,DownLoadService.class);
                     startService(intent);
+                    intent.putExtra("url",dataBean.getDownLoadAddr());
                     finish();
 //                    binder.startDown("");
 //                    ActivityControl.finishActivity();

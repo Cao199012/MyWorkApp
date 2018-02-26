@@ -4,11 +4,9 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-    <android.support.v7.widget.RecyclerView
+    <ExpandableListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/expandable_recy" />
+        android:background="@color/background_color_gray" />
 </RelativeLayout>

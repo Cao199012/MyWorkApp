@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.baidu.wallet.base.datamodel.UserData;
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.MyApplication;
 import com.caojian.myworkapp.R;
@@ -16,6 +17,9 @@ import com.caojian.myworkapp.manager.RetrofitManger;
 import com.caojian.myworkapp.model.response.PersonalMsg;
 import com.caojian.myworkapp.model.response.UpdateResponse;
 import com.caojian.myworkapp.ui.base.BaseTitleActivity;
+import com.caojian.myworkapp.ui.base.MvpBaseActivity;
+import com.caojian.myworkapp.ui.contract.PersonalContract;
+import com.caojian.myworkapp.ui.presenter.PersonalPresenter;
 import com.caojian.myworkapp.until.ActivityUntil;
 import com.caojian.myworkapp.until.Until;
 import com.caojian.myworkapp.widget.PersonalInstance;
@@ -38,8 +42,12 @@ import static com.caojian.myworkapp.ui.activity.UpdateActivity.go2UpdateActivity
 import static com.caojian.myworkapp.until.ActivityUntil.getVersionCode;
 
 //欢迎页面
-public class SplashActivity extends BaseTitleActivity {
-
+public class SplashActivity extends MvpBaseActivity<PersonalContract.View,PersonalPresenter>implements PersonalContract.View {
+    public static void go2SplashActivity(Context fromClass)
+    {
+        Intent intent = new Intent(fromClass,SplashActivity.class);
+        fromClass.startActivity(intent);
+    }
     @BindView(R.id.splash_img)
     ImageView mImageView;
 
@@ -54,7 +62,7 @@ public class SplashActivity extends BaseTitleActivity {
        // checkVersion(getBaseContext());
         if(token.equals(""))  //没有登录记录进入介绍页面
         {
-            go2IntroduceActivity(SplashActivity.this);
+            LoginActivity.go2LoginActivity(SplashActivity.this);
             finish();
 //            MainActivity.go2MainActivity(SplashActivity.this);
 //            finish();
@@ -64,20 +72,19 @@ public class SplashActivity extends BaseTitleActivity {
             mUnbinder = ButterKnife.bind(this);
             //checkVersion();
             //加载图片
-            Glide.with(this).load("file:///android_asset/splash_01.jpg").into(mImageView);
+            //Glide.with(this).load("file:///android_asset/splash_01.jpg").into(mImageView);
             objectAnimator = ObjectAnimator.ofFloat(mImageView,"alpha",0.0f,1.0f);
             objectAnimator.setDuration(1000);
             objectAnimator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animation) {
+                    mPresenter.getPersonalInfo();
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    //动画结束检测版本
-//                    checkVersion();
-                    MainActivity.go2MainActivity(SplashActivity.this);
-                    finish();
+
+
                 }
                 @Override
                 public void onAnimationCancel(Animator animation) {
@@ -117,44 +124,7 @@ public class SplashActivity extends BaseTitleActivity {
         MainActivity.go2MainActivity(SplashActivity.this);
         finish();
     }
-    private Disposable disposable;
-    private void checkVersion() {
 
-        Retrofit retrofit = RetrofitManger.getRetrofitRxjava(Until.HTTP_BASE_URL, SplashActivity.this);
-        MyApi updateService = retrofit.create(MyApi.class);
-        Observable<PersonalMsg> observable = updateService.getMemberInfo(ActivityUntil.getToken(SplashActivity.this));
-       observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Observer<PersonalMsg>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposable = d;
-                    }
-
-                    @Override
-                    public void onNext(PersonalMsg personalMsg) {
-                        if(personalMsg.getCode() == 0){
-                            PersonalInstance.getInstance().setPersonalMsg(personalMsg);
-                        }else if(personalMsg.getCode() == 4  || personalMsg.getCode() == 5){
-                            // UpdateActivity.go2UpdateActivity(SplashActivity.this,,101);
-                            return;
-                        }
-
-                    }
-                    @Override
-                    public void onError(Throwable e) {
-                        MainActivity.go2MainActivity(SplashActivity.this);
-                        finish();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        MainActivity.go2MainActivity(SplashActivity.this);
-                        finish();
-                    }
-
-                });
-    }
 
     @Override
     protected void onDestroy() {
@@ -169,9 +139,30 @@ public class SplashActivity extends BaseTitleActivity {
             mUnbinder.unbind();
         }
 
-        if(disposable != null)
-        {
-            disposable.dispose();
-        }
+
+    }
+
+    PersonalPresenter mPresenter;
+    @Override
+    public PersonalPresenter createPresenter() {
+        mPresenter = new PersonalPresenter(SplashActivity.this,this);
+        return mPresenter;
+    }
+
+    @Override
+    public void getPersonalSuccess(PersonalMsg personalMsg) {
+        MainActivity.go2MainActivity(SplashActivity.this);
+        finish();
+    }
+
+    @Override
+    public void changeMsgSuccess(String msg) {
+
+    }
+
+    @Override
+    public void error(String errorMsg) {
+        MainActivity.go2MainActivity(SplashActivity.this);
+        finish();
     }
 }

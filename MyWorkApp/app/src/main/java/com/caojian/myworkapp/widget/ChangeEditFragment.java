@@ -3,6 +3,8 @@ package com.caojian.myworkapp.widget;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
@@ -113,4 +115,6 @@ public class ChangeEditFragment extends AppCompatDialogFragment  {
         void cancelEdit();
         void submitEdit(String msg);
     }
+
+
 }

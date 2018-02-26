@@ -12,7 +12,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.caojian.myworkapp.R;
 import com.caojian.myworkapp.model.response.FriendDetailInfo;
+import com.caojian.myworkapp.until.Until;
+import com.caojian.myworkapp.widget.ImageLoad;
 
+import java.io.File;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,12 +70,18 @@ public class GroupMembersAdapter extends RecyclerView.Adapter<GroupMembersAdapte
         }else {
             FriendDetailInfo.DataBean item = mFriendData.get(position);
             // TODO: 2017/9/9 设置其他信息
-            holder.item_name.setVisibility(View.VISIBLE  );
-            holder.item_name.setText(item.getFriendPhoneNo());
+            holder.item_name.setVisibility(View.VISIBLE );
+            holder.item_name.setText(item.getFriendRemarkName());
             if(!item.getHeadPic().equals("")){
-                Glide.with(mContext).load(item.getHeadPic()).into(holder.img_head);
+                File _file = ImageLoad.getBitmapFile(item.getHeadPic());
+                if(_file != null) {
+                    Glide.with(mContext).load(_file).into(holder.img_head);
+                }else {
+                    Glide.with(mContext).load(Until.HTTP_BASE_IMAGE_URL+item.getHeadPic()).into(holder.img_head);
+                }
             }else {
-                Glide.with(mContext).load(R.mipmap.ic_jianshu).into(holder.img_head);
+
+                Glide.with(mContext).load(R.mipmap.logo_launcher).into(holder.img_head);
 
             }
             holder.mItem_body.setOnClickListener(new View.OnClickListener() {

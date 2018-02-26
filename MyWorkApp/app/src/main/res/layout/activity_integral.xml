@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    tools:context="com.caojian.myworkapp.ui.activity.IntegralActivity">
+    tools:context="com.caojian.myworkapp.ui.activity.IntegralActivity"
+    android:orientation="vertical">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -22,78 +22,128 @@
            android:textColor="@color/white" />
     </android.support.v7.widget.Toolbar>
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#ff5151">
-
-        <RelativeLayout
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp">
-
-            <TextView
-                android:id="@+id/integral_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:text="50"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/integral_num"
-                android:layout_alignBottom="@+id/integral_num"
-                android:layout_marginLeft="3dp"
-                android:textSize="15sp"
-                android:textColor="@color/white"
-                android:text="积分"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/integral_num"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:text="小积分，大用处，多赚一些囤起来"/>
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ff2d2d"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/go_share"
-            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="赚积分" />
+            android:background="@color/background_color"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/colorPrimary">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp">
+
+                    <TextView
+                        android:id="@+id/integral_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:text="50"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/integral_num"
+                        android:layout_alignBottom="@+id/integral_num"
+                        android:layout_marginLeft="3dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/white"
+                        android:text="积分"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/integral_num"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:text="小积分，大用处，多赚一些囤起来"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/go_give"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:text="转 赠" />
 
 
-        <TextView
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="5dp"
-            android:background="@color/background_color_gray" />
+                <TextView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/background_color_gray" />
 
-        <TextView
-            android:id="@+id/go_tixian"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:text="提现" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="赚取规则"/>
+                <TextView
+                    android:id="@+id/go_tixian"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorPrimary"
+                    android:text="提 现" />
+            </LinearLayout>
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:text="积分规则规则"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1dp"
+                android:letterSpacing="0.1"
+                android:lineSpacingMultiplier="1"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="积分和提现规则:"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1dp"
+                android:letterSpacing="0.1"
+                android:lineSpacingMultiplier="1"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textColor="@color/white"
+                android:text="@string/rule_integral"/>
+        </LinearLayout>
+    </ScrollView>
+
+   <!--<TextView-->
+       <!--android:layout_width="match_parent"-->
+       <!--android:layout_height="wrap_content"-->
+       <!--android:textColor="@color/background_color_gray"-->
+       <!--android:layout_marginTop="5dp"-->
+       <!--android:lineSpacingExtra="1dp"-->
+       <!--android:letterSpacing="0.1"-->
+       <!--android:lineSpacingMultiplier="1"-->
+       <!--android:paddingLeft="15dp"-->
+       <!--android:paddingRight="15dp"-->
+       <!--android:textSize="12sp"-->
+       <!--android:text="公司对以上规则拥有最终解释权,并可根据运营情况进行修改 "/>-->
+    <!--<ViewStub-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content" />-->
 </LinearLayout>

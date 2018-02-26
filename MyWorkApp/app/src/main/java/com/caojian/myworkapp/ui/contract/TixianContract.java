@@ -13,7 +13,8 @@ public class TixianContract {
     }
 
     public interface Presenter{
-        void submitMsg(int rewardScore, String cardName, String cardNum, String bankName,String bankBranch);
-        void verityCode(String phone, String imgCode);
+        void submitTixianMsg(int rewardScore, String cardName, String cardNum, String bankName, String verCode);
+        void submitGiveMsg(String rewardScore, String friendNo, String verCode);
+        void verityCode(String phone, String imgCode,int type);
     }
 }

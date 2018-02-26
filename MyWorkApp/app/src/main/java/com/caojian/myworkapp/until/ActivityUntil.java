@@ -1,17 +1,25 @@
 package com.caojian.myworkapp.until;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -21,6 +29,8 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.caojian.myworkapp.R;
+import com.caojian.myworkapp.widget.SelectHvFragment;
+import com.ta.utdid2.android.utils.StringUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -46,8 +56,8 @@ import static android.content.Context.TELEPHONY_SERVICE;
 public class ActivityUntil {
 
     private static Toast toast;
-    private final static String PHONE_PATTERN = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([0,1,6,7,]))|(18[0-2,5-9]))\\d{8}$";
-    private final static String PASSWORD_PATTERN = "^([0-9]|[a-z]|[A-Z]){6,10}$";
+    private final static String PHONE_PATTERN = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17([0-9]))|(18[0-2,5-9]))\\d{8}$";
+    private final static String PASSWORD_PATTERN = "^([0-9]|[a-z]|[A-Z]){6,12}$";  //
     public final static String[] WEEKS = {"周一","周二","周三","周四","周五","周六","周日"};
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS", Locale.CHINA);
     public static String genBillNum() {
@@ -86,7 +96,47 @@ public class ActivityUntil {
 
         return pi;
     }
+    /**
+     * 每次登录或注册就会生成一个新的token，根据token判断APP是否已经登录过
+     * @param context
+     * @param phone
+     */
+    public static void savePhone(Context context,String phone)
+    {
+        SharedPreferences file =  context.getApplicationContext().getSharedPreferences("localMsg",Context.MODE_PRIVATE);
+        if(file != null && phone != null)
+        {
+            SharedPreferences.Editor editor = file.edit();
+            editor.putString("phone",phone);
+            editor.commit();
+        }
 
+    }
+
+    public static String getPhone(Context context)
+    {
+        String token = "";
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("localMsg",Context.MODE_PRIVATE);
+        if(preferences != null )
+        {
+            token = preferences.getString("phone","");
+        }
+        return token;
+    }
+//    /**
+//     * 每次退出登录 必须清除本地token的缓存
+//     * @param context
+//     */
+//    public static void clearPhone(Context context)
+//    {
+//        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("localMsg",Context.MODE_PRIVATE);
+//        if(preferences != null )
+//        {
+//            SharedPreferences.Editor editor = preferences.edit();
+//            editor.clear();
+//            editor.commit();
+//        }
+//    }
     /**
      * 每次登录或注册就会生成一个新的token，根据token判断APP是否已经登录过
      * @param context
@@ -114,7 +164,6 @@ public class ActivityUntil {
         }
         return token;
     }
-
     /**
      * 每次退出登录 必须清除本地token的缓存
      * @param context
@@ -129,6 +178,36 @@ public class ActivityUntil {
             editor.commit();
         }
     }
+    //本地文件 记录监测好友信息
+    public static void saveRailMsg(Context context,String friendId,String startTime,String endTime,String location,String name)
+    {
+        SharedPreferences file =  context.getApplicationContext().getSharedPreferences("railMsg",Context.MODE_PRIVATE);
+        if(file != null )
+        {
+            SharedPreferences.Editor editor = file.edit();
+            editor.putString("friendId",friendId);
+            editor.putString("startTime",startTime);
+            editor.putString("endTime",endTime);
+            editor.putString("location",location);
+            editor.putString("name",name);
+            editor.commit();
+        }
+    }
+    /**
+     * 每次取消监测和检测结束
+     * @param context
+     */
+    public static void clearRailMsg(Context context)
+    {
+        SharedPreferences preferences = context.getApplicationContext().getSharedPreferences("railMsg",Context.MODE_PRIVATE);
+        if(preferences != null )
+        {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+        }
+    }
+
 
     /**
      * 根据传入的字符串 判断是否为正确的手机号码
@@ -178,8 +257,7 @@ public class ActivityUntil {
         return info.getType();
     }
 
-    public final static String HTTP_BASE_URL = "http://测试环境/mobile-server/";
-    public final static int TREMINALtYPE = 2; //ios 1 android 2
+
 
 //    根据手机的分辨率从 dp 的单位 转成为 px(像素)
 
@@ -232,7 +310,7 @@ public class ActivityUntil {
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
         option.setScanSpan(time);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
-        option.setLocationNotify(true);
+        //option.setLocationNotify(true);
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
         option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
@@ -292,6 +370,7 @@ public class ActivityUntil {
 
 
     private static int[] dayNums = {1,2,3,4,5,6,7};
+    //通过map
     public static String[]  numList2Str(List<Integer> listData) {
         StringBuilder days = new StringBuilder();
         StringBuilder weeks = new StringBuilder();
@@ -300,25 +379,37 @@ public class ActivityUntil {
                 if(i == num) {
                     days.append(i);
                     days.append(",");
-                    weeks.append(ActivityUntil.WEEKS[num - 1]);
+                    weeks.append(ActivityUntil.WEEKS[num - 1]);  //week是 转周一周二
                 }
             }
         }
 
-        String[] result = {days.toString(),weeks.toString()};
+        String[] result = {days.toString().substring(0,days.length()-1),weeks.toString()};
         return result;
     }
 
-    private File changeFilePath(File path) {
-        Bitmap _bitmap = compressImage(BitmapFactory.decodeFile(path.getPath()), 600);
-        final String filename = path.getName();
-        File file = new File(path.getPath().substring(0, path.getPath().length() - filename.length()), 3 + filename);
+    public static File changeFilePath(File path,Bitmap bitmap) {
+        Bitmap _bitmap;
+        File file;
+        if(path == null)
+        {
+            _bitmap = compressImage(bitmap,20);
+           // filename = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath()+"ss.jpg";
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath(), "ss.jpg");
+        }else
+        {
+            _bitmap = compressImage(BitmapFactory.decodeFile(path.getPath()),20);
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getPath(), "ss.jpg");
+        }
+
         OutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(file);
             BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream, 1024);
             _bitmap.compress(Bitmap.CompressFormat.JPEG,100, bufferedOutputStream);
+            bufferedOutputStream.close();
             outputStream.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -326,7 +417,6 @@ public class ActivityUntil {
             e.printStackTrace();
             return null;
         }
-
         return file;
     }
 
@@ -355,6 +445,11 @@ public class ActivityUntil {
             // (保持刻度和高度和原bitmap比率一致，压缩后也达到了最大大小占用空间的大小)
             image = zoomImage(image, image.getWidth() / Math.sqrt(i),
                     image.getHeight() / Math.sqrt(i));
+            try {
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return image;
@@ -377,5 +472,79 @@ public class ActivityUntil {
         matrix.postScale(scaleWidth, scaleHeight);
         return Bitmap.createBitmap(image, 0, 0, (int) width,
                 (int) height, matrix, true);
+    }
+
+    public static Date parseStringToDate(String dateStr, String format) throws Exception {
+        try {
+            SimpleDateFormat sdf = getSimpleDateFormat(format);
+            return sdf.parse(dateStr);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    private static SimpleDateFormat getSimpleDateFormat(String format) throws Exception {
+        try {
+            if(StringUtils.isEmpty(format)) {
+                return new SimpleDateFormat("yyyy-MM-dd");
+            }
+            return new SimpleDateFormat(format);
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
+    /**
+     * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
+     * @param context
+     * @return true 表示开启
+     */
+    public static final boolean isOPen(final Context context) {
+        LocationManager locationManager
+                = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        // 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
+        boolean gps = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
+        boolean network = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        if (gps || network) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 强制帮用户打开GPS
+     * @param context
+     */
+    public static final void openGPS(Context context) {
+        Intent GPSIntent = new Intent();
+        GPSIntent.setClassName("com.android.settings",
+                "com.android.settings.widget.SettingsAppWidgetProvider");
+        GPSIntent.addCategory("android.intent.category.ALTERNATIVE");
+        GPSIntent.setData(Uri.parse("custom:3"));
+        try {
+            PendingIntent.getBroadcast(context, 0, GPSIntent, 0).send();
+        } catch (PendingIntent.CanceledException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //统一展示 dialogFragment
+    public static void showDialogFragment(FragmentManager fm, AppCompatDialogFragment dialogFragment, String tag){
+        // SignDialogFragment dialog = SignDialogFragment.newInstance(checkInfo);
+        //这里直接调用show方法会报java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        //因为show方法中是通过commit进行的提交(通过查看源码)
+        //这里为了修复这个问题，使用commitAllowingStateLoss()方法
+        //注意：DialogFragment是继承自android.app.Fragment，这里要注意同v4包中的Fragment区分，别调用串了
+        //DialogFragment有自己的好处，可能也会带来别的问题
+        //dialog.show(getFragmentManager(), "SignDialog");
+        FragmentTransaction ft = fm.beginTransaction();
+        if(dialogFragment.isAdded()){
+            ft.show(dialogFragment);
+        }else {
+            ft.add(dialogFragment, tag);
+        }
+        ft.commitAllowingStateLoss();
     }
 }

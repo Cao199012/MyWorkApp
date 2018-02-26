@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.caojian.myworkapp.R;
@@ -29,7 +30,7 @@ public class GroupCreateActivity extends MvpBaseActivity<AddGroupContract.View,A
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.edit_name)
-    TextInputEditText mEdit_name;
+    EditText mEdit_name;
     private Unbinder unbinder;
     AddGroupPresenter mPresenter;
     @Override
@@ -67,7 +68,7 @@ public class GroupCreateActivity extends MvpBaseActivity<AddGroupContract.View,A
     @Override
     public void addSuccess(String msg) {
         // TODO: 2017/11/4 返回列表并更新列表
-
+       setResult(RESULT_OK);
         finish();
     }
 

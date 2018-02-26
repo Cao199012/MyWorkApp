@@ -3,6 +3,8 @@ package com.caojian.myworkapp.model.data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.baidu.mapapi.map.Marker;
+
 import java.io.Serializable;
 
 /**
@@ -88,4 +90,6 @@ public class LocationItem implements Parcelable{
         dest.writeString(headPic);
         dest.writeString(phoneNo);
     }
+
+
 }

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.LayoutInflater;
@@ -93,6 +95,7 @@ public class ImageCheckFragment extends AppCompatDialogFragment  {
     {
           if(editImageCheck.getText() != null && !editImageCheck.getText().toString().trim().equals("")){
                 mListrner.submitCheck(editImageCheck.getText().toString().trim());
+              editImageCheck.setText("");
             }else
             {
                 ((BaseTitleActivity)getActivity()).showToast("请输入图形中的内容", Toast.LENGTH_SHORT);
@@ -193,4 +196,6 @@ public class ImageCheckFragment extends AppCompatDialogFragment  {
         void cancelCheck();
         void submitCheck(String code);
     }
+
+
 }

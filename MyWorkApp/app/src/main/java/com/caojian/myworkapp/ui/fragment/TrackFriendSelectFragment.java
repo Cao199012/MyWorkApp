@@ -35,7 +35,7 @@ public class TrackFriendSelectFragment extends MvpBaseFragment<FriendContract.Vi
     @BindView(R.id.list)
     RecyclerView recyclerView;
     TrackSelectPresenter mPresenter;
-    List<FriendDetailInfo.DataBean> mListdata = new ArrayList<>();
+    List<FriendDetailInfo.DataBean> mListData = new ArrayList<>();
     FriendSelectRecyclerViewAdapter mAdapter;
     @Nullable
     @Override
@@ -48,18 +48,18 @@ public class TrackFriendSelectFragment extends MvpBaseFragment<FriendContract.Vi
 
     private void initRecy()
     {
-        if(mListdata == null){
-            mListdata = new ArrayList<>();
+        if(mListData == null){
+            mListData = new ArrayList<>();
         }
-        mAdapter = new FriendSelectRecyclerViewAdapter(mListdata, (FriendSelectRecyclerViewAdapter.SelectListen) getActivity(),2);
+        mAdapter = new FriendSelectRecyclerViewAdapter(mListData, (FriendSelectRecyclerViewAdapter.SelectListen) getActivity(),3);
         // TODO: 2017/10/8 根据不同的访问页面显示不同的数据
         recyclerView.setAdapter(mAdapter);
     }
 
     @Override
     public void onSuccess(List<FriendDetailInfo.DataBean> friends) {
-        mListdata.clear();
-        mListdata.addAll(friends);
+        mListData.clear();
+        mListData.addAll(friends);
         mAdapter.notifyDataSetChanged();
     }
 
@@ -67,6 +67,8 @@ public class TrackFriendSelectFragment extends MvpBaseFragment<FriendContract.Vi
     public void onFailed(String errorMsg) {
         ((BaseTitleActivity) getActivity()).showToast(errorMsg, Toast.LENGTH_SHORT);
     }
+
+
 
     @Override
     protected TrackSelectPresenter createPresenter() {
